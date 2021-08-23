@@ -1,0 +1,123 @@
+@use '../../scss/base' as color;
+
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  button {
+    cursor: pointer;
+  }
+  section.container_form {
+    height: 90%;
+    width: 80%;
+    background-color: white;
+    display: flex;
+  }
+  article.main_form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    header.container_logo {
+      height: 20%;
+      align-self: flex-start;
+    }
+    form.login_form {
+      height: 80%;
+      width: 50%;
+      header.title_login {
+        color: color.$main_font_color;
+        font-size: 1.6rem;
+      }
+      div.login_google > button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 0.7em;
+        border: 1px solid #63636349;
+        border-radius: 10px;
+        margin-bottom: 3em;
+        background-color: white;
+      }
+      span.or_login_email {
+        display: flex;
+        color: #636363b9;
+        margin-left: 5px;
+        &::before {
+          content: "";
+          border-top: 2px solid #63636349;
+          position: relative;
+          width: 25%;
+          top: 10px;
+          right: 7px;
+        }
+        &::after {
+          content: "";
+          border-top: 2px solid #63636349;
+          position: relative;
+          width: 25%;
+          top: 10px;
+          left: 7px;
+        }
+      }
+      div.input_fields {
+        margin-top: 2.5em;
+        & > label {
+          display: flex;
+          flex-direction: column;
+          color: color.$main_font_color;
+          margin-top: 10px;
+          input[type="text"],
+          input[type="password"] {
+            border: none;
+            outline: none;
+            padding: 0.7em;
+            border: 1px solid #63636349;
+            border-radius: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+      div.forget_password {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        margin-bottom: 3em;
+      }
+      footer > div.options_login {
+        display: flex;
+        flex-direction: column;
+        button.login_button {
+          height: 3em;
+          outline: none;
+          border: none;
+          border-radius: 10px;
+          background-color: color.$main_button_color;
+          color: white;
+          font-weight: 600;
+        }
+        small {
+          margin-top: 15px;
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+  aside.background_drummond {
+    height: 100%;
+    width: 50%;
+    background-image: url("https://img.lalr.co/cms/2021/01/15095126/Jos%C3%A9-Miguel-Linares-presidente-de-Drummond-Colombia.jpg?size=md");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}
