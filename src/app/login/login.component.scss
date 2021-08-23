@@ -22,7 +22,7 @@ main {
     flex-direction: column;
     align-items: center;
     header.container_logo {
-      height: 20%;
+      height: 15%;
       align-self: flex-start;
     }
     form.login_form {
@@ -45,6 +45,7 @@ main {
         border-radius: 10px;
         margin-bottom: 3em;
         background-color: white;
+        font-size: 0.7rem;
       }
       span.or_login_email {
         display: flex;
