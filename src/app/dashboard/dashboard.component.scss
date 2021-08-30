@@ -7,9 +7,9 @@
       height: 2.5em;
       background-color: #5353531a;
       color: black;
-      box-shadow: inset 0 0 0 0px #5353531a;
-      border-radius: 7px;
+      box-shadow: inset 0px 3px 5px 0px #5353531a;
       outline: none;
+      border:none;
       &::placeholder {
         color: black;
       }
