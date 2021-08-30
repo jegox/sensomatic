@@ -22,10 +22,10 @@
   }
   .container_machines {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 3em;
     padding: 2em 0;
+    margin-left: 10.5em;
     .machine {
       box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
       height: 6em;
