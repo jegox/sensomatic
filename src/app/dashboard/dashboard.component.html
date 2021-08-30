@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+<section class="dashboard_component">
+    <div class="search_machine">
+        <input type="text" placeholder="Buscar por Nombre o ID" #search>
+        <mat-icon class="icon_search" (click)="searchByText(search.value)">
+            search
+        </mat-icon>
+    </div>
+    <div class="container_machines" *ngIf="machines">
+        <div *ngFor="let machine of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" class="machine">
+            <p class="name_id">
+                <span>{{machines[0]?.name}}</span> - <span>ID: {{machines[0]?.id}}</span>
+            </p>
+            <p class="last_conexion">
+                <span>Ultima conexion: {{machines[0]?.updatedAt | date}}</span>
+            </p>
+            <small class="opts_machine">
+                <a href="#">Ver Tracking</a>
+                <a href="#">Ver detalles</a>
+            </small>
+        </div>
+    </div>
+</section>

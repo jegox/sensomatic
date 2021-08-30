@@ -1,0 +1,56 @@
+.nav_component {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  background-color: #d91a36;
+  height: 4em;
+  .container_first_options {
+    display: flex;
+    align-items: center;
+    overflow-y: hidden;
+    padding-left: 3em;
+    height: 100%;
+    img {
+      box-shadow: inset 20em 1em white;
+      height: 49px;
+      width: 200px;
+      margin-right: 3em;
+    }
+    .list_opts {
+      display: flex;
+      gap: 2em;
+      .link {
+        display: flex;
+        align-items: center;
+        padding: 2em;
+      }
+      .activeLink {
+        background-color: #941225;
+      }
+      div > a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+  .user_opts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 9px;
+    width: 12%;
+    & > .user_img {
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+      img {
+        border-radius: 50%;
+        width: 3em;
+        object-fit: contain;
+      }
+    }
+  }
+}
