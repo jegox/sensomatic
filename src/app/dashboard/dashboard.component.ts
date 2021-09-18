@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -7,10 +9,10 @@ import { UserService } from '../services/user.service';
 })
 export class DashboardComponent implements OnInit {
   machines: Array<IMachine>;
-  constructor(private uService: UserService) { }
+  constructor(private uService: UserService, private route: Router) { }
 
   ngOnInit(): void {
-    this.uService.getMachines().toPromise().then((machines: IMachine[]) => this.machines = machines['data']);
+    this.uService.getMachines().pipe(tap(v => console.log(v))).toPromise().then((machines: IMachine[]) => this.machines = machines['data']);
   }
 
   /**
@@ -21,9 +23,12 @@ export class DashboardComponent implements OnInit {
   searchByText(query: string) {
     this.machines = [...new Set([
       ...this.machines.filter(machine => machine.name.toLowerCase().startsWith(query.toLowerCase()))
-    ])]
+    ])];
   }
 
+  goToDetails(id) {
+    this.route.navigate(['details/' + id]);
+  }
 }
 
 interface IMachine {

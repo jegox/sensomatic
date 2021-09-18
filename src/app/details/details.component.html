@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+<section class="container_variable">
+    <header class="name_route">
+        <div class="container_info">
+            <span>Machine</span>
+            <span>
+                <mat-icon>
+                    keyboard_arrow_right
+                </mat-icon>
+            </span>
+            <span>{{generalMachine?.name}} - ID: {{generalMachine?.id}} - Mina: Descanso</span>
+        </div>
+        <div>
+            <span routerLink="../../tracking/13123">Mapa</span> ,
+            <span>Variables</span>
+        </div>
+    </header>
+    <div class="filters_variables">
+        <mat-form-field>
+            <mat-label>Desde</mat-label>
+            <input matInput [matDatepicker]="picker" (click)="picker.open()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Hasta</mat-label>
+            <input matInput [matDatepicker]="picker2" (click)="picker2.open()">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Turno</mat-label>
+            <mat-select>
+                <mat-option value="Dia">Dia</mat-option>
+                <mat-option value="Noche">Noche</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <main class="information_variables">
+        <table border="1" class="list_variables">
+            <tr>
+                <th>Variable</th>
+                <th>Ultima Conexión</th>
+                <th>Valor</th>
+            </tr>
+            <tr *ngFor="let variable of generalMachine?.variables">
+                <td>
+                    {{variable?.variable}}
+                </td>
+                <td>
+                    {{variable?.time | date}}
+                </td>
+                <td>
+                    {{variable?.value}}
+                </td>
+            </tr>
+        </table>
+    </main>
+</section>

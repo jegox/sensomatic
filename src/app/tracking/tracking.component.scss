@@ -1,0 +1,33 @@
+section.container_variable {
+  height: 100%;
+  width: 100%;
+
+  header.name_route {
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5em;
+    .container_info {
+      width: 50%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 5fr;
+      font-size: 1.2rem;
+    }
+  }
+  div.filters_variables {
+    width: 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em;
+    padding: 0 5em;
+  }
+  main.information_variables {
+    height: 70%;
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+    padding: 0 5em;
+  }
+}

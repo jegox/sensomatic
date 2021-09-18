@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.uService.logIn(this.loginForm.getRawValue()).toPromise().then((v:any) => {
+      console.log(v)
       localStorage.setItem('token', v.data.access_token)
     }).then(v => {
       this.router.navigate(['dashboard'])

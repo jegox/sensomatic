@@ -14,6 +14,96 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
                 alt="">
         </div>
-        <mat-icon aria-hidden="false" aria-label="Example home icon">menu</mat-icon>
+        <mat-icon aria-hidden="false" [matMenuTriggerFor]="menu" aria-label="Example home icon">menu</mat-icon>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item><mat-icon>account_circle</mat-icon>Ver perfil</button>
+            <button mat-menu-item><mat-icon>settings</mat-icon>Cambiar Contraseña</button>
+            <button mat-menu-item (click)="openListUsers()"><mat-icon>manage_accounts</mat-icon>Gestionar Usuarios</button>
+            <button mat-menu-item><mat-icon>folder</mat-icon>Gestionar Variables</button>
+            <button mat-menu-item><mat-icon>logout</mat-icon>Cerrar Sesión</button>
+          </mat-menu>
     </div>
 </nav>
+
+<ng-template #manageUsers>
+    <header class="header_users">
+        <h4>Listado de Usuarios</h4>
+        <button (click)="openCreateUser()">
+            <mat-icon>add_circle_outline</mat-icon>
+            Añadir Usuario
+        </button>
+    </header>
+    <main class="list_users">
+        <table>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Minas</th>
+                <th>Maquinas</th>
+                <th>Acciones</th>
+            </tr>
+            <tr *ngFor="let user of users">
+                <td>{{user?.fullname}}</td>
+                <td>{{user?.email}}</td>
+                <td>{{user?.permissions?.mines[0]}}</td>
+                <td>{{user?.permissions?.machines[0]}}</td>
+                <td>
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                </td>
+            </tr>
+        </table>
+    </main>
+</ng-template>
+
+<ng-template #createUser>
+    <header>
+        <h2>Usuario nuevo</h2>
+    </header>
+    <form [formGroup]="createUserForm">
+        <div>
+            <mat-form-field>
+                <mat-label>
+                    Nombre Completo
+                </mat-label>
+                <input matInput type="text" formControlName="fullname">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Email
+                </mat-label>
+                <input matInput type="text" formControlName="email">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Role
+                </mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="mine">Mine</mat-option>
+                    <mat-option value="machine">Machine</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Minas
+                </mat-label>
+                <input matInput type="text" formControlName="mines">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Maquinas
+                </mat-label>
+                <mat-select>
+                    <mat-option (onSelectionChange)="pushArray($event)" *ngFor="let machine of machines" [value]="machine.id">
+                        {{machine?.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button (click)="saveUser()"> Guardar</button>
+        </div>
+    </form>
+</ng-template>

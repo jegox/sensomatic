@@ -54,3 +54,27 @@
     }
   }
 }
+
+.header_users{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3em;
+  button {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+}
+.list_users{
+  padding: 0 3em;
+  table{
+    width: 100%;
+    margin-top: 2em;
+    th {
+      background-color: grey;
+    }
+    td {
+      text-align: center;
+    }
+  }
+}
