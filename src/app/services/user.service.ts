@@ -8,7 +8,7 @@ export class UserService {
     header
     constructor(private http: HttpClient) {}
     // private apiUrl: string = 'http://50.19.219.56:3000/api';  //PROD  
-    private apiUrl:string = 'https://sensomatic.herokuapp.com'; // DEV
+    private apiUrl:string = 'https://sensomatic.herokuapp.com/api'; // DEV
 
     logIn(user) {
         return this.http.post(this.apiUrl + '/auth/login', user)
