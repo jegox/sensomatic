@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <section class="dashboard_component">
     <div class="search_machine">
-        <input type="text" placeholder="Buscar por Nombre o ID" #search>
+        <input type="text" placeholder="Buscar por Nombre o ID" #search (keyup)="searchByText(search.value)">
         <mat-icon class="icon_search" (click)="searchByText(search.value)">
             search
         </mat-icon>
@@ -15,8 +15,8 @@
                 <span>Ultima conexion: {{machine?.updatedAt | date}}</span>
             </p>
             <small class="opts_machine">
-                <a href="#">Ver Tracking</a>
-                <a (click)="goToDetails(machine._id)">Ver detalles</a>
+                <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a>
+                <a class="pointer" (click)="goToDetails('details', machine._id)">Ver detalles</a>
             </small>
         </div>
     </div>

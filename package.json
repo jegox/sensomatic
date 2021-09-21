@@ -23,6 +23,7 @@
     "@angular/router": "~10.0.14",
     "leaflet": "^1.7.1",
     "rxjs": "~6.5.5",
+    "sweetalert2": "^11.1.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

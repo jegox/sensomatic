@@ -8,12 +8,14 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  generalMachine
-  constructor(private route: ActivatedRoute, private uService:UserService) { }
+  generalMachine;
+  machineId: string;
+  constructor(private route: ActivatedRoute, private uService: UserService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
-      this.uService.getDetailsMachine(v.id).pipe(tap(console.log)).toPromise().then(v => this.generalMachine = v['data'])
+      this.machineId = v.id;
+      this.uService.getDetailsMachine(v.id).toPromise().then(v => this.generalMachine = v['data'])
     })
   }
 

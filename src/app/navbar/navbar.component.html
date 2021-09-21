@@ -1,34 +1,45 @@
 <nav class="nav_component">
     <div class="container_first_options">
+        <img src="../../assets/logo_sensomatic_lg.jpeg" width="153" alt="logo sensomatic" class="sensomatic">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5odgIQL-3mXPdsm4jk3Ftu2yAr2k_I2Gjyzslak58tdKYs4N8TRNaOF2UMiBPebX3mA&usqp=CAU"
             alt="logo_drummond">
-        <div class="list_opts" *ngFor="let link of ['dashboard','machines','reportes','configuraciones']">
-            <div [routerLink]="'/'+link" class="link" routerLinkActive="activeLink">
-                <a href="">{{link | titlecase}}</a>
+        <div class="list_opts" *ngFor="let link of ['dashboard','configuraciones']">
+            <div class="pointer" [routerLink]="'/'+link" class="link" routerLinkActive="activeLink">
+                <a>{{link | titlecase}}</a>
             </div>
         </div>
     </div>
     <div class="user_opts">
-        <p>All Might</p>
+        <p>{{user}}</p>
         <div class="user_img">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
                 alt="">
         </div>
         <mat-icon aria-hidden="false" [matMenuTriggerFor]="menu" aria-label="Example home icon">menu</mat-icon>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item><mat-icon>account_circle</mat-icon>Ver perfil</button>
-            <button mat-menu-item><mat-icon>settings</mat-icon>Cambiar Contraseña</button>
-            <button mat-menu-item (click)="openListUsers()"><mat-icon>manage_accounts</mat-icon>Gestionar Usuarios</button>
-            <button mat-menu-item><mat-icon>folder</mat-icon>Gestionar Variables</button>
-            <button mat-menu-item><mat-icon>logout</mat-icon>Cerrar Sesión</button>
-          </mat-menu>
+            <button mat-menu-item (click)="getUser(userInfo)">
+                <mat-icon>account_circle</mat-icon>Ver perfil
+            </button>
+            <button mat-menu-item (click)="openChangePassword(changePassword)">
+                <mat-icon>settings</mat-icon>Cambiar Contraseña
+            </button>
+            <button mat-menu-item (click)="openListUsers()">
+                <mat-icon>manage_accounts</mat-icon>Gestionar Usuarios
+            </button>
+            <button mat-menu-item (click)="openManageVariables(manageVariables)">
+                <mat-icon>folder</mat-icon>Gestionar Variables
+            </button>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>logout</mat-icon>Cerrar Sesión
+            </button>
+        </mat-menu>
     </div>
 </nav>
 
 <ng-template #manageUsers>
     <header class="header_users">
         <h4>Listado de Usuarios</h4>
-        <button (click)="openCreateUser()">
+        <button mat-button (click)="openCreateUser()">
             <mat-icon>add_circle_outline</mat-icon>
             Añadir Usuario
         </button>
@@ -98,7 +109,8 @@
                     Maquinas
                 </mat-label>
                 <mat-select>
-                    <mat-option (onSelectionChange)="pushArray($event)" *ngFor="let machine of machines" [value]="machine.id">
+                    <mat-option (onSelectionChange)="pushArray($event)" *ngFor="let machine of machines"
+                        [value]="machine.id">
                         {{machine?.name}}
                     </mat-option>
                 </mat-select>
@@ -106,4 +118,101 @@
             <button (click)="saveUser()"> Guardar</button>
         </div>
     </form>
+</ng-template>
+
+<ng-template #changePassword>
+    <header class="header_users">
+        <h2>Cambiar contraseña</h2>
+        <button mat-button (click)="updatePassword()">
+            <mat-icon>add_circle_outline</mat-icon>
+            Guardar
+        </button>
+    </header>
+    <section>
+        <form class="change_password_container">
+            <mat-form-field>
+                <mat-label>Contraseña anterior</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" [formControl]="oldPass">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Nueva contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" [formControl]="newPass">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </section>
+</ng-template>
+
+<ng-template #manageVariables let-data>
+    <header class="header_users">
+        <h2>Gestionar Variable</h2>
+        <button mat-button (click)="getPromiunVariables(getProemiun)">
+            <mat-icon>add_circle_outline</mat-icon>
+            Añadir Variable
+        </button>
+    </header>
+    <section>
+        <div class="container_variables">
+            <table class="table_variables">
+                <tr>
+                    <th>Variable</th>
+                    <th>Creado</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let variable of data">
+                    <td>{{variable.variable}}</td>
+                    <td>{{variable.createdAt}}</td>
+                    <td class="pointer" style="color: #d91a36;" (click)="deleteVariable(variable)">
+                        <mat-icon>delete</mat-icon>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</ng-template>
+
+<ng-template #getProemiun let-data>
+    <header class="header_users">
+        <h2>Agregar Variable</h2>
+        <button mat-button (click)="saveProemion()">
+            Guardar
+        </button>
+    </header>
+    <section>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Variables</mat-label>
+            <mat-select multiple [formControl]="variables">
+                <mat-option *ngFor="let variable of data" [value]="variable">{{variable.variable}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </section>
+</ng-template>
+
+<ng-template #userInfo let-data>
+    <header>
+        <h2>Informacion de Usuario</h2>
+    </header>
+    <section>
+        <div class="info_users">
+            <label>
+                <b>Nombre: </b>
+                {{data.fullname}}
+            </label>
+            <label>
+                <b>Email: </b>
+                {{data.email}}
+            </label>
+            <label>
+                <b>Role: </b>
+                {{data.role}}
+            </label>
+        </div>
+    </section>
 </ng-template>

@@ -9,10 +9,14 @@ import { tap } from 'rxjs/operators'
 })
 export class DashboardComponent implements OnInit {
   machines: Array<IMachine>;
+  machinesFiltered: Array<IMachine>
   constructor(private uService: UserService, private route: Router) { }
 
   ngOnInit(): void {
-    this.uService.getMachines().pipe(tap(v => console.log(v))).toPromise().then((machines: IMachine[]) => this.machines = machines['data']);
+    this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
+      this.machines = machines['data'];
+      this.machinesFiltered = machines['data'];
+    });
   }
 
   /**
@@ -21,13 +25,15 @@ export class DashboardComponent implements OnInit {
    * @author fire
    */
   searchByText(query: string) {
+    if (query === '') return this.machines = this.machinesFiltered;
+
     this.machines = [...new Set([
-      ...this.machines.filter(machine => machine.name.toLowerCase().startsWith(query.toLowerCase()))
+      ...this.machinesFiltered.filter(machine => machine.name.toLowerCase().startsWith(query.toLowerCase()))
     ])];
   }
 
-  goToDetails(id) {
-    this.route.navigate(['details/' + id]);
+  goToDetails(link, id) {
+    this.route.navigate([link+'/'+id]);
   }
 }
 

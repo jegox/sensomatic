@@ -2,11 +2,12 @@
     <section class="container_form">
         <article class="main_form">
             <header class="container_logo">
+                <img src="../../assets/logo_sensomatic_sm.jpeg" height="80" width="80" alt="">
                 <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQE5iizmDIcnCw/company-logo_200_200/0/1519868915161?e=2159024400&v=beta&t=NoiWW1aGqyFR4zD8BiQ_1rJTzWCdpu1CXFFaUHPTeLQ" alt="logo_drummond" height="100" width="100">
             </header>
             <form class="login_form" [formGroup]="loginForm">
                 <header class="title_login">
-                    <h4>Inicio de sesión</h4>
+                    <!-- <h4>Inicio de sesión</h4> -->
                 </header>
                 <span class="or_login_email">
                     inicia sesion con email
@@ -31,12 +32,6 @@
                 <footer>
                     <div class="options_login">
                         <button class="login_button" (click)="login()">Inicio de Sesion</button>
-                        <small>
-                            No estas registrado? 
-                            <a href="#">
-                                Crear cuenta
-                            </a>
-                        </small>
                     </div>
                 </footer>
             </form>

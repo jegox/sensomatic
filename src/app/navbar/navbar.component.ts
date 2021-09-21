@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms'
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms'
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -13,12 +15,15 @@ export class NavbarComponent implements OnInit {
   machines;
   users;
   createUserForm: FormGroup = this.userForm;
+  user: string = JSON.parse(localStorage.getItem('user')).fullname;
+  hide = true;
+  variables = new FormControl()
+  oldPass = new FormControl();
+  newPass = new FormControl();
   constructor(private dialog: MatDialog, private fb: FormBuilder,
-    private uServices: UserService) { }
+    private route: Router, private uServices: UserService) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   openListUsers() {
     this.getUsers();
@@ -43,11 +48,11 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  async getUsers(){
-    try{
+  async getUsers() {
+    try {
       let users = await this.uServices.getUsers().toPromise();
       this.users = users['data'];
-    }catch(e){
+    } catch (e) {
       console.error(e)
     }
   }
@@ -76,6 +81,80 @@ export class NavbarComponent implements OnInit {
       console.log(res)
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.route.navigate(['/']);
+  }
+
+  async openManageVariables(template: TemplateRef<any>) {
+    let info = await this.uServices.getVariables().toPromise();
+    let modal = this.dialog.open(template, {
+      data: info['data']
+    })
+  }
+
+  async getPromiunVariables(template) {
+    try {
+      this.dialog.closeAll();
+      let res = await this.uServices.getProemiunVariable().toPromise();
+      let modal = this.dialog.open(template, {
+        data: res['data'],
+        width: '500px'
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async saveProemion() {
+    try {
+      let res = await this.uServices.saveVariables(this.variables.value).toPromise();
+      console.log(res)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  openChangePassword(template) {
+    let modal = this.dialog.open(template);
+  }
+
+  async updatePassword() {
+    let obj = {
+      oldPass: this.oldPass.value,
+      newPass: this.newPass.value
+    }
+    try {
+      let res = await this.uServices.changePassword(obj).toPromise();
+      Swal.fire('Contraseña actualizada', 'Su contraseña ha sido reemplazada con exito', 'success')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async getUser(template) {
+    let id = JSON.parse(localStorage.user)._id;
+
+    try {
+      let res = await this.uServices.getUser(id).toPromise();
+      let modal = this.dialog.open(template, {
+        data: res['data']
+      });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async deleteVariable(variable) {
+    console.log(variable)
+    try{
+      let res = await this.uServices.deleteVariables(variable._id).toPromise();
+      Swal.fire('Variable Eliminada', `La variable '${variable.variable}' ha sido eliminada`, 'success');
+    }catch(e){
+      console.error(e)
     }
   }
 }

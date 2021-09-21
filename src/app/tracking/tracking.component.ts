@@ -1,24 +1,29 @@
-import { Component, OnInit, AfterViewInit} from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-tracking',
   templateUrl: './tracking.component.html',
   styleUrls: ['./tracking.component.scss']
 })
 export class TrackingComponent implements OnInit, AfterViewInit {
-  map
-  constructor() { }
+  map;
+  machineId: string;
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(v => {
+      this.machineId = v.id;
+    })
   }
 
   ngAfterViewInit(): void {
     this.initMap();
   }
 
-  private initMap(){
-    this.map = L.map('map',{
-      center: [ 39.8282, -98.5795 ],
+  private initMap() {
+    this.map = L.map('map', {
+      center: [39.8282, -98.5795],
       zoom: 3
     });
 
