@@ -185,8 +185,8 @@
             Guardar
         </button>
     </header>
-    <section>
-        <mat-form-field style="width: 100%;">
+    <section style="display: flex; align-items: center; justify-content: center;">
+        <mat-form-field style="width: 85%;">
             <mat-label>Variables</mat-label>
             <mat-select multiple [formControl]="variables">
                 <mat-option *ngFor="let variable of data" [value]="variable">{{variable.variable}}</mat-option>
