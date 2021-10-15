@@ -4,7 +4,8 @@ import { UserService } from '../services/user.service';
 import { tap, delay } from 'rxjs/operators';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { ChartSevice } from '../services/charts.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { FormControl, FormGroup } from '@angular/forms'
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -13,13 +14,21 @@ import Swal from 'sweetalert2'
 export class DetailsComponent implements OnInit {
   generalMachine;
   machineId: string;
+  date: FormGroup = new FormGroup({
+    'from': new FormControl(''),
+    'to': new FormControl('')
+  })
   constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
       this.machineId = v.id;
       this.uService.getDetailsMachine(v.id).toPromise().then(v => this.generalMachine = v['data']);
-      this.chartS.getMachineData(v.id).toPromise().then((value: any) => this.initChart(value));
+      this.chartS.getMachineData({
+        initial: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
+        final: new Date().toISOString(),
+        machineId: v.id
+      }).toPromise().then((value: any) => this.initChart(value));
     })
 
   }
@@ -32,7 +41,6 @@ export class DetailsComponent implements OnInit {
     }
     return color;
   }
-
 
   initChart({ data }) {
     if (data.length === 0) return Swal.fire('Informacion', 'No hay informacion en los parametros requeridos', 'info');
@@ -63,9 +71,11 @@ export class DetailsComponent implements OnInit {
           xAxes: [{
             gridLines: false,
             display: false,
+          }],
+          yAxes: [{
             ticks: {
-              maxTicksLimit: 8,
-              autoSkip: true,
+              beginAtZero: true,
+              max: 250
             }
           }]
         }
@@ -75,5 +85,13 @@ export class DetailsComponent implements OnInit {
     let ctx = canvas.getContext('2d');
 
     let myChart = new Chart(ctx, config);
+  }
+
+  searchInfoByDate() {
+    this.chartS.getMachineData({
+      initial: this.date.get('from').value.toISOString(),
+      final: this.date.get('to').value.toISOString(),
+      machineId: this.machineId
+    }).toPromise().then((value: any) => this.initChart(value));
   }
 }

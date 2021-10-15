@@ -11,11 +11,7 @@ export class ChartSevice {
     private apiUrl: string = 'https://sensomatic.herokuapp.com/api'; // DEV
     // private apiUrl:string = 'http://3e63-181-129-145-146.ngrok.io/api' // local
 
-    getMachineData(id){
-       return this.http.post(this.apiUrl + '/measurements/by-machine',{
-           initial: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
-           final: new Date().toISOString(),
-           machineId: id
-       })
+    getMachineData(date){
+       return this.http.post(this.apiUrl + '/measurements/by-machine', date)
     }
 }

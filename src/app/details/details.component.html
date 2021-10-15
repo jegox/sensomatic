@@ -14,26 +14,30 @@
             <span class="pointer" [routerLink]="'../../details/'+machineId">Variables</span>
         </div>
     </header>
-    <div class="filters_variables">
+    <div class="filters_variables" [formGroup]="date">
         <mat-form-field>
             <mat-label>Desde</mat-label>
-            <input matInput [matDatepicker]="picker" (click)="picker.open()">
+            <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="from">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Hasta</mat-label>
-            <input matInput [matDatepicker]="picker2" (click)="picker2.open()">
+            <input matInput [matDatepicker]="picker2" (click)="picker2.open()" formControlName="to">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <mat-form-field>
+        <button mat-button (click)="searchInfoByDate()" style="width: 8em;">
+            <mat-icon>add_circle_outline</mat-icon>
+            Buscar
+        </button>
+        <!-- <mat-form-field>
             <mat-label>Turno</mat-label>
             <mat-select>
                 <mat-option value="Dia">Dia</mat-option>
                 <mat-option value="Noche">Noche</mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
     </div>
     <main class="information_variables">
         <table border="1" class="list_variables">
@@ -47,7 +51,7 @@
                     {{variable?.variable}}
                 </td>
                 <td>
-                    {{variable?.time | date}}
+                    {{variable?.time | date: 'short'}}
                 </td>
                 <td>
                     {{variable?.value}}
