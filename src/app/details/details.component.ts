@@ -90,7 +90,7 @@ export class DetailsComponent implements OnInit {
   searchInfoByDate() {
     this.chartS.getMachineData({
       initial: this.date.get('from').value.toISOString(),
-      final: this.date.get('to').value.toISOString(),
+      final: new Date(this.date.get('to').value.setHours(23,59,59)).toISOString(),
       machineId: this.machineId
     }).toPromise().then((value: any) => this.initChart(value));
   }
