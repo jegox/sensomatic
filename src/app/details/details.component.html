@@ -27,17 +27,17 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
+        <mat-form-field>
+            <mat-label>Turno</mat-label>
+            <mat-select formControlName="turn">
+                <mat-option value="Dia">Dia</mat-option>
+                <mat-option value="Noche">Noche</mat-option>
+            </mat-select>
+        </mat-form-field>
         <button mat-button (click)="searchInfoByDate()" style="width: 8em;">
             <mat-icon>add_circle_outline</mat-icon>
             Buscar
         </button>
-        <!-- <mat-form-field>
-            <mat-label>Turno</mat-label>
-            <mat-select>
-                <mat-option value="Dia">Dia</mat-option>
-                <mat-option value="Noche">Noche</mat-option>
-            </mat-select>
-        </mat-form-field> -->
     </div>
     <main class="information_variables">
         <table border="1" class="list_variables">

@@ -16,7 +16,8 @@ export class DetailsComponent implements OnInit {
   machineId: string;
   date: FormGroup = new FormGroup({
     'from': new FormControl(''),
-    'to': new FormControl('')
+    'to': new FormControl(''),
+    'turn': new FormControl('')
   })
   constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
 
@@ -82,7 +83,7 @@ export class DetailsComponent implements OnInit {
         },
         tooltips: {
           callbacks: {
-            title: function(data) {
+            title: function (data) {
               return data[0].xLabel[0];
             }
           }
@@ -96,9 +97,19 @@ export class DetailsComponent implements OnInit {
   }
 
   searchInfoByDate() {
+    let from;
+    let to;
+    if (this.date.get('turn').value === 'Dia') {
+      from = new Date(this.date.get('from').value.setHours(6, 0, 0));
+      to = new Date(this.date.get('to').value.setHours(17, 59, 59));
+    } else {
+      from = new Date(this.date.get('from').value.setHours(18, 0, 0));
+      to = new Date(this.date.get('to').value.setHours(5, 59, 59));
+      to = new Date(to.setDate(to.getDate() + 1));
+    }
     this.chartS.getMachineData({
-      initial: this.date.get('from').value.toISOString(),
-      final: new Date(this.date.get('to').value.setHours(23, 59, 59)).toISOString(),
+      initial: from.toISOString(),
+      final: to.toISOString(),
       machineId: this.machineId
     }).toPromise().then((value: any) => this.initChart(value));
   }
