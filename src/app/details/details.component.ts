@@ -54,7 +54,8 @@ export class DetailsComponent implements OnInit {
             label: v.variable,
             data: v.data.map(data => data.value),
             fill: false,
-            borderColor: colors[i]
+            borderColor: colors[i],
+            mode: 'y'
           }
         })
       },
@@ -78,6 +79,13 @@ export class DetailsComponent implements OnInit {
               max: 250
             }
           }]
+        },
+        tooltips: {
+          callbacks: {
+            title: function(data) {
+              return data[0].xLabel[0];
+            }
+          }
         }
       },
     }
@@ -90,7 +98,7 @@ export class DetailsComponent implements OnInit {
   searchInfoByDate() {
     this.chartS.getMachineData({
       initial: this.date.get('from').value.toISOString(),
-      final: new Date(this.date.get('to').value.setHours(23,59,59)).toISOString(),
+      final: new Date(this.date.get('to').value.setHours(23, 59, 59)).toISOString(),
       machineId: this.machineId
     }).toPromise().then((value: any) => this.initChart(value));
   }
