@@ -59,4 +59,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  navigatedTo(link){
+    this.route.navigate(['/app/'+link]);
+  }
 }

@@ -4,20 +4,27 @@
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5odgIQL-3mXPdsm4jk3Ftu2yAr2k_I2Gjyzslak58tdKYs4N8TRNaOF2UMiBPebX3mA&usqp=CAU"
             alt="logo_drummond">
     </div>
-    <div class="user_opts">
+    <!-- <div class="user_opts">
         <p>{{user}}</p>
         <div class="user_img">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
                 alt="">
         </div>
-    </div>
+    </div> -->
     <div class="container_list">
+        <div class="user_opts">
+            <p>{{user}}</p>
+            <div class="user_img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
+                    alt="">
+            </div>
+        </div>
         <div class="list_opts">
             <div class="pointer" routerLink="/app/dashboard" class="link" routerLinkActive="activeLink">
                 <a>{{'Dashboard' | titlecase}}</a>
             </div>
         </div>
-        <div class="list_opts">
+        <!-- <div class="list_opts">
             <div class="pointer" routerLink="/app/gestionar-variables" class="link" routerLinkActive="activeLink">
                 <a>{{'Gestionar Variables' | titlecase}}</a>
             </div>
@@ -26,7 +33,7 @@
             <div class="pointer" routerLink="/app/gestionar-usuarios" class="link" routerLinkActive="activeLink">
                 <a>{{'Gestionar Usuarios' | titlecase}}</a>
             </div>
-        </div>
+        </div> -->
         <div class="list_opts">
             <div class="pointer" class="link" [matMenuTriggerFor]="menu" aria-label="Example home icon">
                 <a>{{'configuraciones' | titlecase}}</a>
@@ -34,6 +41,12 @@
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="getUser(userInfo)">
                     <mat-icon>account_circle</mat-icon>Ver perfil
+                </button>
+                <button mat-menu-item (click)="navigatedTo('gestionar-usuarios')">
+                    <mat-icon>manage_accounts</mat-icon>Gestionar Usuarios
+                </button>
+                <button mat-menu-item (click)="navigatedTo('gestionar-variables')">
+                    <mat-icon>folder</mat-icon>Gestionar Variables
                 </button>
                 <button mat-menu-item (click)="openChangePassword(changePassword)">
                     <mat-icon>settings</mat-icon>Cambiar Contraseña
