@@ -25,22 +25,6 @@
       width: 170px;
       margin-right: 3em;
     }
-    .list_opts {
-      display: flex;
-      gap: 2em;
-      .link {
-        display: flex;
-        align-items: center;
-        padding: 2em;
-      }
-      .activeLink {
-        background-color: #941225;
-      }
-      div > a {
-        text-decoration: none;
-        color: white;
-      }
-    }
   }
   .user_opts {
     display: flex;
@@ -61,6 +45,29 @@
     }
     mat-icon {
       margin-bottom: 0.5em;
+    }
+  }
+  .container_list {
+    display: flex;
+    align-items: center;
+    overflow-y: hidden;
+    padding-left: 3em;
+    height: 100%;
+    .list_opts {
+      display: flex;
+      gap: 2em;
+      .link {
+        display: flex;
+        align-items: center;
+        padding: 2em;
+      }
+      .activeLink {
+        background-color: #941225;
+      }
+      div > a {
+        text-decoration: none;
+        color: white;
+      }
     }
   }
 }

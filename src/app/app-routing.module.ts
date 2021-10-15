@@ -4,11 +4,20 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailsComponent } from '../app/details/details.component';
 import { TrackingComponent } from '../app/tracking/tracking.component';
+import { ParentComponent } from '../app/parent/parent.component';
+import { ManageUsersComponent } from '../app/manage-users/manage-users.component';
+import { ManageVariablesComponent } from '../app/manage-variables/manage-variables.component';
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'details/:id', component: DetailsComponent },
-  { path: 'tracking/:id', component: TrackingComponent}
+  {
+    path: 'app', component: ParentComponent, children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'gestionar-variables', component: ManageVariablesComponent },
+      { path: 'gestionar-usuarios', component: ManageUsersComponent },
+      { path: 'details/:id', component: DetailsComponent },
+      { path: 'tracking/:id', component: TrackingComponent },
+    ]
+  },
 ];
 
 @NgModule({

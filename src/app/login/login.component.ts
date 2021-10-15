@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(v.data.user));
       localStorage.setItem('token', v.data.access_token);
     }).then(v => {
-      this.router.navigate(['dashboard'])
+      this.router.navigate(['/app/dashboard'])
     }).catch(({ error }) => {
       Swal.fire('Error', error.message, 'error')
     })

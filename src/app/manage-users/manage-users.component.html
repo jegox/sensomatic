@@ -1,0 +1,80 @@
+<header class="header_users">
+    <h1>{{title}} de Usuarios</h1>
+    <button mat-button (click)="switchMode()">
+        <mat-icon>add_circle_outline</mat-icon>
+        {{!switch ? 'Añadir Usuario' : 'Cancelar'}}
+    </button>
+</header>
+<ng-container *ngTemplateOutlet="!switch ? listado : creacion"></ng-container>
+<ng-template #listado>
+    <main class="list_users">
+        <table>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Minas</th>
+                <th>Maquinas</th>
+                <th>Acciones</th>
+            </tr>
+            <tr *ngFor="let user of users">
+                <td>{{user?.fullname}}</td>
+                <td>{{user?.email}}</td>
+                <td>{{user?.permissions?.mines[0]}}</td>
+                <td>{{user?.permissions?.machines[0]}}</td>
+                <td>
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                </td>
+            </tr>
+        </table>
+    </main>
+</ng-template>
+<ng-template #creacion>
+    <form [formGroup]="createUserForm">
+        <div class="creacion_user">
+            <mat-form-field>
+                <mat-label>
+                    Nombre Completo
+                </mat-label>
+                <input matInput type="text" formControlName="fullname">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Email
+                </mat-label>
+                <input matInput type="text" formControlName="email">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Role
+                </mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="mine">Mine</mat-option>
+                    <mat-option value="machine">Machine</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Minas
+                </mat-label>
+                <input matInput type="text" formArrayName="mines">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>
+                    Maquinas
+                </mat-label>
+                <mat-select>
+                    <mat-option (onSelectionChange)="pushArray($event)" *ngFor="let machine of machines"
+                        [value]="machine.id">
+                        {{machine?.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button (click)="saveUser()" class="btn-save"> Guardar</button>
+        </div>
+    </form>
+</ng-template>

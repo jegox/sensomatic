@@ -3,11 +3,6 @@
         <img src="../../assets/logo_sensomatic_lg.jpeg" width="153" alt="logo sensomatic" class="sensomatic">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5odgIQL-3mXPdsm4jk3Ftu2yAr2k_I2Gjyzslak58tdKYs4N8TRNaOF2UMiBPebX3mA&usqp=CAU"
             alt="logo_drummond">
-        <div class="list_opts" *ngFor="let link of ['dashboard','configuraciones']">
-            <div class="pointer" [routerLink]="'/'+link" class="link" routerLinkActive="activeLink">
-                <a>{{link | titlecase}}</a>
-            </div>
-        </div>
     </div>
     <div class="user_opts">
         <p>{{user}}</p>
@@ -15,110 +10,41 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
                 alt="">
         </div>
-        <mat-icon aria-hidden="false" [matMenuTriggerFor]="menu" aria-label="Example home icon">menu</mat-icon>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="getUser(userInfo)">
-                <mat-icon>account_circle</mat-icon>Ver perfil
-            </button>
-            <button mat-menu-item (click)="openChangePassword(changePassword)">
-                <mat-icon>settings</mat-icon>Cambiar Contraseña
-            </button>
-            <button mat-menu-item (click)="openListUsers()">
-                <mat-icon>manage_accounts</mat-icon>Gestionar Usuarios
-            </button>
-            <button mat-menu-item (click)="openManageVariables(manageVariables)">
-                <mat-icon>folder</mat-icon>Gestionar Variables
-            </button>
-            <button mat-menu-item (click)="logOut()">
-                <mat-icon>logout</mat-icon>Cerrar Sesión
-            </button>
-        </mat-menu>
+    </div>
+    <div class="container_list">
+        <div class="list_opts">
+            <div class="pointer" routerLink="/app/dashboard" class="link" routerLinkActive="activeLink">
+                <a>{{'Dashboard' | titlecase}}</a>
+            </div>
+        </div>
+        <div class="list_opts">
+            <div class="pointer" routerLink="/app/gestionar-variables" class="link" routerLinkActive="activeLink">
+                <a>{{'Gestionar Variables' | titlecase}}</a>
+            </div>
+        </div>
+        <div class="list_opts">
+            <div class="pointer" routerLink="/app/gestionar-usuarios" class="link" routerLinkActive="activeLink">
+                <a>{{'Gestionar Usuarios' | titlecase}}</a>
+            </div>
+        </div>
+        <div class="list_opts">
+            <div class="pointer" class="link" [matMenuTriggerFor]="menu" aria-label="Example home icon">
+                <a>{{'configuraciones' | titlecase}}</a>
+            </div>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="getUser(userInfo)">
+                    <mat-icon>account_circle</mat-icon>Ver perfil
+                </button>
+                <button mat-menu-item (click)="openChangePassword(changePassword)">
+                    <mat-icon>settings</mat-icon>Cambiar Contraseña
+                </button>
+                <button mat-menu-item (click)="logOut()">
+                    <mat-icon>logout</mat-icon>Cerrar Sesión
+                </button>
+            </mat-menu>
+        </div>
     </div>
 </nav>
-
-<ng-template #manageUsers>
-    <header class="header_users">
-        <h4>Listado de Usuarios</h4>
-        <button mat-button (click)="openCreateUser()">
-            <mat-icon>add_circle_outline</mat-icon>
-            Añadir Usuario
-        </button>
-    </header>
-    <main class="list_users">
-        <table>
-            <tr>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Minas</th>
-                <th>Maquinas</th>
-                <th>Acciones</th>
-            </tr>
-            <tr *ngFor="let user of users">
-                <td>{{user?.fullname}}</td>
-                <td>{{user?.email}}</td>
-                <td>{{user?.permissions?.mines[0]}}</td>
-                <td>{{user?.permissions?.machines[0]}}</td>
-                <td>
-                    <mat-icon>
-                        edit
-                    </mat-icon>
-                    <mat-icon>
-                        delete
-                    </mat-icon>
-                </td>
-            </tr>
-        </table>
-    </main>
-</ng-template>
-
-<ng-template #createUser>
-    <header>
-        <h2>Usuario nuevo</h2>
-    </header>
-    <form [formGroup]="createUserForm">
-        <div>
-            <mat-form-field>
-                <mat-label>
-                    Nombre Completo
-                </mat-label>
-                <input matInput type="text" formControlName="fullname">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>
-                    Email
-                </mat-label>
-                <input matInput type="text" formControlName="email">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>
-                    Role
-                </mat-label>
-                <mat-select formControlName="role">
-                    <mat-option value="mine">Mine</mat-option>
-                    <mat-option value="machine">Machine</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>
-                    Minas
-                </mat-label>
-                <input matInput type="text" formControlName="mines">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>
-                    Maquinas
-                </mat-label>
-                <mat-select>
-                    <mat-option (onSelectionChange)="pushArray($event)" *ngFor="let machine of machines"
-                        [value]="machine.id">
-                        {{machine?.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button (click)="saveUser()"> Guardar</button>
-        </div>
-    </form>
-</ng-template>
 
 <ng-template #changePassword>
     <header class="header_users">
@@ -147,51 +73,6 @@
                 </button>
             </mat-form-field>
         </form>
-    </section>
-</ng-template>
-
-<ng-template #manageVariables let-data>
-    <header class="header_users">
-        <h2>Gestionar Variable</h2>
-        <button mat-button (click)="getPromiunVariables(getProemiun)">
-            <mat-icon>add_circle_outline</mat-icon>
-            Añadir Variable
-        </button>
-    </header>
-    <section>
-        <div class="container_variables">
-            <table class="table_variables">
-                <tr>
-                    <th>Variable</th>
-                    <th>Creado</th>
-                    <th></th>
-                </tr>
-                <tr *ngFor="let variable of data">
-                    <td>{{variable.variable}}</td>
-                    <td>{{variable.createdAt}}</td>
-                    <td class="pointer" style="color: #d91a36;" (click)="deleteVariable(variable)">
-                        <mat-icon>delete</mat-icon>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </section>
-</ng-template>
-
-<ng-template #getProemiun let-data>
-    <header class="header_users">
-        <h2>Agregar Variable</h2>
-        <button mat-button (click)="saveProemion()">
-            Guardar
-        </button>
-    </header>
-    <section style="display: flex; align-items: center; justify-content: center;">
-        <mat-form-field style="width: 85%;">
-            <mat-label>Variables</mat-label>
-            <mat-select multiple [formControl]="variables">
-                <mat-option *ngFor="let variable of data" [value]="variable">{{variable.variable}}</mat-option>
-            </mat-select>
-        </mat-form-field>
     </section>
 </ng-template>
 

@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import {FormsModule} from '@angular/forms'
+import { FormsModule } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthInterceptor } from './services/interceptor.service';
@@ -21,6 +21,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog'
 import { TrackingComponent } from './tracking/tracking.component'
 import { MatButtonModule } from '@angular/material/button';
+import { ParentComponent } from './parent/parent.component';
+import { ManageUsersComponent } from '../app/manage-users/manage-users.component';
+import { ManageVariablesComponent } from '../app/manage-variables/manage-variables.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +32,10 @@ import { MatButtonModule } from '@angular/material/button';
     DashboardComponent,
     NavbarComponent,
     DetailsComponent,
-    TrackingComponent
+    TrackingComponent,
+    ParentComponent,
+    ManageUsersComponent,
+    ManageVariablesComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

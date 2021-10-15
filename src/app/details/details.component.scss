@@ -30,4 +30,13 @@ section.container_variable {
     }
     padding: 0 5em;
   }
+  .containerChart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    canvas {
+      margin-top: 2em;
+      width: 90%!important;
+    }
+  }
 }

@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   }
 
   goToDetails(link, id) {
-    this.route.navigate([link+'/'+id]);
+    this.route.navigate(['/app/'+link+'/'+id]);
   }
 }
 

@@ -1,0 +1,26 @@
+.header_users {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 90%;
+  gap: 2em;
+  margin-top: 2em;
+  margin-left: 2em;
+  button {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+}
+.container_variables {
+  .table_variables {
+    border-collapse: separate;
+    border-spacing: 3em 0.5em;
+    width: 100%;
+    th {
+        text-align: left;
+        font-size:1.2rem;
+        font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+.header_users {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 90%;
+  margin-left: 3em;
+  margin-top: 2em;
+  button {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+}
+.list_users {
+  padding: 0 3em;
+  table {
+    width: 100%;
+    margin-top: 2em;
+    th {
+      background-color: rgba(219, 214, 214, 0.911);
+    }
+    td {
+      text-align: center;
+    }
+  }
+}
+
+form {
+  height: 65%;
+}
+.creacion_user {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+
+  mat-form-field {
+    width: 20%;
+  }
+}
+
+.btn-save {
+  background-color: #d91a36;
+  color: white;
+  width: 15%;
+  font-size: 1.2rem;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  padding: 0.2em;
+  font-weight: 500;
+}

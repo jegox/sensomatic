@@ -1,0 +1,36 @@
+<header class="header_users">
+    <h1>Agregar Variable</h1>
+    <button mat-button (click)="saveProemion()">
+        <mat-icon>add_circle_outline</mat-icon>
+        Guardar
+    </button>
+</header>
+<section style="display: flex; align-items: center; justify-content: center;">
+    <mat-form-field style="width: 85%;">
+        <mat-label>Variables</mat-label>
+        <mat-select multiple [formControl]="variablesControl">
+            <mat-option *ngFor="let variable of proemiun" [value]="variable">{{variable.variable}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</section>
+<header class="header_users">
+    <h1>Gestionar Variable</h1>
+</header>
+<section>
+    <div class="container_variables">
+        <table class="table_variables">
+            <tr>
+                <th>Variable</th>
+                <th>Creado</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let variable of variables">
+                <td>{{variable.variable}}</td>
+                <td>{{variable.createdAt | date}}</td>
+                <td class="pointer" style="color: #d91a36;" (click)="deleteVariable(variable)">
+                    <mat-icon>delete</mat-icon>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
