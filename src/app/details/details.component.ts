@@ -152,7 +152,6 @@ export class DetailsComponent implements OnInit {
     element['dayTurn'].map(({ variable, value, time}) => obj[variable] = {
       variable,
       dayTurn: value,
-      time
     });
 
     let variables = element['nightTurn'].map(({ variable, value }) => obj[variable] = {
