@@ -32,6 +32,7 @@ export class DetailsComponent implements OnInit {
   dayTurn: Array<any>;
   nightTurn: Array<any>;
   listDays: Array<any>;
+  tableDays: Array<any>;
   myChart: Chart[];
   constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
 
@@ -72,6 +73,10 @@ export class DetailsComponent implements OnInit {
       this.myChart = [];
     }
 
+    this.tableDays = [];
+
+    this.getTableInformation(element);
+
     for (let turn in element) {
       if (turn === 'date') continue;
 
@@ -108,6 +113,13 @@ export class DetailsComponent implements OnInit {
         plugins: {
           legend: {
             display: false
+          },
+          title: {
+            display: true,
+            text: where == 'dayTurn' ? 'Turno de dia' : 'Turno de Noche',
+            font: {
+              size: 20
+            }
           }
         }
       }
@@ -118,7 +130,9 @@ export class DetailsComponent implements OnInit {
     this.myChart = [...this.myChart ?? [], new Chart(ctx, config)]
   }
 
-
+  /**
+   * @description Make request to get data to chartjs
+   */
   searchInfoByDate() {
     let obj = {
       initial: new Date(new Date(this.date.get('from').value).setHours(0, 0, 0, 0)).toISOString(),
@@ -130,5 +144,22 @@ export class DetailsComponent implements OnInit {
     }
 
     this.chartS.getMachineData(obj).toPromise().then((value: any) => this.initChart(value));
+  }
+
+  getTableInformation(element) {
+    let obj = {};
+
+    element['dayTurn'].map(({ variable, value, time}) => obj[variable] = {
+      variable,
+      dayTurn: value,
+      time
+    });
+
+    let variables = element['nightTurn'].map(({ variable, value }) => obj[variable] = {
+      ...obj[variable],
+      nightTurn: value
+    });
+
+    this.tableDays = variables;
   }
 }

@@ -27,16 +27,18 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
+        <button mat-button (click)="searchInfoByDate()" style="width: 8em;">
+            <mat-icon>add_circle_outline</mat-icon>
+            Buscar
+        </button>
+    </div>
+    <div class="select_dates" [formGroup]="date">
         <mat-form-field *ngIf="listDays?.length > 0">
             <mat-label>Fechas</mat-label>
             <mat-select formControlName="date">
                 <mat-option *ngFor="let chart of listDays" [value]="chart">{{chart?.date | date}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-button (click)="searchInfoByDate()" style="width: 8em;">
-            <mat-icon>add_circle_outline</mat-icon>
-            Buscar
-        </button>
     </div>
     <div class="containerChart">
         <div class="turn_day">
@@ -48,7 +50,7 @@
                         {{data.variable}}
                     </div>
                     <div class="data_item">
-                        <span>{{data.value}}min</span>
+                        <span class="bold">{{data.value}}min</span>
                         <small>({{ (100 * data.value) / dayTurn['total'] | number: '1.0-0'}}%)</small>
                     </div>
                 </div>
@@ -63,21 +65,22 @@
                         {{data.variable}}
                     </div>
                     <div class="data_item">
-                        <span>{{data.value}}min</span>
+                        <span class="bold">{{data.value}}min</span>
                         <small>({{ (100 * data.value) / nightTurn['total'] | number: '1.0-0' }}%)</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <main class="information_variables" *ngIf="dayTurn && nightTurn">
-        <table border="1" class="list_variables">
+    <main class="information_variables" *ngIf="dayTurn && nightTurn">
+        <table class="list_variables">
             <tr>
                 <th>Variable</th>
                 <th>Ultima Conexión</th>
-                <th>Valor</th>
+                <th>Turno dia</th>
+                <th>Turno Noche</th>
             </tr>
-            <tr *ngFor="let variable of generalMachine?.variables">
+            <tr *ngFor="let variable of tableDays;">
                 <td>
                     {{variable?.variable}}
                 </td>
@@ -85,9 +88,12 @@
                     {{variable?.time | date}}
                 </td>
                 <td>
-                    {{variable?.value}}
+                    {{variable?.dayTurn}}
+                </td>
+                <td>
+                    {{variable?.nightTurn}}
                 </td>
             </tr>
         </table>
-    </main> -->
+    </main>
 </section>
