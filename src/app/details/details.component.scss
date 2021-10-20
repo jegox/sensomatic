@@ -31,13 +31,53 @@ section.container_variable {
     }
     padding: 0 5em;
   }
-  .containerChart{
+  .containerChart {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 5em;
+    gap: 3em;
+    .turn_night,
+    .turn_day {
+      display: flex;
+      width: 50%;
+      .legend_chart {
+        display: flex;
+        flex-direction: column;
+        height: 25em;
+        overflow-y: scroll;
+        width: 80%;
+        gap: 2em;
+        font-size: 12px;
+        .item {
+          display: flex;
+          justify-content: space-around;
+          .color_variable {
+            width: 20em;
+            display: flex;
+            align-items: center;
+            gap: 2em;
+            span {
+              display: block;
+              width: 30px;
+              height: 17px;
+              border-radius: 11px;
+            }
+          }
+          .data_item {
+            display: flex;
+            flex-direction: column;
+            width: 5em;
+            gap: 0.3em;
+          }
+        }
+      }
+    }
+
     canvas {
       margin-top: 2em;
-      width: 90%!important;
+      width: 30% !important;
+      height: 30% !important;
     }
   }
 }

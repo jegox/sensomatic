@@ -27,11 +27,10 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Turno</mat-label>
-            <mat-select formControlName="turn">
-                <mat-option value="Dia">Dia</mat-option>
-                <mat-option value="Noche">Noche</mat-option>
+        <mat-form-field *ngIf="listDays?.length > 0">
+            <mat-label>Fechas</mat-label>
+            <mat-select formControlName="date">
+                <mat-option *ngFor="let chart of listDays" [value]="chart">{{chart?.date | date}}</mat-option>
             </mat-select>
         </mat-form-field>
         <button mat-button (click)="searchInfoByDate()" style="width: 8em;">
@@ -39,7 +38,39 @@
             Buscar
         </button>
     </div>
-    <main class="information_variables">
+    <div class="containerChart">
+        <div class="turn_day">
+            <canvas id="dayTurn"></canvas>
+            <div class="legend_chart">
+                <div *ngFor="let data of dayTurn" class="item">
+                    <div class="color_variable">
+                        <span [ngStyle]="{'background-color': colors[data.variable]}"></span>
+                        {{data.variable}}
+                    </div>
+                    <div class="data_item">
+                        <span>{{data.value}}min</span>
+                        <small>({{ (100 * data.value) / dayTurn['total'] | number: '1.0-0'}}%)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="turn_night">
+            <canvas id="nightTurn"></canvas>
+            <div class="legend_chart">
+                <div *ngFor="let data of nightTurn" class="item">
+                    <div class="color_variable">
+                        <span [ngStyle]="{'background-color': colors[data.variable]}"></span>
+                        {{data.variable}}
+                    </div>
+                    <div class="data_item">
+                        <span>{{data.value}}min</span>
+                        <small>({{ (100 * data.value) / nightTurn['total'] | number: '1.0-0' }}%)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <main class="information_variables" *ngIf="dayTurn && nightTurn">
         <table border="1" class="list_variables">
             <tr>
                 <th>Variable</th>
@@ -51,15 +82,12 @@
                     {{variable?.variable}}
                 </td>
                 <td>
-                    {{variable?.time | date: 'short'}}
+                    {{variable?.time | date}}
                 </td>
                 <td>
                     {{variable?.value}}
                 </td>
             </tr>
         </table>
-    </main>
-    <div class="containerChart">
-        <canvas id="myChart"></canvas>
-    </div>
+    </main> -->
 </section>

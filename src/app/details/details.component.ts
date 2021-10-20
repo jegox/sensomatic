@@ -15,102 +15,120 @@ export class DetailsComponent implements OnInit {
   generalMachine;
   machineId: string;
   date: FormGroup = new FormGroup({
-    'from': new FormControl(''),
-    'to': new FormControl(''),
-    'turn': new FormControl('')
-  })
+    'from': new FormControl(),
+    'to': new FormControl(),
+    'date': new FormControl()
+  });
+  colors = {
+    'Regando': '#42ff00',
+    'Operativo sin riego': '#ff6e00',
+    'Tanqueando agua': '#0019ff',
+    'Almuerzo': '#231f20',
+    'Clima': '#b2b2b2',
+    'Tanqueando combustible': '#d60000',
+    'Sin Operator': '#ff00ff',
+    'Standby con Operator': '#ffe500',
+  }
+  dayTurn: Array<any>;
+  nightTurn: Array<any>;
+  listDays: Array<any>;
+  myChart: Chart[];
   constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
       this.machineId = v.id;
       this.uService.getDetailsMachine(v.id).toPromise().then(v => this.generalMachine = v['data']);
-      this.chartS.getMachineData({
-        initial: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
-        final: new Date().toISOString(),
-        machineId: v.id
-      }).toPromise().then((value: any) => this.initChart(value));
     })
-
+    this.date.get('date').valueChanges.subscribe(date => this.getData(date));
   }
 
-  getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
+  /**
+   * @description This function is trigger when request is done. We
+   * check if the parameter is an Array or Object
+   * @param data Object | Array
+   */
   initChart({ data }) {
-    if (data.length === 0) return Swal.fire('Informacion', 'No hay informacion en los parametros requeridos', 'info');
-    let colors = ['#4FDDF4', '#07257E', '#06FF75', '#50F0FF', '#C17355', '#E60EF7', '#8D35D3', '#7E06E2', '#5B6886', '#E990D0', '#2BC8C8', '#A2B774', '#D775CD']
+    Chart.register(...registerables);
+
+    if (Array.isArray(data)) {
+      this.listDays = data;
+      this.getData(this.listDays[0]);
+    } else {
+      this.getData(data);
+    }
+  }
+
+  /**
+   * @description Get a element and loop on to find the data and display it on chart
+   * @param element Object
+   */
+  getData(element) {
+    let where = ['dayTurn', 'nightTurn'];
+    let index = 0;
+
+    if (this.myChart?.length === 2) {
+      this.myChart.map(chart => chart.destroy());
+      this.myChart = [];
+    }
+
+    for (let turn in element) {
+      if (turn === 'date') continue;
+
+      element[turn].total = element[turn].map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
+
+      element[turn] = element[turn].sort((a, b) => b.value - a.value);
+
+      this[turn] = element[turn];
+
+      this.displayChart(element[turn], where[index]);
+
+      index++
+    }
+  }
+
+  /**
+   * @description Just get the data and display it on chart
+   * @param data Object
+   * @param where String
+   */
+  displayChart(data, where: string) {
     let config: ChartConfiguration = {
-      type: 'line',
+      type: 'doughnut',
       data: {
-        labels: data.map(v => v.data.map(time => new Date(time.time).toLocaleString())),
-        datasets: data.map((v, i) => {
-          return {
-            label: v.variable,
-            data: v.data.map(data => data.value),
-            fill: false,
-            borderColor: colors[i],
-            mode: 'y'
-          }
-        })
+        labels: data.map(({ variable }) => variable),
+        datasets: [{
+          label: 'Variables',
+          data: data.map(({ value }) => value),
+          backgroundColor: data.map(({ variable }) => this.colors[variable]),
+        }]
       },
       options: {
-        legend: {
-          position: 'bottom',
-        },
-        title: {
-          display: true,
-          text: 'Variables',
-          fontSize: 30
-        },
-        scales: {
-          xAxes: [{
-            gridLines: false,
-            display: false,
-          }],
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              max: 250
-            }
-          }]
-        },
-        tooltips: {
-          callbacks: {
-            title: function (data) {
-              return data[0].xLabel[0];
-            }
+        responsive: false,
+        plugins: {
+          legend: {
+            display: false
           }
         }
-      },
+      }
     }
-    let canvas = (<HTMLCanvasElement>document.getElementById('myChart'));
+    let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
     let ctx = canvas.getContext('2d');
 
-    let myChart = new Chart(ctx, config);
+    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)]
   }
 
+
   searchInfoByDate() {
-    let from;
-    let to;
-    if (this.date.get('turn').value === 'Dia') {
-      from = new Date(this.date.get('from').value.setHours(6, 0, 0));
-      to = new Date(this.date.get('to').value.setHours(17, 59, 59));
-    } else {
-      from = new Date(this.date.get('from').value.setHours(18, 0, 0));
-      to = new Date(this.date.get('to').value.setHours(5, 59, 59));
-      to = new Date(to.setDate(to.getDate() + 1));
-    }
-    this.chartS.getMachineData({
-      initial: from.toISOString(),
-      final: to.toISOString(),
+    let obj = {
+      initial: new Date(new Date(this.date.get('from').value).setHours(0, 0, 0, 0)).toISOString(),
       machineId: this.machineId
-    }).toPromise().then((value: any) => this.initChart(value));
+    }
+
+    if (this.date.get('to').value) {
+      Object.assign(obj, { final: new Date(new Date(this.date.get('to').value).setHours(0, 0, 0, 0)).toISOString() });
+    }
+
+    this.chartS.getMachineData(obj).toPromise().then((value: any) => this.initChart(value));
   }
 }
