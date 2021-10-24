@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class UserService {
     header
     constructor(private http: HttpClient) { }
-    // private apiUrl: string = 'http://50.19.219.56:3000/api';  //PROD  
-    private apiUrl: string = 'https://sensomatic.herokuapp.com/api'; // DEV
+    // private apiUrl: string = 'http://50.19.219.56:3000/api';  //PROD
+    private apiUrl: string = 'http://50.19.219.56:3200/api'; // DEV
     // private apiUrl:string = 'http://3e63-181-129-145-146.ngrok.io/api' // local
 
     logIn(user) {
