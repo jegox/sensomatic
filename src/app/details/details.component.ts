@@ -13,6 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms'
 })
 export class DetailsComponent implements OnInit {
   generalMachine;
+  context;
   machineId: string;
   date: FormGroup = new FormGroup({
     'from': new FormControl(),
@@ -40,6 +41,10 @@ export class DetailsComponent implements OnInit {
     this.route.params.subscribe(v => {
       this.machineId = v.id;
       this.uService.getDetailsMachine(v.id).toPromise().then(v => this.generalMachine = v['data']);
+      this.chartS.getMachineData({
+        initial: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+        machineId: this.machineId
+      }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
   }
@@ -68,17 +73,21 @@ export class DetailsComponent implements OnInit {
     let where = ['dayTurn', 'nightTurn'];
     let index = 0;
 
-    if (this.myChart?.length === 2) {
+    if (this.myChart?.length > 0) {
+      this.context.restore();
       this.myChart.map(chart => chart.destroy());
       this.myChart = [];
     }
 
     this.tableDays = [];
 
-    this.getTableInformation(element);
-
     for (let turn in element) {
       if (turn === 'date') continue;
+      if (!element[turn][0]) {
+        this[turn] = [];
+        this.displayNoData(where[index]);
+        continue;
+      }
 
       element[turn].total = element[turn].map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
 
@@ -90,6 +99,8 @@ export class DetailsComponent implements OnInit {
 
       index++
     }
+
+    this.getTableInformation(element);
   }
 
   /**
@@ -118,7 +129,14 @@ export class DetailsComponent implements OnInit {
             display: true,
             text: where == 'dayTurn' ? 'Turno de dia' : 'Turno de Noche',
             font: {
-              size: 20
+              size: 25
+            }
+          },
+          subtitle: {
+            display: true,
+            text: where == 'dayTurn' ? '06:00 AM - 17:59 PM' : '18:00 PM - 05:59 AM',
+            font: {
+              size: 15
             }
           }
         }
@@ -127,7 +145,21 @@ export class DetailsComponent implements OnInit {
     let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
     let ctx = canvas.getContext('2d');
 
-    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)]
+    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)];
+  }
+
+  /**
+   * @description When some chart dont have data, we get it and display the text 'no data'
+   * @param where {String} 
+   */
+  displayNoData(where) {
+    let canvas = <HTMLCanvasElement>document.getElementById(where);
+
+    this.context = canvas.getContext('2d');
+
+    this.context.font = "30px Lucida Console, arial";
+
+    this.context.fillText("No hay datos", 0, 100);
   }
 
   /**
@@ -149,14 +181,14 @@ export class DetailsComponent implements OnInit {
   getTableInformation(element) {
     let obj = {};
 
-    element['dayTurn'].map(({ variable, value, time}) => obj[variable] = {
-      variable,
-      dayTurn: value,
+    element['nightTurn'][0] && element['nightTurn'].map(({ variable, value }) => obj[variable] = {
+      nightTurn: value
     });
 
-    let variables = element['nightTurn'].map(({ variable, value }) => obj[variable] = {
+    let variables = element['dayTurn'].map(({ variable, value }) => obj[variable] = {
       ...obj[variable],
-      nightTurn: value
+      dayTurn: value,
+      variable,
     });
 
     this.tableDays = variables;
