@@ -14,4 +14,8 @@ export class ChartSevice {
     getMachineData(date){
        return this.http.post(this.apiUrl + '/measurements/by-machine', date)
     }
+    
+    getDataTracking(data) {
+        return this.http.post(this.apiUrl + '/measurements/tracking-by-machine', data);
+    }
 }

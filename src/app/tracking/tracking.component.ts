@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import * as L from 'leaflet';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MapService } from '../services/map.service';
+declare let google;
+
 @Component({
   selector: 'app-tracking',
   templateUrl: './tracking.component.html',
@@ -9,31 +11,32 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class TrackingComponent implements OnInit, AfterViewInit {
   map;
   machineId: string;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private M: MapService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
       this.machineId = v.id;
+      this.M.initMap(document.getElementById('map'));
+      this.M.getDataForMap({
+        initial: new Date(new Date().setHours(19, 0, 0, 0)).toISOString(),
+        final: new Date(new Date().setHours(20, 0, 0, 0)).toISOString(),
+        machineId: this.machineId
+      }).then(v => this.drawPoints(v))
     })
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
   }
 
-  private initMap() {
-    this.map = L.map('map', {
-      center: [39.8282, -98.5795],
-      zoom: 3
-    });
-
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    tiles.addTo(this.map);
+  drawPoints({ data }) {
+    console.log(data)
+    for (let points of data) {
+      let x = {
+        latitude: points.latitude,
+        longitude: points.longitude
+      }
+      console.log(x)
+      this.M.drawMarker(x)
+    }
   }
-
 }
