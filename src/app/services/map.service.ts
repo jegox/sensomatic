@@ -26,10 +26,11 @@ export class MapService implements OnInit {
         return this.ch.getDataTracking(data).toPromise();
     }
 
-    drawMarker({ latitude, longitude }) {
+    drawMarker({ latitude, longitude }, text?:string) {
         let markers = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
             map: this.map,
+            title: text
         })
     }
 
