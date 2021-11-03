@@ -37,7 +37,9 @@ export class TrackingComponent implements OnInit, AfterViewInit {
 
   drawPoints({ data }) {
     this.M.deleteRoute()
-    data.map(item => {
+    let newData = data.filter(v => v.location.length > 0);
+
+    newData.map(item => {
       let path = item.location.map(value => {
         return {
           lat: value.latitude,
@@ -55,8 +57,8 @@ export class TrackingComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.M.drawMarker({ latitude: data[0].location[0].latitude, longitude: data[0].location[0].longitude }, "Inicio de la ruta");
-    this.M.drawMarker({ latitude: data[data.length - 1].location[0].latitude, longitude: data[data.length - 1].location[0].longitude }, "Fin de la ruta");
+    this.M.drawMarker({ latitude: newData[0].location[0].latitude, longitude: newData[0].location[0].longitude }, "Inicio de la ruta");
+    this.M.drawMarker({ latitude: newData[newData.length - 1].location[0].latitude, longitude: newData[newData.length - 1].location[0].longitude }, "Fin de la ruta");
   }
 
   setFormatDate({ initial, final }) {
