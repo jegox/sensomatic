@@ -36,6 +36,7 @@ export class TrackingComponent implements OnInit, AfterViewInit {
   }
 
   drawPoints({ data }) {
+    this.M.deleteRoute()
     data.map(item => {
       let path = item.location.map(value => {
         return {

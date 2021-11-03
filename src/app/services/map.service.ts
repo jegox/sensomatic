@@ -9,6 +9,7 @@ export class MapService implements OnInit {
     map;
     poly;
     polys = [];
+    markers = [];
     constructor(private ch: ChartSevice) { }
 
     ngOnInit() { }
@@ -27,11 +28,12 @@ export class MapService implements OnInit {
     }
 
     drawMarker({ latitude, longitude }, text?:string) {
-        let markers = new google.maps.Marker({
+        let marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
             map: this.map,
             title: text
-        })
+        });
+        this.markers.push(marker)
     }
 
     drawPolylines(path, value) {
@@ -47,6 +49,13 @@ export class MapService implements OnInit {
 
     get getPolylines(){
         return this.polys;
+    }
+
+    deleteRoute() { 
+        if(this.markers.length > 0 && this.polys.length > 0) {
+            this.markers.map(marker => marker.setMap(null));
+            this.polys.map(poly => poly.setMap(null))
+        }
     }
 
     setCenter(center){
