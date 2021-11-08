@@ -6,7 +6,7 @@ declare let google;
     providedIn: 'root'
 })
 export class MapService implements OnInit {
-    map;
+    map = {};
     poly;
     polys = [];
     markers = [];
@@ -14,68 +14,72 @@ export class MapService implements OnInit {
 
     ngOnInit() { }
 
-    initMap(element: HTMLElement) {
-        this.map = new google.maps.Map(element, {
+    initMap(element: HTMLElement, turn: string) {
+        this.map[turn] = new google.maps.Map(element, {
             center: { lat: 4.5709, lng: -74.2973 },
             zoom: 6,
             disableDefaultUI: true,
             mapTypeControl: true,
+            zoomControl: true,
         })
+        console.log(this.map)
     }
 
     getDataForMap(data): Promise<any> {
         return this.ch.getDataTracking(data).toPromise();
     }
 
-    drawMarker({ latitude, longitude }, text?:string) {
+    drawMarker({ latitude, longitude }, map: string, text?: string) {
         let marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
-            map: this.map,
+            map: this.map[map],
             title: text
         });
         this.markers.push(marker)
     }
 
-    drawPolylines(path, value) {
+    drawPolylines(path, value, map) {
         let polyline = new google.maps.Polyline({
             path,
             strokeColor: value < 1 ? "red" : "green",
             strokeOpacity: 1.0,
             strokeWeight: 2,
         });
-        polyline.setMap(this.map);
+        polyline.setMap(this.map[map]);
         this.polys.push(polyline);
     }
 
-    get getPolylines(){
+    get getPolylines() {
         return this.polys;
     }
 
-    deleteRoute() { 
-        if(this.markers.length > 0 && this.polys.length > 0) {
+    deleteRoute() {
+        if (this.markers.length > 0 && this.polys.length > 0) {
+            console.log('Hola')
             this.markers.map(marker => marker.setMap(null));
             this.polys.map(poly => poly.setMap(null))
         }
     }
 
-    setCenter(center){
-        this.map.setCenter(center);
+    setCenter(center, map) {
+        this.map[map].setCenter(center);
     }
 
-    setZoom(zoom:number) {
-        this.map.setZoom(zoom)
+    setZoom(zoom: number, map) {
+        this.map[map].setZoom(zoom)
     }
+
     /**
      * 
      * @todo Centrar la linea general. Sin iteraciones
      */
-    getCenterOfPoly(path) {
+    getCenterOfPoly(path, map) {
         var bounds = new google.maps.LatLngBounds();
         var points = path.getPath().getArray();
         console.log(points)
-        for (var n = 0; n < path.length ; n++){
+        for (var n = 0; n < path.length; n++) {
             bounds.extend(path[n]);
         }
-        this.map.fitBounds(bounds);
+        this.map[map].fitBounds(bounds);
     }
 }

@@ -22,12 +22,66 @@ section.container_variable {
     gap: 2em;
     padding: 0 5em;
   }
+  .select_dates {
+    padding-left: 5em;
+  }
   main.information_variables {
+    display: flex;
     height: 70%;
-    #map {
-      height: 100%;
-      width: 100%;
+    .openerMap {
+      position: absolute;
+      right: 20em;
     }
-    padding: 0 5em;
+
+    .container_map1,
+    .container_map2 {
+      border-right: 1px solid #d91a36;
+      position: relative;
+      transition: 0.4s;
+      &.open {
+        width: 100%;
+        transition: 0.4s;
+      }
+      &.close {
+        width: 0%;
+        transition: 0.4s;
+      }
+      &.neutro {
+        width: 50%;
+        transition: 0.4s;
+      }
+      .container_opener,
+      .container_opener2 {
+        width: 2em;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        z-index: 2;
+        background-color: rgba(177, 169, 169, 0.418);
+        opacity: 0;
+        transition: 0.4s;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+          transition: 0.4s;
+        }
+      }
+
+      .container_opener {
+        position: absolute;
+        right: 0;
+        border-radius: 7px 0 0 7px;
+      }
+      .container_opener2 {
+        position: absolute;
+        left: 0;
+        border-radius: 0 7px 7px 0;
+      }
+      #map,
+      #map2 {
+        height: 100%;
+        width: 100%;
+      }
+    }
   }
 }

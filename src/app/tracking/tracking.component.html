@@ -17,13 +17,15 @@
     <div class="filters_variables" [formGroup]="tracking">
         <mat-form-field>
             <mat-label>Desde</mat-label>
-            <input matInput [min]="min" [max]="max" [matDatepicker]="picker" (click)="picker.open()" formControlName="initial">
+            <input matInput [min]="min" [max]="max" [matDatepicker]="picker" (click)="picker.open()"
+                formControlName="initial">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Hasta</mat-label>
-            <input matInput [min]="min" [max]="max" [matDatepicker]="picker2" (click)="picker2.open()" formControlName="final">
+            <input matInput [min]="min" [max]="max" [matDatepicker]="picker2" (click)="picker2.open()"
+                formControlName="final">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
@@ -39,7 +41,35 @@
             </mat-select>
         </mat-form-field> -->
     </div>
+    <div class="select_dates">
+        <mat-form-field *ngIf="listDates?.length > 0">
+            <mat-label>Fechas</mat-label>
+            <mat-select [formControl]="changeTracking">
+                <mat-option *ngFor="let date of listDates" [value]="date">{{date?.date | date}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <main class="information_variables">
-        <div id="map"></div>
+        <div class="container_map1" [ngClass]="{
+            'open': map && !map2,
+            'neutro': !map2 && !map,
+            'close': map2 && !map
+        }">
+            <div class="container_opener" (click)="toggleMap('0')">
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </div>
+            <div id="map">
+            </div>
+        </div>
+        <div class="container_map2" [ngClass]="{
+            'open': map2 && !map,
+            'neutro': !map2 && !map,
+            'close': map && !map2
+        }">
+            <div class="container_opener2" (click)="toggleMap('1')">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </div>
+            <div id="map2"></div>
+        </div>
     </main>
 </section>

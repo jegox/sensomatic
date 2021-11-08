@@ -41,35 +41,19 @@
         </mat-form-field>
     </div>
     <div class="containerChart">
-        <div class="turn_day">
+        <div class="firstChart">
             <canvas id="dayTurn"></canvas>
-            <div class="legend_chart">
-                <div *ngFor="let data of dayTurn" class="item">
-                    <div class="color_variable">
-                        <span [ngStyle]="{'background-color': colors[data.variable]}"></span>
-                        {{data.variable}}
-                    </div>
-                    <div class="data_item">
-                        <span class="bold">{{data.value}}min</span>
-                        <small>({{ (100 * data.value) / dayTurn['total'] | number: '1.0-0'}}%)</small>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="turn_night">
+        <div class="secondChart">
             <canvas id="nightTurn"></canvas>
-            <div class="legend_chart">
-                <div *ngFor="let data of nightTurn" class="item">
-                    <div class="color_variable">
-                        <span [ngStyle]="{'background-color': colors[data.variable]}"></span>
-                        {{data.variable}}
-                    </div>
-                    <div class="data_item">
-                        <span class="bold">{{data.value}}min</span>
-                        <small>({{ (100 * data.value) / nightTurn['total'] | number: '1.0-0' }}%)</small>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="newContainerCharts">
+        <div class="firstChart">
+            <canvas id="dayTurn1"></canvas>
+        </div>
+        <div class="secondChart">
+            <canvas id="nightTurn1"></canvas>
         </div>
     </div>
     <main class="information_variables" *ngIf="dayTurn || nightTurn">

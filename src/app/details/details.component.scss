@@ -51,59 +51,66 @@ section.container_variable {
   .select_dates {
     padding-left: 5em;
   }
-  .containerChart {
+  .containerChart,
+  .newContainerCharts {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 0 5em;
-    gap: 3em;
-    .turn_night,
-    .turn_day {
-      display: flex;
-      width: 50%;
-      transition: 1s;
-      padding: 2em;
+
+    .firstChart,
+    .secondChart {
+      height: 45%;
+      width: 45%;
       &:hover {
         transition: 0.7s;
         box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
       }
-      .legend_chart {
-        display: flex;
-        flex-direction: column;
-        height: 25em;
-        overflow-y: scroll;
-        width: 80%;
-        gap: 2em;
-        font-size: 12px;
-        .item {
-          display: flex;
-          justify-content: space-around;
-          .color_variable {
-            width: 20em;
-            display: flex;
-            align-items: center;
-            gap: 2em;
-            span {
-              display: block;
-              width: 30px;
-              height: 17px;
-              border-radius: 11px;
-            }
-          }
-          .data_item {
-            display: flex;
-            flex-direction: column;
-            width: 5em;
-            gap: 0.3em;
-          }
-        }
-      }
     }
+    // .turn_night,
+    // .turn_day {
+    //   display: flex;
+    //   width: 50%;
+    //   transition: 1s;
+    //   padding: 2em;
+    //   &:hover {
+    //     transition: 0.7s;
+    //     box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
+    //   }
+    //   .legend_chart {
+    //     display: flex;
+    //     flex-direction: column;
+    //     height: 25em;
+    //     overflow-y: scroll;
+    //     width: 80%;
+    //     gap: 2em;
+    //     font-size: 12px;
+    //     .item {
+    //       display: flex;
+    //       justify-content: space-around;
+    //       .color_variable {
+    //         width: 20em;
+    //         display: flex;
+    //         align-items: center;
+    //         gap: 2em;
+    //         span {
+    //           display: block;
+    //           width: 30px;
+    //           height: 17px;
+    //           border-radius: 11px;
+    //         }
+    //       }
+    //       .data_item {
+    //         display: flex;
+    //         flex-direction: column;
+    //         width: 5em;
+    //         gap: 0.3em;
+    //       }
+    //     }
+    //   }
+    // }
 
     canvas {
       margin-top: 2em;
-      width: 30% !important;
-      height: 30% !important;
     }
   }
 }

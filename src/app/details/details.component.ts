@@ -29,6 +29,9 @@ export class DetailsComponent implements OnInit {
     'Tanqueando combustible': '#d60000',
     'Sin Operator': '#ff00ff',
     'Standby con Operator': '#ffe500',
+    'Modo Manual Pedal': '#00000',
+    'Modo Semi Automatico': '#ff6e00',
+    'Modo Automatico de Riego': '#42ff00'
   }
   dayTurn: Array<any>;
   nightTurn: Array<any>;
@@ -55,6 +58,7 @@ export class DetailsComponent implements OnInit {
    * @param data Object | Array
    */
   initChart({ data }) {
+    console.log(data)
     Chart.register(...registerables);
 
     if (Array.isArray(data)) {
@@ -74,7 +78,7 @@ export class DetailsComponent implements OnInit {
     let index = 0;
 
     if (this.myChart?.length > 0) {
-      this.context.restore();
+      this.context && this.context.restore();
       this.myChart.map(chart => chart.destroy());
       this.myChart = [];
     }
@@ -89,13 +93,23 @@ export class DetailsComponent implements OnInit {
         continue;
       }
 
-      element[turn].total = element[turn].map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
+      let newElement = element[turn].filter(value => value).filter(value => !['Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
+      let pieElement = element[turn].filter(value => value).filter(value => ['Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
 
-      element[turn] = element[turn].sort((a, b) => b.value - a.value);
+      newElement.total = newElement.filter(value => value).map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
+      pieElement.total = pieElement.length > 0 && pieElement.filter(value => value).map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
 
-      this[turn] = element[turn];
+      newElement = newElement.sort((a, b) => b.value - a.value);
 
-      this.displayChart(element[turn], where[index]);
+      this[turn] = newElement;
+
+      this.displayDonut(newElement, where[index]);
+
+      if (pieElement.length > 0) {
+        let wherePie = ['dayTurn1', 'nightTurn1'];
+
+        this.displayPie(pieElement, wherePie[index]);
+      }
 
       index++
     }
@@ -108,7 +122,7 @@ export class DetailsComponent implements OnInit {
    * @param data Object
    * @param where String
    */
-  displayChart(data, where: string) {
+  displayDonut(data, where: string) {
     let config: ChartConfiguration = {
       type: 'doughnut',
       data: {
@@ -120,28 +134,107 @@ export class DetailsComponent implements OnInit {
         }]
       },
       options: {
-        responsive: false,
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false
+            position: 'right',
+            display: true,
+            labels: {
+              pointStyle: 'rectRounded',
+              padding: 8,
+              font: {
+                size: 10,
+              },
+              usePointStyle: true,
+              filter: (legendItem, legendData) => {
+                let index = data.findIndex(item => item.variable === legendItem.text);
+
+                legendItem.text = `${legendItem.text} - *${data[index].value}min*
+                ${Number(100 * data[index].value / data.total).toFixed()}%`;
+
+                return true;
+              },
+              textAlign: 'right',
+            },
           },
           title: {
             display: true,
+            position: 'top',
             text: where == 'dayTurn' ? 'Turno de dia' : 'Turno de Noche',
             font: {
-              size: 25
+              size: 18
             }
           },
           subtitle: {
             display: true,
-            text: where == 'dayTurn' ? '06:00 AM - 17:59 PM' : '18:00 PM - 05:59 AM',
+            text: where == 'dayTurn' ? '06:00 - 17:59' : '18:00 - 05:59 ',
             font: {
-              size: 15
+              size: 12
             }
           }
         }
       }
     }
+    let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
+    let ctx = canvas.getContext('2d');
+
+    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)];
+  }
+
+  displayPie(data, where: string) {
+    let config: ChartConfiguration = {
+      type: 'pie',
+      data: {
+        labels: data.map(({ variable }) => variable),
+        datasets: [{
+          label: 'Variables',
+          data: data.map(({ value }) => value),
+          backgroundColor: data.map(({ variable }) => this.colors[variable]),
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            display: true,
+            labels: {
+              pointStyle: 'rectRounded',
+              usePointStyle: true,
+              filter: (legendItem, legendData) => {
+                let index = data.findIndex(item => item.variable === legendItem.text);
+
+                legendItem.text = `${legendItem.text} - *${data[index].value}min* ${Number(100 * data[index].value / data.total).toFixed()}%`;
+
+                return true;
+              },
+              padding: 15,
+              font: {
+                size: 10,
+              },
+              textAlign: 'right',
+            },
+          },
+          title: {
+            display: true,
+            text: where == 'dayTurn1' ? 'Turno de dia' : 'Turno de Noche',
+            font: {
+              size: 20
+            }
+          },
+          subtitle: {
+            display: true,
+            text: where == 'dayTurn1' ? '06:00 - 17:59' : '18:00 - 05:59 ',
+            font: {
+              size: 15
+            }
+          },
+        }
+      },
+    };
+
     let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
     let ctx = canvas.getContext('2d');
 
@@ -181,11 +274,14 @@ export class DetailsComponent implements OnInit {
   getTableInformation(element) {
     let obj = {};
 
-    element['nightTurn'][0] && element['nightTurn'].map(({ variable, value }) => obj[variable] = {
+    let nightElement = element['nightTurn'].filter(data => data);
+    let dayElement = element['dayTurn'].filter(data => data);
+
+    nightElement[0] && nightElement.map(({ variable, value }) => obj[variable] = {
       nightTurn: value
     });
 
-    let variables = element['dayTurn'].map(({ variable, value }) => obj[variable] = {
+    let variables = dayElement.map(({ variable, value }) => obj[variable] = {
       ...obj[variable],
       dayTurn: value,
       variable,
