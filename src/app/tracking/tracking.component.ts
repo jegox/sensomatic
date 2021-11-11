@@ -46,15 +46,17 @@ export class TrackingComponent implements OnInit, AfterViewInit {
   }
 
   drawPoints({ data }) {
+    // console.log(data)
     this.listDates = data;
 
     for (let points of data) {
-      console.log(points);
+      this.getData(points)
     }
   }
 
 
   getData(data) {
+    // console.log(data)
     this.M.deleteRoute()
     for (let prop in data) {
       if (prop === 'date') continue;

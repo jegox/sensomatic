@@ -21,8 +21,8 @@ export class MapService implements OnInit {
             disableDefaultUI: true,
             mapTypeControl: true,
             zoomControl: true,
+            fullscreenControl: true,
         })
-        console.log(this.map)
     }
 
     getDataForMap(data): Promise<any> {
@@ -55,7 +55,6 @@ export class MapService implements OnInit {
 
     deleteRoute() {
         if (this.markers.length > 0 && this.polys.length > 0) {
-            console.log('Hola')
             this.markers.map(marker => marker.setMap(null));
             this.polys.map(poly => poly.setMap(null))
         }

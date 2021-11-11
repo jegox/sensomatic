@@ -50,25 +50,13 @@
         </mat-form-field>
     </div>
     <main class="information_variables">
-        <div class="container_map1" [ngClass]="{
-            'open': map && !map2,
-            'neutro': !map2 && !map,
-            'close': map2 && !map
-        }">
-            <div class="container_opener" (click)="toggleMap('0')">
-                <mat-icon>arrow_forward_ios</mat-icon>
-            </div>
+        <div class="container_map1">
+            <h2>Turno dia</h2>
             <div id="map">
             </div>
         </div>
-        <div class="container_map2" [ngClass]="{
-            'open': map2 && !map,
-            'neutro': !map2 && !map,
-            'close': map && !map2
-        }">
-            <div class="container_opener2" (click)="toggleMap('1')">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </div>
+        <div class="container_map2">
+            <h2>Turno noche</h2>
             <div id="map2"></div>
         </div>
     </main>
