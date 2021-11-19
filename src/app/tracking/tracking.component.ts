@@ -80,16 +80,12 @@ export class TrackingComponent implements OnInit, AfterViewInit {
 
       if (path.length > 0) {
         this.M.drawPolylines(path, item.value, map);
-        this.M.setCenter({ lat: path[0].lat, lng: path[0].lng }, map);
-        this.M.setZoom(9, map)
-        setTimeout(() => {
-          this.M.setZoom(12, map);
-        }, 1000)
       }
     });
 
     this.M.drawMarker({ latitude: newData[0].location[0].latitude, longitude: newData[0].location[0].longitude }, map, "Inicio de la ruta");
     this.M.drawMarker({ latitude: newData[newData.length - 1].location[0].latitude, longitude: newData[newData.length - 1].location[0].longitude }, map, "Fin de la ruta");
+    this.M.getCenterOfPoly(map)
   }
 
   setFormatDate({ initial, final }) {

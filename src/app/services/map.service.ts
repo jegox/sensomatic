@@ -68,17 +68,14 @@ export class MapService implements OnInit {
         this.map[map].setZoom(zoom)
     }
 
-    /**
-     * 
-     * @todo Centrar la linea general. Sin iteraciones
-     */
-    getCenterOfPoly(path, map) {
+    getCenterOfPoly(map) {
         var bounds = new google.maps.LatLngBounds();
-        var points = path.getPath().getArray();
-        console.log(points)
-        for (var n = 0; n < path.length; n++) {
-            bounds.extend(path[n]);
-        }
+        this.polys.map(poly => {
+            let coord = poly.getPath().getArray();
+            for (var n = 0; n < coord.length; n++) {
+                bounds.extend(coord[n]);
+            }
+        });
         this.map[map].fitBounds(bounds);
     }
 }
