@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { UserService } from '../services/user.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
@@ -37,6 +37,19 @@ export class DetailsComponent implements OnInit {
   listDays: Array<any>;
   tableDays: Array<any>;
   myChart: Chart[];
+  @HostListener('window:resize', ['$event']) resize(e) {
+    if(window.innerWidth > 1000) {
+      this.myChart.map(chart => {
+        chart.options.plugins.legend.display = true;
+        chart.update()
+      })
+    } else { 
+      this.myChart.map(chart => {
+        chart.options.plugins.legend.display = false;
+        chart.update()
+      })
+    }
+  } 
   constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
@@ -145,7 +158,7 @@ export class DetailsComponent implements OnInit {
           },
           legend: {
             position: 'right',
-            display: true,
+            display: window.innerWidth > 1000 ? true : false,
             labels: {
               pointStyle: 'rectRounded',
               padding: 8,
@@ -212,7 +225,7 @@ export class DetailsComponent implements OnInit {
           },
           legend: {
             position: 'right',
-            display: true,
+            display: window.innerWidth > 1000 ? true : false,
             labels: {
               pointStyle: 'rectRounded',
               usePointStyle: true,
