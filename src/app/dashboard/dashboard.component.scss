@@ -2,6 +2,9 @@
   .search_machine {
     margin: 3em 0;
     margin-left: 10.5em;
+    @media only screen and (max-width:450px){
+      margin-left: 5em;
+    }
     & > input {
       width: 30%;
       height: 2.5em;
@@ -12,6 +15,9 @@
       border:none;
       &::placeholder {
         color: black;
+      }
+      @media only screen and (max-width:450px){
+        width: 65%;
       }
     }
     & .icon_search {
@@ -26,12 +32,18 @@
     gap: 3em;
     padding: 2em 0;
     margin-left: 10.5em;
+    @media only screen and (max-width:450px){
+      margin-left: 5em;
+    }
     .machine {
       box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
       height: 6em;
       width: 15%;
       padding: 2em;
       border-radius: 7px;
+      @media only screen and (max-width:450px){
+        width: auto;
+      }
       .name_id {
         line-height: 18px;
       }
