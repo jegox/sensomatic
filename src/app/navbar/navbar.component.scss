@@ -13,6 +13,9 @@
     overflow-y: hidden;
     padding-left: 3em;
     height: 100%;
+    @media only screen and (max-width:450px){
+      display: none;
+    }
     img.sensomatic {
       box-shadow: inset 20em 1em white;
       height: 40px;
@@ -33,6 +36,9 @@
     padding-top: 9px;
     gap: 2em;
     width: 50%;
+    @media only screen and (max-width:450px){
+      display: none;
+    }
     & > .user_img {
       width: 3em;
       height: 3em;
