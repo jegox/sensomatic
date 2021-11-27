@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { UserService } from '../services/user.service';
-import { tap, delay } from 'rxjs/operators';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ChartSevice } from '../services/charts.service';
-import Swal from 'sweetalert2';
 import { FormControl, FormGroup } from '@angular/forms'
 @Component({
   selector: 'app-details',
@@ -59,7 +58,7 @@ export class DetailsComponent implements OnInit {
    */
   initChart({ data }) {
     console.log(data)
-    Chart.register(...registerables);
+    Chart.register(...registerables, ChartDataLabels);
 
     if (Array.isArray(data)) {
       this.listDays = data;
@@ -133,10 +132,17 @@ export class DetailsComponent implements OnInit {
           backgroundColor: data.map(({ variable }) => this.colors[variable]),
         }]
       },
+      plugins: [ChartDataLabels],
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+          datalabels: {
+            color: '#FFFFFF',
+            formatter: (value,ctx) => {
+              return  value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
+            }
+          },
           legend: {
             position: 'right',
             display: true,
@@ -193,10 +199,17 @@ export class DetailsComponent implements OnInit {
           backgroundColor: data.map(({ variable }) => this.colors[variable]),
         }]
       },
+      plugins: [ChartDataLabels],
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+          datalabels: {
+            color: '#FFFFFF',
+            formatter: (value,ctx) => {
+              return  value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
+            }
+          },
           legend: {
             position: 'right',
             display: true,
