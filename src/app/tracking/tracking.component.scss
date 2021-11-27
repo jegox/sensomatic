@@ -8,11 +8,22 @@ section.container_variable {
     justify-content: space-between;
     align-items: center;
     padding: 0 5em;
+    @media only screen and(max-width:450px) {
+      flex-direction: column-reverse;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2em;
+      padding: 0 1em;
+    }
     .container_info {
       width: 50%;
       display: grid;
       grid-template-columns: 1fr 1fr 5fr;
       font-size: 1.2rem;
+      @media only screen and(max-width:450px){
+        width: 100%;
+        grid-template-columns: 0.3fr 0fr 1fr;
+      }
     }
   }
   div.filters_variables {
@@ -21,9 +32,18 @@ section.container_variable {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2em;
     padding: 0 5em;
+    @media only screen and(max-width:450px) {
+      grid-template-columns: none;
+      button {
+        justify-self: center;
+      }
+    }
   }
   .select_dates {
     padding-left: 5em;
+    @media only screen and(max-width:450px) {
+      margin-top: 2em;
+    }
   }
   main.information_variables {
     display: flex;
