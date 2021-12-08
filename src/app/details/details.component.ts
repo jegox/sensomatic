@@ -1,24 +1,27 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { UserService } from '../services/user.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ChartSevice } from '../services/charts.service';
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormGroup, FormBuilder } from '@angular/forms';
+import localEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localEs, 'es');
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  styleUrls: ['./details.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es' }
+  ]
 })
 export class DetailsComponent implements OnInit {
   generalMachine;
   context;
   machineId: string;
-  date: FormGroup = new FormGroup({
-    'from': new FormControl(),
-    'to': new FormControl(),
-    'date': new FormControl()
-  });
+  date: FormGroup = this.initFormDate;
   colors = {
     'Regando': '#42ff00',
     'Operativo sin riego': '#ff6e00',
@@ -37,20 +40,22 @@ export class DetailsComponent implements OnInit {
   listDays: Array<any>;
   tableDays: Array<any>;
   myChart: Chart[];
+  actualDate;
   @HostListener('window:resize', ['$event']) resize(e) {
-    if(window.innerWidth > 1000) {
+    if (window.innerWidth > 1000) {
       this.myChart.map(chart => {
         chart.options.plugins.legend.display = true;
         chart.update()
       })
-    } else { 
+    } else {
       this.myChart.map(chart => {
         chart.options.plugins.legend.display = false;
         chart.update()
       })
     }
-  } 
-  constructor(private route: ActivatedRoute, private uService: UserService, private chartS: ChartSevice) { }
+  }
+  constructor(private route: ActivatedRoute, private uService: UserService, private fb: FormBuilder,
+    private chartS: ChartSevice) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
@@ -62,6 +67,14 @@ export class DetailsComponent implements OnInit {
       }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
+  }
+
+  get initFormDate(): FormGroup {
+    return this.fb.group({
+      'from': [],
+      'to': [],
+      'date': [null]
+    })
   }
 
   /**
@@ -86,6 +99,7 @@ export class DetailsComponent implements OnInit {
    * @param element Object
    */
   getData(element) {
+    console.log(element)
     let where = ['dayTurn', 'nightTurn'];
     let index = 0;
 
@@ -127,6 +141,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.getTableInformation(element);
+    this.actualDate = element.date ?? new Date();
   }
 
   /**
@@ -152,8 +167,8 @@ export class DetailsComponent implements OnInit {
         plugins: {
           datalabels: {
             color: '#FFFFFF',
-            formatter: (value,ctx) => {
-              return  value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
+            formatter: (value, ctx) => {
+              return value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
             }
           },
           legend: {
@@ -203,7 +218,7 @@ export class DetailsComponent implements OnInit {
 
   displayPie(data, where: string) {
     let config: ChartConfiguration = {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: data.map(({ variable }) => variable),
         datasets: [{
@@ -219,8 +234,8 @@ export class DetailsComponent implements OnInit {
         plugins: {
           datalabels: {
             color: '#FFFFFF',
-            formatter: (value,ctx) => {
-              return  value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
+            formatter: (value, ctx) => {
+              return value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
             }
           },
           legend: {

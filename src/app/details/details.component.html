@@ -31,6 +31,8 @@
             <mat-icon>add_circle_outline</mat-icon>
             Buscar
         </button>
+        <button mat-button style="width: 10em;">Descargar PDF</button>
+        <button mat-button style="width: 10em;">Descargar Excel</button>
     </div>
     <div class="select_dates" [formGroup]="date">
         <mat-form-field *ngIf="listDays?.length > 0">
@@ -39,6 +41,9 @@
                 <mat-option *ngFor="let chart of listDays" [value]="chart">{{chart?.date | date}}</mat-option>
             </mat-select>
         </mat-form-field>
+    </div>
+    <div class="actual_date">
+        {{actualDate | date:'longDate'}}
     </div>
     <div class="containerChart">
         <div class="firstChart">

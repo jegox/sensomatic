@@ -27,13 +27,14 @@ section.container_variable {
     }
   }
   div.filters_variables {
-    width: 60%;
+    width: 90%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 2em;
     padding: 0 5em;
     margin-bottom: 2em;
     @media only screen and(max-width:450px) {
+      width: 60%;
       grid-template-columns: none;
       button {
         justify-self: center;
@@ -68,6 +69,14 @@ section.container_variable {
   }
   .select_dates {
     padding-left: 5em;
+  }
+  .actual_date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 1.4rem;
   }
   .containerChart,
   .newContainerCharts {

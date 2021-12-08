@@ -46,7 +46,7 @@ export class TrackingComponent implements OnInit, AfterViewInit {
   }
 
   drawPoints({ data }) {
-    // console.log(data)
+    console.log(data)
     this.listDates = data;
 
     for (let points of data) {
