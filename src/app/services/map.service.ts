@@ -39,7 +39,7 @@ export class MapService implements OnInit {
         return this.ch.getDataTracking(data).toPromise();
     }
 
-    drawMarker({ latitude, longitude }, map: string, text?: string, icon?) {
+    drawMarker({ latitude, longitude }, map: string , text?: string | number, icon?) {
         let marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
             map: this.map[map],
