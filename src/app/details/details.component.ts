@@ -339,8 +339,9 @@ export class DetailsComponent implements OnInit {
 
   async downloadPDF(id) {
     try {
-      let res = await this.rs.getReportPDF(id).toPromise()
+      let res = (<string>this.rs.getReportPDF(id))
       console.log(res)
+      window.open(res, '_blank')
       // this.download(res, 'pdf')
     } catch (e) {
       console.error(e)
@@ -349,7 +350,8 @@ export class DetailsComponent implements OnInit {
 
   async downloadExcel(id) {
     try {
-      let res = await this.rs.getReportExcel(id).toPromise()
+      let res = (<string>this.rs.getReportExcel(id));
+      window.open(res, '_blank')
       console.log(res)
       // this.download(res, 'excel')
     } catch (e) {
