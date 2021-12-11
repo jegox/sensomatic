@@ -18,8 +18,6 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     'initial': new FormControl(),
     'final': new FormControl()
   });
-  min: Date = new Date("Wed Dec 01 2021 11:57:21 GMT+0100 (Central European Standard Time)")
-  max: Date = new Date();
   changeTracking: FormControl = new FormControl();
   listDates: Array<any>;
   completeMap: {

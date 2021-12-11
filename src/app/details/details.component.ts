@@ -44,8 +44,6 @@ export class DetailsComponent implements OnInit {
   tableDays: Array<any>;
   myChart: Chart[];
   actualDate;
-  min: Date = new Date("Wed Dec 01 2021 11:57:21 GMT+0100 (Central European Standard Time)")
-  max: Date = new Date();
 
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1000) {
@@ -337,22 +335,22 @@ export class DetailsComponent implements OnInit {
     this.tableDays = variables;
   }
 
-  async downloadPDF(id) {
+  async downloadPDF(value) {
     try {
-      let res = (<string>this.rs.getReportPDF(id))
-      console.log(res)
+      let date = value == 'day' ? new Date(new Date().setHours(18, 30, 0, 0)).getTime() : new Date(new Date().setHours(6, 30, 0, 0)).getTime();
+      let res = (<string>this.rs.getReportPDF(this.generalMachine._id, date))
       window.open(res, '_blank')
-      // this.download(res, 'pdf')
     } catch (e) {
       console.error(e)
     }
   }
 
-  async downloadExcel(id) {
+  async downloadExcel(value) {
     try {
-      let res = (<string>this.rs.getReportExcel(id));
+      let date = value == 'day' ? new Date(new Date().setHours(18, 30, 0, 0)).getTime() : new Date(new Date().setHours(6, 30, 0, 0)).getTime() 
+      let res = (<string>this.rs.getReportExcel(this.generalMachine._id, date));
       window.open(res, '_blank')
-      console.log(res)
+      // console.log(res)
       // this.download(res, 'excel')
     } catch (e) {
       console.error(e)

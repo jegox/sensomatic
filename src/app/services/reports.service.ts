@@ -11,8 +11,8 @@ export class ReportService {
     private apiUrl: string = 'http://50.19.219.56:3200/api/reports/'; // DEV
     // private apiUrl:string = 'http://3e63-181-129-145-146.ngrok.io/api' // local
 
-    getReportPDF(id){
-        return this.apiUrl + 'pdf/' + id + '?timestamp=' + new Date().getTime().toString();
+    getReportPDF(id, time){
+        return this.apiUrl + 'pdf/' + id + '?timestamp=' + time;
         return this.http.get(this.apiUrl + 'pdf/' + id, {
             params: {
                 timestamp: new Date().getTime().toString()
@@ -20,8 +20,8 @@ export class ReportService {
         })
     }
 
-    getReportExcel(id){
-        return this.apiUrl + 'excel/' + id + '?timestamp=' + new Date().getTime().toString();
+    getReportExcel(id, time){
+        return this.apiUrl + 'excel/' + id + '?timestamp=' + time;
 
         return this.http.get(this.apiUrl + 'excel/' + id)
     }
