@@ -7,7 +7,7 @@
                     keyboard_arrow_right
                 </mat-icon>
             </span>
-            <span>{{generalMachine?.name}} - ID: {{generalMachine?.id}} - Mina: Descanso</span>
+            <span>{{generalMachine?.name}} - ID: {{generalMachine?.id}}</span>
         </div>
         <div>
             <span class="pointer" [routerLink]="'../../tracking/'+machineId">Mapa</span> ,
@@ -17,13 +17,13 @@
     <div class="filters_variables" [formGroup]="date">
         <mat-form-field>
             <mat-label>Desde</mat-label>
-            <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="from">
+            <input matInput [matDatepicker]="picker" [min]="min" [max]="max" (click)="picker.open()" formControlName="from">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Hasta</mat-label>
-            <input matInput [matDatepicker]="picker2" (click)="picker2.open()" formControlName="to">
+            <input matInput [matDatepicker]="picker2" [min]="min" [max]="max" (click)="picker2.open()" formControlName="to">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
@@ -31,8 +31,8 @@
             <mat-icon>add_circle_outline</mat-icon>
             Buscar
         </button>
-        <button mat-button style="width: 10em;">Descargar PDF</button>
-        <button mat-button style="width: 10em;">Descargar Excel</button>
+        <button mat-button style="width: 10em;" (click)="downloadPDF(generalMachine?._id)">Descargar PDF</button>
+        <button mat-button style="width: 10em;" (click)="downloadExcel(generalMachine?._id)">Descargar Excel</button>
     </div>
     <div class="select_dates" [formGroup]="date">
         <mat-form-field *ngIf="listDays?.length > 0">

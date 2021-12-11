@@ -7,6 +7,7 @@ import { ChartSevice } from '../services/charts.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import localEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import { ReportService } from '../services/reports.service';
 
 registerLocaleData(localEs, 'es');
 @Component({
@@ -23,17 +24,19 @@ export class DetailsComponent implements OnInit {
   machineId: string;
   date: FormGroup = this.initFormDate;
   colors = {
-    'Regando': '#42ff00',
-    'Operativo sin riego': '#ff6e00',
-    'Tanqueando agua': '#0019ff',
-    'Almuerzo': '#231f20',
-    'Clima': '#b2b2b2',
-    'Tanqueando combustible': '#d60000',
-    'Sin Operator': '#ff00ff',
-    'Standby con Operator': '#ffe500',
-    'Modo Manual Pedal': '#00000',
-    'Modo Semi Automatico': '#ff6e00',
-    'Modo Automatico de Riego': '#42ff00'
+    'Regando': '#FF00000',
+    'Operativo sin riego': '#FF9999',
+    'Tanqueando agua': '#0037FF',
+    'Almuerzo': '#FF6E00',
+    'Clima': '#42FF00',
+    'Tanqueando combustible': '#CDCDCD',
+    'Sin Operator': '#FF00FF',
+    'Standby con Operator': '#15FFFF',
+    'Cambio de turno': '#FFE500',
+    'Equipo Down': '#6D2C7C',
+    'Modo Manual Pedal': '#CDCDCD',
+    'Modo Semi Automatico': '#FF9999',
+    'Modo Automatico de Riego': '#FF0000'
   }
   dayTurn: Array<any>;
   nightTurn: Array<any>;
@@ -41,6 +44,9 @@ export class DetailsComponent implements OnInit {
   tableDays: Array<any>;
   myChart: Chart[];
   actualDate;
+  min: Date = new Date("Wed Dec 01 2021 11:57:21 GMT+0100 (Central European Standard Time)")
+  max: Date = new Date();
+
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1000) {
       this.myChart.map(chart => {
@@ -55,7 +61,7 @@ export class DetailsComponent implements OnInit {
     }
   }
   constructor(private route: ActivatedRoute, private uService: UserService, private fb: FormBuilder,
-    private chartS: ChartSevice) { }
+    private chartS: ChartSevice, private rs: ReportService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(v => {
@@ -329,5 +335,35 @@ export class DetailsComponent implements OnInit {
     });
 
     this.tableDays = variables;
+  }
+
+  async downloadPDF(id) {
+    try {
+      let res = await this.rs.getReportPDF(id).toPromise()
+      console.log(res)
+      // this.download(res, 'pdf')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async downloadExcel(id) {
+    try {
+      let res = await this.rs.getReportExcel(id).toPromise()
+      console.log(res)
+      // this.download(res, 'excel')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  download(pdf, ext) {
+    const linkSource = `data:application/pdf;base64,${pdf}`;
+    const downloadLink = document.createElement("a");
+    const fileName = `report.${ext}`;
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 }

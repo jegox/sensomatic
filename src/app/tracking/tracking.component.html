@@ -7,7 +7,7 @@
                     keyboard_arrow_right
                 </mat-icon>
             </span>
-            <span>Equipo de prueba - ID: 20304343 - Mina: Descanso</span>
+            <span>{{generalMachine?.name}} - ID: {{generalMachine?.id}}</span>
         </div>
         <div>
             <span class="pointer" [routerLink]="'../../tracking/'+machineId">Mapa</span> ,
@@ -55,9 +55,21 @@
             <div id="map">
             </div>
         </div>
+        <div class="legends">
+            <span *ngFor="let legend of legendMap">
+                <img [src]="legend[3]" height="20">
+                {{legend[0]}}
+            </span>
+        </div>
         <div class="container_map2">
             <h2>Turno noche</h2>
             <div id="map2"></div>
+        </div>
+        <div class="legends">
+            <span *ngFor="let legend of legendMap">
+                <img [src]="legend[3]" height="20">
+                {{legend[0]}}
+            </span>
         </div>
     </main>
 </section>

@@ -61,5 +61,15 @@ section.container_variable {
         width: 100%;
       }
     }
+    .legends {
+      display: grid;
+      grid-auto-flow: column;
+      span {
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        gap: 1em;
+      }
+    }
   }
 }

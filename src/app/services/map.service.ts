@@ -10,6 +10,16 @@ export class MapService implements OnInit {
     poly;
     polys = [];
     markers = [];
+    routers = [
+        ["Garita Principal", 9.557743, -73.579369, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-1.png"],
+        ["Los Tupes", 9.564066, -73.520866, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-2.png"],
+        ["Load Out", 9.590394, -73.51297, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-3.png"],
+        ["Pond 777", 9.579162, -73.479538, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-4.png"],
+        ["Pond 7", 9.547085, -73.505867, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-5.png"],
+        ["Megapond", 9.545066, -73.48616, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-6.png"],
+        ["Pond 11", 9.540992, -73.487228, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-7.png"],
+        ["El Corozo", 9.48884, -73.509552, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-8.png"]
+    ];
     constructor(private ch: ChartSevice) { }
 
     ngOnInit() { }
@@ -29,13 +39,28 @@ export class MapService implements OnInit {
         return this.ch.getDataTracking(data).toPromise();
     }
 
-    drawMarker({ latitude, longitude }, map: string, text?: string) {
+    drawMarker({ latitude, longitude }, map: string, text?: string, icon?) {
         let marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
             map: this.map[map],
-            title: text
+            title: text,
+            icon: {
+                url: icon,
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(20, 32),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32),
+            }
         });
         this.markers.push(marker)
+    }
+
+    drawRouters(map) {
+        this.routers.map(router => {
+            this.drawMarker({ latitude: router[1], longitude: router[2] }, map, router[0], router[3])
+        })
     }
 
     drawPolylines(path, value, map) {

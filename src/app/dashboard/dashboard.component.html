@@ -11,7 +11,7 @@
                 <span>{{machine?.name}}</span> - <span>ID: {{machine?.id}}</span>
             </p>
             <p class="last_conexion">
-                <span>Ultima conexion: {{machine?.updatedAt | date}}</span>
+                <span>Ultima conexion: {{machine?.updatedAt | date: 'short'}}</span>
             </p>
             <small class="opts_machine">
                 <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a>

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MapService } from '../services/map.service';
 import { FormGroup, FormControl } from '@angular/forms'
+import { UserService } from '../services/user.service';
 declare let google;
 
 @Component({
@@ -17,7 +18,7 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     'initial': new FormControl(),
     'final': new FormControl()
   });
-  min: Date = new Date(new Date().setDate(2));
+  min: Date = new Date("Wed Dec 01 2021 11:57:21 GMT+0100 (Central European Standard Time)")
   max: Date = new Date();
   changeTracking: FormControl = new FormControl();
   listDates: Array<any>;
@@ -25,11 +26,15 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     'dayTurn': boolean,
     'nightTurn': boolean
   }
-  constructor(private route: ActivatedRoute, private M: MapService) { }
+  legendMap:Array<any> = this.M.routers;
+  generalMachine: any;
+  constructor(private route: ActivatedRoute, private M: MapService, private us: UserService) { }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(v => {
       this.machineId = v.id;
+      this.us.getDetailsMachine(this.machineId).toPromise().then(v => this.generalMachine = v['data']);
       this.M.initMap(document.getElementById('map'), "dayTurn");
       this.M.initMap(document.getElementById('map2'), "nightTurn");
       this.M.getDataForMap({
@@ -40,6 +45,7 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     });
 
     this.changeTracking.valueChanges.subscribe(date => this.getData(date));
+    console.log(this.legendMap)
   }
 
   ngAfterViewInit(): void {
@@ -86,6 +92,7 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     this.M.drawMarker({ latitude: newData[0].location[0].latitude, longitude: newData[0].location[0].longitude }, map, "Inicio de la ruta");
     this.M.drawMarker({ latitude: newData[newData.length - 1].location[0].latitude, longitude: newData[newData.length - 1].location[0].longitude }, map, "Fin de la ruta");
     this.M.getCenterOfPoly(map)
+    this.M.drawRouters(map)
   }
 
   setFormatDate({ initial, final }) {
