@@ -337,7 +337,7 @@ export class DetailsComponent implements OnInit {
 
   async downloadPDF(value) {
     try {
-      let date = value == 'day' ? new Date(new Date().setHours(18, 30, 0, 0)).getTime() : new Date(new Date().setHours(6, 30, 0, 0)).getTime();
+      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime();
       let res = (<string>this.rs.getReportPDF(this.generalMachine._id, date))
       window.open(res, '_blank')
     } catch (e) {
@@ -347,11 +347,9 @@ export class DetailsComponent implements OnInit {
 
   async downloadExcel(value) {
     try {
-      let date = value == 'day' ? new Date(new Date().setHours(18, 30, 0, 0)).getTime() : new Date(new Date().setHours(6, 30, 0, 0)).getTime() 
+      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime() 
       let res = (<string>this.rs.getReportExcel(this.generalMachine._id, date));
       window.open(res, '_blank')
-      // console.log(res)
-      // this.download(res, 'excel')
     } catch (e) {
       console.error(e)
     }
