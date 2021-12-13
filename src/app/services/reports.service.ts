@@ -7,8 +7,8 @@ import { environment } from '../../environments/environment'
 export class ReportService {
     header;
     constructor(private http: HttpClient) { }
-    private apiUrl: string = 'http://50.19.219.56:3000/api/reports/';  //PROD
-    // private apiUrl: string = `${environment.hostIp}/api/reports/`; // DEV
+    // private apiUrl: string = 'http://50.19.219.56:3000/api/reports/';  //PROD
+    private apiUrl: string = `${environment.hostIp}/api/reports/`; // DEV
     // private apiUrl:string = 'http://3e63-181-129-145-146.ngrok.io/api' // local
 
     getReportPDF(id, time) {
