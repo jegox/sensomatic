@@ -354,7 +354,7 @@ export class DetailsComponent implements OnInit {
     try {
       let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime()
 
-      let res = this.rs.getReportExcel(this.generalMachine._id, date);
+      let res = await this.rs.getReportExcel(this.generalMachine._id, date).toPromise();
       if (res) {
         this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       }
@@ -364,6 +364,7 @@ export class DetailsComponent implements OnInit {
   }
 
   download(data, type: string) {
+    console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
     const blob = new Blob([data], { type });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
