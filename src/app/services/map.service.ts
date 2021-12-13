@@ -21,7 +21,7 @@ export class MapService implements OnInit {
         ["El Corozo", 9.48884, -73.509552, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-8.png"]
     ];
     colors = {
-        1: '#FF00000',
+        1: '#FF0000',
         0: '#FF9999',
         2: '#0037FF',
         3: '#FF6E00',

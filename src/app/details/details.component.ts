@@ -24,7 +24,7 @@ export class DetailsComponent implements OnInit {
   machineId: string;
   date: FormGroup = this.initFormDate;
   colors = {
-    'Regando': '#FF00000',
+    'Regando': '#FF0000',
     'Operativo sin riego': '#FF9999',
     'Tanqueando agua': '#0037FF',
     'Almuerzo': '#FF6E00',
@@ -154,6 +154,7 @@ export class DetailsComponent implements OnInit {
    * @param where String
    */
   displayDonut(data, where: string) {
+    console.log(this.colors[data[0].variable], data[0].variable)
     let config: ChartConfiguration = {
       type: 'doughnut',
       data: {
@@ -288,7 +289,7 @@ export class DetailsComponent implements OnInit {
 
   /**
    * @description When some chart dont have data, we get it and display the text 'no data'
-   * @param where {String} 
+   * @param where {String}
    */
   displayNoData(where) {
     let canvas = <HTMLCanvasElement>document.getElementById(where);
