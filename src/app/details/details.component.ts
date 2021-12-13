@@ -335,33 +335,41 @@ export class DetailsComponent implements OnInit {
     this.tableDays = variables;
   }
 
-  async downloadPDF(value) {
+  async getPDF(value) {
     try {
       let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime();
-      let res = (<string>this.rs.getReportPDF(this.generalMachine._id, date))
-      window.open(res, '_blank')
+
+      let res = await this.rs.getReportPDF(this.generalMachine._id, date).toPromise();
+
+      if(res) {
+        this.download(res, 'application/pdf');
+      }
     } catch (e) {
       console.error(e)
     }
   }
 
-  async downloadExcel(value) {
+  async getExcel(value) {
     try {
-      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime() 
-      let res = (<string>this.rs.getReportExcel(this.generalMachine._id, date));
-      window.open(res, '_blank')
+      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime()
+
+      let res = this.rs.getReportExcel(this.generalMachine._id, date);
+      if (res) {
+        this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      }
     } catch (e) {
       console.error(e)
     }
   }
 
-  download(pdf, ext) {
-    const linkSource = `data:application/pdf;base64,${pdf}`;
-    const downloadLink = document.createElement("a");
-    const fileName = `report.${ext}`;
+  download(data, type: string) {
+    const blob = new Blob([data], { type });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`;
 
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

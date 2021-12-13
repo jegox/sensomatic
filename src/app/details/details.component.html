@@ -33,14 +33,14 @@
         </button>
         <mat-form-field>
             <mat-label>Descargar PDF</mat-label>
-            <mat-select (valueChange)="downloadPDF($event)">
+            <mat-select (valueChange)="getPDF($event)">
                 <mat-option value="day">Turno Dia</mat-option>
                 <mat-option value="night">Turno Noche</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Descargar Excel</mat-label>
-            <mat-select (valueChange)="downloadExcel($event)">
+            <mat-select (valueChange)="getExcel($event)">
                 <mat-option value="day">Turno Dia</mat-option>
                 <mat-option value="night">Turno Noche</mat-option>
             </mat-select>
