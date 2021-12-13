@@ -20,6 +20,21 @@ export class MapService implements OnInit {
         ["Pond 11", 9.540992, -73.487228, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-7.png"],
         ["El Corozo", 9.48884, -73.509552, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-8.png"]
     ];
+    colors = {
+        1: '#FF00000',
+        0: '#FF9999',
+        2: '#0037FF',
+        3: '#FF6E00',
+        4: '#42FF00',
+        5: '#CDCDCD',
+        6: '#FF00FF',
+        7: '#15FFFF',
+        8: '#6D2C7C',
+        9: '#FFE500',
+        'Modo Manual Pedal': '#CDCDCD',
+        'Modo Semi Automatico': '#FF9999',
+        'Modo Automatico de Riego': '#FF0000'
+      }
     constructor(private ch: ChartSevice) { }
 
     ngOnInit() { }
@@ -66,7 +81,7 @@ export class MapService implements OnInit {
     drawPolylines(path, value, map) {
         let polyline = new google.maps.Polyline({
             path,
-            strokeColor: value < 1 ? "red" : "green",
+            strokeColor: this.colors[value],
             strokeOpacity: 1.0,
             strokeWeight: 2,
         });

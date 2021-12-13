@@ -43,7 +43,6 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     });
 
     this.changeTracking.valueChanges.subscribe(date => this.getData(date));
-    console.log(this.legendMap)
   }
 
   ngAfterViewInit(): void {
