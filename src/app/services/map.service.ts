@@ -47,6 +47,7 @@ export class MapService implements OnInit {
             mapTypeControl: true,
             zoomControl: true,
             fullscreenControl: true,
+            mapTypeId: 'satellite'
         })
     }
 

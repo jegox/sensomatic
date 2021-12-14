@@ -8,7 +8,7 @@
     <div class="container_machines" *ngIf="machines">
         <div *ngFor="let machine of machines" class="machine">
             <p class="name_id">
-                <span>{{machine?.name}}</span> - <span>ID: {{machine?.id}}</span>
+                <span>{{machine?.name}}</span>
             </p>
             <p class="last_conexion">
                 <span>Ultima conexion: {{machine?.updatedAt | date: 'short'}}</span>
