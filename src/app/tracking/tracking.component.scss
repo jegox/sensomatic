@@ -64,6 +64,8 @@ section.container_variable {
     .legends {
       display: grid;
       grid-auto-flow: column;
+      grid-template-rows: 1fr 1fr;
+      gap: 2em;
       span {
         display: flex;
         align-items: center;

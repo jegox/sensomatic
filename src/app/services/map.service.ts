@@ -18,7 +18,15 @@ export class MapService implements OnInit {
         ["Pond 7", 9.547085, -73.505867, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-5.png"],
         ["Megapond", 9.545066, -73.48616, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-6.png"],
         ["Pond 11", 9.540992, -73.487228, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-7.png"],
-        ["El Corozo", 9.48884, -73.509552, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-8.png"]
+        ["El Corozo", 9.48884, -73.509552, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-8.png"],
+        ["Torre 1" ,9.773177, -73.477409, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-9.png"],
+        ["Torre 2" ,9.702543, -73.524559, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-10.png"],
+        ["Torre 3" ,9.751179, -73.508873, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-11.png"],
+        ["Torre 4" ,9.752524, -73.503479, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-12.png"],
+        ["Torre 5" ,9.727652, -73.499641, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-13.png"],
+        ["Torre 6" ,9.756083, -73.477516, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-14.png"],
+        ["Torre 7" ,9.727954, -73.527443, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-15.png"],
+        ["Torre 8" ,9.725808, -73.493782, "https://sensomaticweb.s3.us-west-2.amazonaws.com/icons/icon-16.png"]
     ];
     colors = {
         1: '#FF0000',
