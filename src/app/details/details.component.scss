@@ -20,7 +20,7 @@ section.container_variable {
       display: grid;
       grid-template-columns: 1fr 1fr 5fr;
       font-size: 1.2rem;
-      @media only screen and(max-width:450px){
+      @media only screen and(max-width:450px) {
         width: 100%;
         grid-template-columns: 0.3fr 0fr 1fr;
       }
@@ -67,10 +67,37 @@ section.container_variable {
     }
     padding: 0 5em;
   }
+  .new_view {
+    margin-bottom: 2em;
+    .header_grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-flow: column;
+      align-items: center;
+      border: 1px solid black;
+      .header_item {
+        border: 1px solid black;
+        text-align: center;
+      }
+    }
+    .grid_content {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-flow: column;
+      .grid-parent {
+        display: flex;
+        height: 10px;
+        .grid-item {
+          border: 1px solid black;
+          width: 8.3%;
+        }
+      }
+    }
+  }
   .select_dates {
     padding-left: 5em;
   }
-  .actual_date{
+  .actual_date {
     display: flex;
     justify-content: center;
     align-items: center;

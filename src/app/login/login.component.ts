@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.uService.logIn(this.loginForm.getRawValue()).toPromise().then((v: any) => {
       localStorage.setItem('user', JSON.stringify(v.data.user));
+      localStorage.setItem('role', v.data.user.role);
       localStorage.setItem('token', v.data.access_token);
     }).then(v => {
       this.router.navigate(['/app/dashboard'])

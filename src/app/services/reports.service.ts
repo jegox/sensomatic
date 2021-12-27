@@ -39,4 +39,12 @@ export class ReportService {
             responseType: 'blob'
         })
     }
+
+    getGeneralReport(time){
+        return this.http.get(this.apiUrl + 'consolidated-excel', { 
+            params: {
+                timestamp: time 
+            }
+        })
+    }
 }

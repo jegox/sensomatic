@@ -1,9 +1,33 @@
 <section class="dashboard_component">
     <div class="search_machine">
-        <input type="text" placeholder="Buscar por Nombre o ID" #search (keyup)="searchByText(search.value)">
-        <mat-icon class="icon_search" (click)="searchByText(search.value)">
-            search
-        </mat-icon>
+        <div>
+            <input type="text" placeholder="Buscar por Nombre o ID" #search (keyup)="searchByText(search.value)">
+            <mat-icon class="icon_search" (click)="searchByText(search.value)">
+                search
+            </mat-icon>
+        </div>
+        <div class="dowload_options">
+            <mat-form-field>
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Turno</mat-label>
+                <mat-select #turn>
+                    <mat-option
+                        *ngFor="let turno of [{value: 'Turno Dia', key:'day'}, {value:'Turno Noche', key:'night'}]"
+                        [value]="turno.key">
+                        {{turno.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-button style="width: 8em;" (click)="dowloadGeneral(turn)">
+                <mat-icon>add_circle_outline</mat-icon>
+                Descargar
+            </button>
+        </div>
     </div>
     <div class="container_machines" *ngIf="machines">
         <div *ngFor="let machine of machines" class="machine">

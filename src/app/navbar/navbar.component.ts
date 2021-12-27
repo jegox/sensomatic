@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   variables = new FormControl()
   oldPass = new FormControl();
   newPass = new FormControl();
+  role:string = localStorage.getItem('role');
   constructor(private dialog: MatDialog, private fb: FormBuilder,
     private route: Router, private uServices: UserService) { }
 

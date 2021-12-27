@@ -15,7 +15,7 @@ export class ManageUsersComponent implements OnInit {
     'fullname': new FormControl(),
     'email': new FormControl(),
     'role': new FormControl(),
-    'mines': new FormArray([new FormControl('asdsa')]),
+    'mines': new FormArray([]),
     'machines': new FormArray([]),
   })
   machines: any;
@@ -53,7 +53,6 @@ export class ManageUsersComponent implements OnInit {
     try {
       let res = await this.uServices.getMachines().toPromise();
       this.machines = res['data'];
-      console.log(this.machines)
     } catch (e) {
       console.error(e)
     }

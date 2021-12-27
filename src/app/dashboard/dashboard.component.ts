@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators'
+import { ReportService } from '../services/reports.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,7 +10,8 @@ import { tap } from 'rxjs/operators'
 export class DashboardComponent implements OnInit {
   machines: Array<IMachine>;
   machinesFiltered: Array<IMachine>
-  constructor(private uService: UserService, private route: Router) { }
+  date;
+  constructor(private uService: UserService, private route: Router, private rs: ReportService) { }
 
   ngOnInit(): void {
     this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
@@ -32,8 +33,33 @@ export class DashboardComponent implements OnInit {
     ])];
   }
 
+  async dowloadGeneral({ _value }) {
+    let date = _value == 'day' ? new Date(new Date(this.date).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.date).setHours(6, 30, 0, 0)).getTime()
+
+    try {
+      let res = await this.rs.getGeneralReport(date).toPromise();
+      if(res) {
+        this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  download(data, type: string) {
+    console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
+    const blob = new Blob([data], { type });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   goToDetails(link, id) {
-    this.route.navigate(['/app/'+link+'/'+id]);
+    this.route.navigate(['/app/' + link + '/' + id]);
   }
 }
 

@@ -33,10 +33,10 @@
                 <button mat-menu-item (click)="getUser(userInfo)">
                     <mat-icon>account_circle</mat-icon>Ver perfil
                 </button>
-                <button mat-menu-item (click)="navigatedTo('gestionar-usuarios')">
+                <button mat-menu-item (click)="navigatedTo('gestionar-usuarios')" *ngIf="['admin'].includes(role)">
                     <mat-icon>manage_accounts</mat-icon>Gestionar Usuarios
                 </button>
-                <button mat-menu-item (click)="navigatedTo('gestionar-variables')">
+                <button mat-menu-item (click)="navigatedTo('gestionar-variables')" *ngIf="['admin'].includes(role)">
                     <mat-icon>folder</mat-icon>Gestionar Variables
                 </button>
                 <button mat-menu-item (click)="openChangePassword(changePassword)">

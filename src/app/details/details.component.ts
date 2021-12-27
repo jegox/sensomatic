@@ -38,15 +38,30 @@ export class DetailsComponent implements OnInit {
     'Modo Semi Automatico': '#FF9999',
     'Modo Automatico de Riego': '#FF0000'
   }
+  colors2 = {
+    1: '#FF0000',
+    0: '#FF9999',
+    2: '#0037FF',
+    3: '#FF6E00',
+    4: '#42FF00',
+    5: '#CDCDCD',
+    6: '#FF00FF',
+    7: '#15FFFF',
+    8: '#6D2C7C',
+    9: '#FFE500',
+    'Modo Manual Pedal': '#CDCDCD',
+    'Modo Semi Automatico': '#FF9999',
+    'Modo Automatico de Riego': '#FF0000'
+  }
   dayTurn: Array<any>;
   nightTurn: Array<any>;
   listDays: Array<any>;
   tableDays: Array<any>;
   myChart: Chart[];
   actualDate;
-
+  test
   @HostListener('window:resize', ['$event']) resize(e) {
-    if (window.innerWidth > 1000) {
+    if (window.innerWidth > 1200) {
       this.myChart.map(chart => {
         chart.options.plugins.legend.display = true;
         chart.update()
@@ -71,6 +86,11 @@ export class DetailsComponent implements OnInit {
       }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
+    let yesterday = new Date(new Date().setDate(10)).getTime()
+    this.chartS.getDataGrid(this.machineId, yesterday).subscribe(v => {
+      this.test = v['data']
+      console.log(v)
+    })
   }
 
   get initFormDate(): FormGroup {
@@ -342,7 +362,7 @@ export class DetailsComponent implements OnInit {
 
       let res = await this.rs.getReportPDF(this.generalMachine._id, date).toPromise();
 
-      if(res) {
+      if (res) {
         this.download(res, 'application/pdf');
       }
     } catch (e) {
