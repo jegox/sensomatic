@@ -53,4 +53,7 @@ export class UserService {
     deleteVariables(id) {
         return this.http.delete(this.apiUrl + '/signals/' + id)
     }
+    activeReport(id, checked) {
+        return this.http.put(this.apiUrl + '/machines/' + id + '/report', { report: checked })
+    }
 }

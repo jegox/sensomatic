@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms'
@@ -51,6 +52,7 @@ import { ManageVariablesComponent } from '../app/manage-variables/manage-variabl
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,
+    MatSlideToggleModule,
     FormsModule,
   ],
   providers: [

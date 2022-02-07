@@ -29,8 +29,29 @@
             </button>
         </div>
     </div>
+    <div id="map"></div>
     <div class="container_machines" *ngIf="machines">
-        <div *ngFor="let machine of machines" class="machine">
+        <table class="list_variables">
+            <tr>
+                <th>Nombre de Maquina</th>
+                <th>Ultima conexion</th>
+                <th>Acciones</th>
+                <th>Reportes</th>
+            </tr>
+            <tr *ngFor="let machine of machines">
+                <td>{{ machine?.name }}</td>
+                <td>{{ machine?.updatedAt | date:'short'}}</td>
+                <td>
+                    <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a> <br>
+                    <a class="pointer" (click)="goToDetails('details', machine._id)">Ver detalles</a>
+                </td>
+                <td>
+                    <mat-slide-toggle [checked]="machine['report']" (change)="activateReport($event, machine?._id)">
+                        {{machine['report'] ? 'Desactivar Reportes' : 'Activar Reportes'}}</mat-slide-toggle>
+                </td>
+            </tr>
+        </table>
+        <!-- <div *ngFor="let machine of machines" class="machine">
             <p class="name_id">
                 <span>{{machine?.name}}</span>
             </p>
@@ -41,6 +62,6 @@
                 <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a>
                 <a class="pointer" (click)="goToDetails('details', machine._id)">Ver detalles</a>
             </small>
-        </div>
+        </div> -->
     </div>
 </section>

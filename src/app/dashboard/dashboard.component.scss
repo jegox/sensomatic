@@ -41,6 +41,29 @@
     @media only screen and (max-width: 450px) {
       margin-left: 5em;
     }
+    table.list_variables {
+      width: 90%;
+      border-collapse: collapse;
+      border: 1px solid rgba(0, 0, 0, 0.096);
+      box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
+      padding: 2em;
+      tr {
+        text-align: left;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.096);
+        th {
+          font-size: 1.3rem;
+          padding: 1em 1.7em;
+        }
+        td {
+          font-size: 1.1rem;
+          padding: 1em 2em;
+          & > a {
+            cursor: pointer;
+            color: #d91a36;
+          }
+        }
+      }
+    }
     .machine {
       box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
       height: 7em;
@@ -68,4 +91,8 @@
       }
     }
   }
+}
+#map {
+  height: 40em;
+  width: 100%;
 }

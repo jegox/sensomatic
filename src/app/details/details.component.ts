@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import localEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { ReportService } from '../services/reports.service';
+import Swal from 'sweetalert2';
 
 registerLocaleData(localEs, 'es');
 @Component({
@@ -358,13 +359,23 @@ export class DetailsComponent implements OnInit {
 
   async getPDF(value) {
     try {
-      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime();
+      Swal.fire({
+        title: 'Descargar Reporte',
+        text: 'Esta seguro que quiere descargar el reporte PDF?',
+        icon: 'question',
+        showCancelButton: true,
+        showConfirmButton: true
+      }).then(async (v) => {
+        if (v.isDismissed) return;
 
-      let res = await this.rs.getReportPDF(this.generalMachine._id, date).toPromise();
+        let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime();
 
-      if (res) {
-        this.download(res, 'application/pdf');
-      }
+        let res = await this.rs.getReportPDF(this.generalMachine._id, date).toPromise();
+
+        if (res) {
+          this.download(res, 'application/pdf');
+        }
+      });
     } catch (e) {
       console.error(e)
     }
@@ -372,12 +383,22 @@ export class DetailsComponent implements OnInit {
 
   async getExcel(value) {
     try {
-      let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime()
+      Swal.fire({
+        title: 'Descargar Reporte',
+        text: 'Esta seguro que quiere descargar el reporte Excel?',
+        icon: 'question',
+        showCancelButton: true,
+        showConfirmButton: true
+      }).then(async (v) => {
+        if (v.isDismissed) return;
 
-      let res = await this.rs.getReportExcel(this.generalMachine._id, date).toPromise();
-      if (res) {
-        this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      }
+        let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime()
+
+        let res = await this.rs.getReportExcel(this.generalMachine._id, date).toPromise();
+        if (res) {
+          this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        }
+      });
     } catch (e) {
       console.error(e)
     }

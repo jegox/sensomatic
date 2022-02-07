@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { ReportService } from '../services/reports.service';
+import { MapService } from '../services/map.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -11,12 +12,14 @@ export class DashboardComponent implements OnInit {
   machines: Array<IMachine>;
   machinesFiltered: Array<IMachine>
   date;
-  constructor(private uService: UserService, private route: Router, private rs: ReportService) { }
+  constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService) { }
 
   ngOnInit(): void {
+    this.M.initMap(document.getElementById('map'), 'dashboard');
     this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
       this.machines = machines['data'];
       this.machinesFiltered = machines['data'];
+      this.M.drawMarkerDashboard(this.machines);
     });
   }
 
@@ -38,7 +41,7 @@ export class DashboardComponent implements OnInit {
 
     try {
       let res = await this.rs.getGeneralReport(date).toPromise();
-      if(res) {
+      if (res) {
         this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       }
     } catch (e) {
@@ -61,11 +64,23 @@ export class DashboardComponent implements OnInit {
   goToDetails(link, id) {
     this.route.navigate(['/app/' + link + '/' + id]);
   }
+
+  async activateReport({ checked }, machineId) {
+    try {
+      let res = await this.uService.activeReport(machineId, checked).toPromise();
+
+      let index = this.machines.findIndex((m) => m._id === res['data']._id);
+
+      this.machines[index] = res['data'];
+    } catch (e) {
+      console.error(e)
+    }
+  }
 }
 
 interface IMachine {
   createdAt: string
-  id: string
+  _id: string
   isActive: boolean
   modelId: string
   modelName: string
