@@ -86,7 +86,8 @@ export class MapService implements OnInit {
         data.map((machine, index) => {
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(machine['geo']?.latitude, machine['geo']?.longitude),
-                map
+                map,
+                title: machine.name
             });
             let content = `${machine.name} </br>` +
                 `${new DatePipe('es').transform(machine['geo']?.time, 'short')} </br>`
