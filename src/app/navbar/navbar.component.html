@@ -36,9 +36,9 @@
                 <button mat-menu-item (click)="navigatedTo('gestionar-usuarios')" *ngIf="['admin'].includes(role)">
                     <mat-icon>manage_accounts</mat-icon>Gestionar Usuarios
                 </button>
-                <button mat-menu-item (click)="navigatedTo('gestionar-variables')" *ngIf="['admin'].includes(role)">
+                <!-- <button mat-menu-item (click)="navigatedTo('gestionar-variables')" *ngIf="['admin'].includes(role)">
                     <mat-icon>folder</mat-icon>Gestionar Variables
-                </button>
+                </button> -->
                 <button mat-menu-item (click)="openChangePassword(changePassword)">
                     <mat-icon>settings</mat-icon>Cambiar Contraseña
                 </button>

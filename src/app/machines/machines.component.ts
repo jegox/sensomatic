@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+
 @Component({
     selector: 'app-machines',
     templateUrl: './machines.component.html',
@@ -24,6 +26,7 @@ export class MachineComponent implements OnInit {
         try {
             let res = await this.uService.getUser(this.userId).toPromise();
             this.userPermission = res['data'].permissions.machines;
+            this.newMachines = res['data'].permissions.machines ?? [];
         } catch (e) {
             console.error(e)
         }
@@ -54,6 +57,7 @@ export class MachineComponent implements OnInit {
     async sendMachines() {
         try {
             await this.uService.userMachines(this.userId, this.newMachines).toPromise();
+            Swal.fire('Maquinas activadas', 'Las maquinas han sido activadas correctamente', 'success')
         } catch (e) {
             console.error(e)
         }
