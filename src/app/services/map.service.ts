@@ -82,23 +82,27 @@ export class MapService implements OnInit {
         this.markers.push(marker)
     }
 
-    drawMarkerDashboard(data: Array<any>) {
-        data.map(machine => {
+    drawMarkerDashboard(data: Array<any>, map?) {
+        data.map((machine, index) => {
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(machine['geo']?.latitude, machine['geo']?.longitude),
-                map: this.map['dashboard']
+                map
             });
             let content = `${machine.name} </br>` +
-                `${new DatePipe('es').transform(machine['geo']?.time, 'short')} </br>` +
-                `${machine.isActive ? 'Online' : 'Offline'}`;
+                `${new DatePipe('es').transform(machine['geo']?.time, 'short')} </br>`
 
             let info = new google.maps.InfoWindow({
                 content
             });
 
             marker.addListener('click', () => {
-                info.map ? info.close() : info.open({ anchor: marker, map: this.map[''] })
-            })
+                info.map ? info.close() : info.open({ anchor: marker, map })
+            });
+
+            if (index === data.length - 1) { 
+                map.setCenter(new google.maps.LatLng(machine['geo']?.latitude, machine['geo']?.longitude));
+                map.setZoom(10)
+            }
         })
     }
 

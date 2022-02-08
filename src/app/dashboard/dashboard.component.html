@@ -1,5 +1,5 @@
 <section class="dashboard_component">
-    <div class="search_machine">
+    <!-- <div class="search_machine">
         <div>
             <input type="text" placeholder="Buscar por Nombre o ID" #search (keyup)="searchByText(search.value)">
             <mat-icon class="icon_search" (click)="searchByText(search.value)">
@@ -28,7 +28,7 @@
                 Descargar
             </button>
         </div>
-    </div>
+    </div> -->
     <div id="map"></div>
     <div class="container_machines" *ngIf="machines">
         <table class="list_variables">
@@ -43,7 +43,7 @@
                 <td>{{ machine?.updatedAt | date:'short'}}</td>
                 <td>
                     <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a> <br>
-                    <a class="pointer" (click)="goToDetails('details', machine._id)">Ver detalles</a>
+                    <a class="pointer" (click)="goToDetails('details', machine._id)">Ver Detalles</a>
                 </td>
                 <td>
                     <mat-slide-toggle [checked]="machine['report']" (change)="activateReport($event, machine?._id)">

@@ -7,6 +7,8 @@ import { TrackingComponent } from '../app/tracking/tracking.component';
 import { ParentComponent } from '../app/parent/parent.component';
 import { ManageUsersComponent } from '../app/manage-users/manage-users.component';
 import { ManageVariablesComponent } from '../app/manage-variables/manage-variables.component';
+import { MachineComponent } from './machines/machines.component';
+
 const routes: Routes = [
   { path: '', component: LoginComponent },
   {
@@ -16,6 +18,7 @@ const routes: Routes = [
       { path: 'gestionar-usuarios', component: ManageUsersComponent },
       { path: 'details/:id', component: DetailsComponent },
       { path: 'tracking/:id', component: TrackingComponent },
+      { path: 'machines/:id', component: MachineComponent}
     ]
   },
 ];

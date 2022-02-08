@@ -1,0 +1,20 @@
+<header class="btn-add">
+    <button mat-button (click)="sendMachines()">
+        <mat-icon>add_circle_outline</mat-icon>
+        Activar Maquinas
+    </button>
+</header>
+<table class="list_variables">
+    <tr >
+        <th>Nombre de Maquina</th>
+        <th>Modelo</th>
+        <th>Reportes</th>
+    </tr>
+    <tr *ngFor="let machine of machines">
+        <td>{{ machine?.name }}</td>
+        <td>{{ machine?.modelName }}</td>
+        <td>
+            <mat-slide-toggle [checked]="userPermission.includes(machine?._id)" (change)="toogleMachines($event, machine._id)">Activar Maquina</mat-slide-toggle>
+        </td>
+    </tr>
+</table>

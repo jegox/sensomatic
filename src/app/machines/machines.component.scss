@@ -1,0 +1,35 @@
+header.btn-add {
+  text-align: right;
+}
+
+table.list_variables {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.096);
+  box-shadow: 0 0.1rem 8px rgba(0, 0, 0, 0.096);
+  padding: 2em;
+  tr {
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.096);
+    th {
+      font-size: 1.3rem;
+      padding: 1em 1.7em;
+    }
+    td {
+      font-size: 1.1rem;
+      padding: 1em 2em;
+      & > a {
+        cursor: pointer;
+        color: #d91a36;
+      }
+    }
+  }
+}
+
+::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #4BB543;
+}
+
+::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #4BB543;
+}

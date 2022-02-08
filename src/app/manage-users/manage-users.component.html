@@ -12,17 +12,13 @@
             <tr>
                 <th>Nombre Completo</th>
                 <th>Correo</th>
-                <th>Minas</th>
-                <th>Maquinas</th>
                 <th>Acciones</th>
             </tr>
             <tr *ngFor="let user of users">
                 <td>{{user?.fullname}}</td>
                 <td>{{user?.email}}</td>
-                <td>{{user?.permissions?.mines[0]}}</td>
-                <td>{{user?.permissions?.machines[0]}}</td>
                 <td>
-                    <mat-icon>
+                    <mat-icon [routerLink]="'../machines/' + user?._id">
                         edit
                     </mat-icon>
                 </td>

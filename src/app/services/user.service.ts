@@ -56,4 +56,11 @@ export class UserService {
     activeReport(id, checked) {
         return this.http.put(this.apiUrl + '/machines/' + id + '/report', { report: checked })
     }
+
+    userMachines(userId, machinesId) {
+        return this.http.put(this.apiUrl + '/users/machines', {
+            userId,
+            machines: machinesId
+        })
+    }
 }

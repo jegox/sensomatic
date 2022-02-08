@@ -24,22 +24,23 @@ export class TrackingComponent implements OnInit, AfterViewInit {
     'dayTurn': boolean,
     'nightTurn': boolean
   }
-  legendMap:Array<any> = this.M.routers;
+  legendMap: Array<any> = this.M.routers;
   generalMachine: any;
   constructor(private route: ActivatedRoute, private M: MapService, private us: UserService) { }
 
   ngOnInit(): void {
-
     this.route.params.subscribe(v => {
       this.machineId = v.id;
       this.us.getDetailsMachine(this.machineId).toPromise().then(v => this.generalMachine = v['data']);
-      this.M.initMap(document.getElementById('map'), "dayTurn");
-      this.M.initMap(document.getElementById('map2'), "nightTurn");
-      this.M.getDataForMap({
-        initial: new Date(new Date().setHours(5, 59, 0, 0)).toISOString(),
-        final: new Date(new Date().setHours(17, 59, 0, 0)).toISOString(),
-        machineId: this.machineId
-      }).then(v => this.drawPoints(v))
+      setTimeout(() => {
+        this.M.initMap(document.getElementById('map'), "dayTurn");
+        this.M.initMap(document.getElementById('map2'), "nightTurn");
+        this.M.getDataForMap({
+          initial: new Date(new Date().setHours(5, 59, 0, 0)).toISOString(),
+          final: new Date(new Date().setHours(17, 59, 0, 0)).toISOString(),
+          machineId: this.machineId
+        }).then(v => this.drawPoints(v))
+      }, 1000)
     });
 
     this.changeTracking.valueChanges.subscribe(date => this.getData(date));
@@ -49,7 +50,6 @@ export class TrackingComponent implements OnInit, AfterViewInit {
   }
 
   drawPoints({ data }) {
-    console.log(data)
     this.listDates = data;
 
     for (let points of data) {

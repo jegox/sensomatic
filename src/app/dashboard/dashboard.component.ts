@@ -3,6 +3,8 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { ReportService } from '../services/reports.service';
 import { MapService } from '../services/map.service';
+declare let google;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,12 +17,25 @@ export class DashboardComponent implements OnInit {
   constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService) { }
 
   ngOnInit(): void {
-    this.M.initMap(document.getElementById('map'), 'dashboard');
     this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
       this.machines = machines['data'];
       this.machinesFiltered = machines['data'];
-      this.M.drawMarkerDashboard(this.machines);
+      this.initMap();
     });
+  }
+
+  initMap() {
+    let map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 4.5709, lng: -74.2973 },
+      zoom: 6,
+      disableDefaultUI: true,
+      mapTypeControl: true,
+      zoomControl: true,
+      fullscreenControl: true,
+      mapTypeId: 'satellite'
+    });
+
+    this.M.drawMarkerDashboard(this.machines, map);
   }
 
   /**
