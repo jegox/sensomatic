@@ -87,8 +87,8 @@ export class DetailsComponent implements OnInit {
       }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
-    let yesterday = new Date(new Date().setDate(10)).getTime()
-    this.chartS.getDataGrid(this.machineId, yesterday).subscribe(v => {
+    let schedule = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
+    this.chartS.getDataGrid(this.machineId, schedule).subscribe(v => {
       this.test = v['data']
       console.log(v)
     })
@@ -166,6 +166,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.getTableInformation(element);
+
     this.actualDate = element.date ?? new Date();
   }
 
