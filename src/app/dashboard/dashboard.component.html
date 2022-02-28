@@ -42,8 +42,16 @@
                 <td>{{ machine?.name }}</td>
                 <td>{{ machine?.updatedAt | date:'short'}}</td>
                 <td>
-                    <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a> <br>
-                    <a class="pointer" (click)="goToDetails('details', machine._id)">Ver Detalles</a>
+                    <a matTooltip="Mapa">
+                        <mat-icon class="pointer" (click)="goToDetails('tracking', machine._id)">
+                            map
+                        </mat-icon>
+                    </a>
+                    <a matTooltip="Detalles">
+                        <mat-icon class="pointer" (click)="goToDetails('details', machine._id)">
+                            description
+                        </mat-icon>
+                    </a>
                 </td>
                 <td>
                     <mat-slide-toggle [checked]="machine['report']" (change)="activateReport($event, machine?._id)">

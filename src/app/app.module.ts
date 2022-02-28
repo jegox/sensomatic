@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ParentComponent } from './parent/parent.component';
 import { ManageUsersComponent } from '../app/manage-users/manage-users.component';
 import { ManageVariablesComponent } from '../app/manage-variables/manage-variables.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ManageVariablesComponent } from '../app/manage-variables/manage-variabl
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,
+    MatTooltipModule,
     MatSlideToggleModule,
     FormsModule,
   ],
