@@ -87,11 +87,20 @@ export class DetailsComponent implements OnInit {
       }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
-    let schedule = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
-    this.chartS.getDataGrid(this.machineId, schedule).subscribe(v => {
-      this.test = v['data']
-      console.log(v)
-    })
+    let schedule = { date: new Date(new Date().setHours(0, 0, 0, 0)).getTime() };
+    this.scheduleInformation(schedule);
+  }
+
+  async scheduleInformation({ date }) {
+    console.log(date)
+    try {
+      this.chartS.getDataGrid(this.machineId, date).subscribe(v => {
+        this.test = v['data']
+        console.log(v)
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   get initFormDate(): FormGroup {
@@ -166,7 +175,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.getTableInformation(element);
-
+    this.scheduleInformation(element);
     this.actualDate = element.date ?? new Date();
   }
 
@@ -337,6 +346,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.chartS.getMachineData(obj).toPromise().then((value: any) => this.initChart(value));
+    this.scheduleInformation({ date: new Date(new Date(this.date.get('from').value).setHours(0, 0, 0, 0)).getTime() })
   }
 
   getTableInformation(element) {
