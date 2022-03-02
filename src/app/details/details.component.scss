@@ -70,6 +70,9 @@ section.container_variable {
   .new_view {
     margin-bottom: 2em;
     padding: 0 11em;
+    h2 {
+      color: rgba(87, 87, 87, 0.91);
+    }
     .header_grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);

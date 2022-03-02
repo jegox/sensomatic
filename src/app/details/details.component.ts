@@ -60,7 +60,8 @@ export class DetailsComponent implements OnInit {
   tableDays: Array<any>;
   myChart: Chart[];
   actualDate;
-  test
+  schedules = {};
+
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1200) {
       this.myChart.map(chart => {
@@ -92,11 +93,10 @@ export class DetailsComponent implements OnInit {
   }
 
   async scheduleInformation({ date }) {
-    console.log(date)
     try {
       this.chartS.getDataGrid(this.machineId, date).subscribe(v => {
-        this.test = v['data']
-        console.log(v)
+        this.schedules['day'] = v['data'].dayTurn;
+        this.schedules['night'] = v['data'].nightTurn;
       })
     } catch (e) {
       console.error(e)
@@ -175,7 +175,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.getTableInformation(element);
-    this.scheduleInformation(element);
+    element.date && this.scheduleInformation(element);
     this.actualDate = element.date ?? new Date();
   }
 

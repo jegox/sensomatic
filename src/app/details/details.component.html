@@ -100,6 +100,11 @@
         </table>
     </main>
     <div class="new_view">
+        <div>
+            <h2>
+                <b>Turno Dia</b>
+            </h2>
+        </div>
         <div class="header_grid">
             <div *ngFor="let hours of ['6-7','7-8','8-9','9-10','10-11','11-12','12-1','1-2','2-3','3-4','4-5','5-6']"
                 class="header_item">
@@ -108,51 +113,114 @@
         </div>
         <div class="grid_content">
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:0:12" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:0:12" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:12:24" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:12:24" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:24:36" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:24:36" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:36:48" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:36:48" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:48:60" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:48:60" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:60:72" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:60:72" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:72:84" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:72:84" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:84:96" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:84:96" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:96:108" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:96:108" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:108:120" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:108:120" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:120:132" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:120:132" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
             <div class="grid-parent">
-                <div *ngFor="let grid of test | slice:132:144" class="grid-item"
+                <div *ngFor="let grid of schedules['day'] | slice:132:144" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="new_view">
+        <div>
+            <h2>
+                <b>Turno Noche</b>
+            </h2>
+        </div>
+        <div class="header_grid">
+            <div *ngFor="let hours of ['6-7','7-8','8-9','9-10','10-11','11-12','12-1','1-2','2-3','3-4','4-5','5-6']"
+                class="header_item">
+                {{hours}}
+            </div>
+        </div>
+        <div class="grid_content">
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:0:12" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:12:24" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:24:36" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:36:48" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:48:60" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:60:72" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:72:84" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:84:96" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:96:108" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:108:120" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:120:132" class="grid-item"
+                    [ngStyle]="{'background-color': colors2[grid.value]}"></div>
+            </div>
+            <div class="grid-parent">
+                <div *ngFor="let grid of schedules['night'] | slice:132:144" class="grid-item"
                     [ngStyle]="{'background-color': colors2[grid.value]}"></div>
             </div>
         </div>
