@@ -35,11 +35,12 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  switchMode() {
+  switchMode(isEdit?: boolean, user?) {
     this.switch = !this.switch;
 
-    this.title = !this.switch ? 'Listado' : 'Creacion';
+    this.title = !this.switch ? 'Listado' : (isEdit ? 'Edicion' : 'Creacion');
 
+    isEdit && this.createUserForm.patchValue(user)
     console.log(this.createUserForm)
   }
 
