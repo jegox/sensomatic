@@ -26,7 +26,9 @@ import { ParentComponent } from './parent/parent.component';
 import { ManageUsersComponent } from '../app/manage-users/manage-users.component';
 import { ManageVariablesComponent } from '../app/manage-variables/manage-variables.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { ForgotPasswordComponent } from './forget-password/forget-password.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,9 +39,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     TrackingComponent,
     ParentComponent,
     ManageUsersComponent,
-    ManageVariablesComponent
+    ManageVariablesComponent,
+    ForgotPasswordComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -56,6 +60,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     MatSlideToggleModule,
     FormsModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

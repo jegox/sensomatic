@@ -97,12 +97,22 @@
   width: 100%;
 }
 ::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: #4BB543;
+  background-color: #4bb543;
 }
 
 ::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-  background-color: #4BB543;
+  background-color: #4bb543;
 }
 .floatOver {
   margin-bottom: 10em;
+}
+
+.download_report {
+  .date {
+    display: flex;
+    gap: 1em;
+  }
+  footer {
+    text-align: right;
+  }
 }

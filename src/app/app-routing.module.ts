@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forget-password/forget-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailsComponent } from '../app/details/details.component';
 import { TrackingComponent } from '../app/tracking/tracking.component';
@@ -11,6 +12,7 @@ import { MachineComponent } from './machines/machines.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'reset-password', component: ForgotPasswordComponent },
   {
     path: 'app', component: ParentComponent, children: [
       { path: 'dashboard', component: DashboardComponent },
@@ -18,7 +20,7 @@ const routes: Routes = [
       { path: 'gestionar-usuarios', component: ManageUsersComponent },
       { path: 'details/:id', component: DetailsComponent },
       { path: 'tracking/:id', component: TrackingComponent },
-      { path: 'machines/:id', component: MachineComponent}
+      { path: 'machines/:id', component: MachineComponent }
     ]
   },
 ];

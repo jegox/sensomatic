@@ -27,7 +27,7 @@
                         Recordarme
                         <input type="checkbox">
                     </div>
-                    <a href="#">Olvidaste la contraseña</a>
+                    <a (click)="resetPassword()">Olvidaste la contraseña</a>
                 </div>
                 <footer>
                     <div class="options_login">
@@ -39,3 +39,13 @@
         <aside class="background_drummond"></aside>
     </section>
 </main>
+
+<ng-template #forgot>
+    <section class="modal_forgot">
+        <label for="reset" class="reset">
+            <b>Correo Electronico</b>
+            <input type="text" id="reset" [formControl]="reset">
+        </label>
+        <button class="login_button pointer" (click)="sendMailReset()">Enviar correo</button>
+    </section>
+</ng-template>

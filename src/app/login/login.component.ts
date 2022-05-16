@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,13 +11,16 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private uService: UserService, private router: Router) { }
+  constructor(private fb: FormBuilder, private uService: UserService, private router: Router, private dialog: MatDialog) { }
+  @ViewChild('forgot') modal;
   loginForm: FormGroup;
+  reset: FormControl = new FormControl();
+
   ngOnInit(): void {
     this.loginForm = this.initForm;
   }
-//developer@admin.com'
-//12345
+  //developer@admin.com'
+  //12345
   get initForm() {
     return this.fb.group({
       'email': [, Validators.required],
@@ -34,5 +38,19 @@ export class LoginComponent implements OnInit {
     }).catch(({ error }) => {
       Swal.fire('Error', error.message, 'error')
     })
+  }
+
+  resetPassword() {
+    this.dialog.open(this.modal)
+  }
+
+  async sendMailReset() {
+    let mail = this.reset.value;
+    
+    await this.uService.sendMail({ email: mail }).toPromise();
+
+    Swal.fire('Correo Enviado', '', 'success');
+    this.dialog.closeAll();
+    this.reset.reset();
   }
 }

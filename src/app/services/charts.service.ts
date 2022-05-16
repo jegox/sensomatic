@@ -20,12 +20,21 @@ export class ChartSevice {
     getDataTracking(data) {
         return this.http.post(this.apiUrl + 'tracking-by-machine', data);
     }
-    
+
     getDataGrid(machineId, timestamp) {
-        return this.http.get(this.apiUrl + 'grid/' + machineId, { 
+        return this.http.get(this.apiUrl + 'grid/' + machineId, {
             params: {
                 timestamp
             }
+        })
+    }
+
+    getReportGeneral(value) {
+        return this.http.post(this.apiUrl + 'report-variables', value, {
+            headers: {
+                Accept: 'application/octet-stream'
+            },
+            responseType: 'blob'
         })
     }
 }

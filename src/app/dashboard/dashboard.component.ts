@@ -3,6 +3,9 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { ReportService } from '../services/reports.service';
 import { MapService } from '../services/map.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChartSevice } from '../services/charts.service';
 declare let google;
 
 @Component({
@@ -14,7 +17,8 @@ export class DashboardComponent implements OnInit {
   machines: Array<IMachine>;
   machinesFiltered: Array<IMachine>
   date;
-  constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService) { }
+  formDownload: FormGroup = this.initForm;
+  constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService, private dialog: MatDialog, private fb: FormBuilder, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
     this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
@@ -65,7 +69,7 @@ export class DashboardComponent implements OnInit {
   }
 
   download(data, type: string) {
-    console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
+    // console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
     const blob = new Blob([data], { type });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
@@ -89,6 +93,32 @@ export class DashboardComponent implements OnInit {
       this.machines[index] = res['data'];
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  openModal(template) {
+    this.dialog.open(template)
+  }
+
+  get initForm() {
+    return this.fb.group({
+      'start': [],
+      'end': [],
+      'machineIds': []
+    });
+  }
+
+  async reportsDownload() {
+    let value = this.formDownload.getRawValue();
+
+    value.start = new Date(new Date(value.start).setHours(18, 30, 0, 0)).getTime()
+    value.end = new Date(new Date(value.end).setHours(6, 30, 0, 0)).getTime()
+
+    let res = await this.chartS.getReportGeneral(value).toPromise();
+    if (res) {
+      this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      this.formDownload.reset();
+      this.dialog.closeAll();
     }
   }
 }

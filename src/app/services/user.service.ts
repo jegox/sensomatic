@@ -63,4 +63,12 @@ export class UserService {
             machines: machinesId
         })
     }
+
+    sendMail(correo) {
+        return this.http.post(this.apiUrl + '/auth/forgot-password', correo)
+    }
+
+    resetPassword(password) {
+        return this.http.post(this.apiUrl + '/auth/set-password', password)
+    }
 }

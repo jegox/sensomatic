@@ -30,6 +30,12 @@
         </div>
     </div> -->
     <div id="map"></div>
+    <div style="margin-left: 9em; margin-top: 2em;">
+        <button mat-button (click)="openModal(download)">
+            <mat-icon>file_download</mat-icon>
+            Descargar reportes
+        </button>
+    </div>
     <div class="container_machines" *ngIf="machines">
         <table class="list_variables">
             <tr>
@@ -73,3 +79,39 @@
         </div> -->
     </div>
 </section>
+
+<ng-template #download>
+    <header>
+        <h3>Descarga de reportes</h3>
+    </header>
+    <section class="download_report" [formGroup]="formDownload">
+        <div class="date">
+            <mat-form-field>
+                <mat-label>Fecha inicial</mat-label>
+                <input matInput [matDatepicker]="start" formControlName="start">
+                <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+                <mat-datepicker #start></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Fecha final</mat-label>
+                <input matInput [matDatepicker]="end" formControlName="end">
+                <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+                <mat-datepicker #end></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Maquinas</mat-label>
+                <mat-select multiple formControlName="machineIds">
+                    <mat-option *ngFor="let machine of machines; index as i" [value]="machine._id">{{machine?.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <footer>
+            <button mat-button (click)="reportsDownload()">
+                <mat-icon>file_download</mat-icon>
+                Descargar
+            </button>
+        </footer>
+    </section>
+</ng-template>
