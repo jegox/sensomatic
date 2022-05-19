@@ -71,4 +71,8 @@ export class UserService {
     resetPassword(password) {
         return this.http.post(this.apiUrl + '/auth/set-password', password)
     }
+
+    deleteUser(id: string) {
+        return this.http.delete(this.apiUrl + '/users/' + id);
+    }
 }

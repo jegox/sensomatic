@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { ChartSevice } from '../services/charts.service';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -69,5 +70,27 @@ export class ManageUsersComponent implements OnInit {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  async deleteUser(_id: string) {
+    Swal.fire({
+      title: 'Eliminar usuario',
+      text: "Seguro que quieres eliminar este usuario?",
+      icon: 'question',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonColor: '#d8112e'
+    }).then(async (v) => {
+      if (v.isConfirmed) {
+        try {
+          let res = await this.uServices.deleteUser(_id).toPromise();
+          await this.getUsers();
+          Swal.fire("Usuario Eliminado", "", 'success');
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    })
+
   }
 }
