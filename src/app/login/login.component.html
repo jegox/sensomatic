@@ -46,6 +46,9 @@
             <b>Correo Electronico</b>
             <input type="text" id="reset" [formControl]="reset">
         </label>
-        <button class="login_button pointer" (click)="sendMailReset()">Enviar correo</button>
+        <footer>
+            <button class="login_button pointer" (click)="sendMailReset()">Enviar correo</button>
+            <button class="cancel_button pointer" (click)="closeModal()">Cancelar</button>
+        </footer>
     </section>
 </ng-template>

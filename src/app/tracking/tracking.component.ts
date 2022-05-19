@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MapService } from '../services/map.service';
 import { FormGroup, FormControl } from '@angular/forms'
 import { UserService } from '../services/user.service';
+import Swal from 'sweetalert2';
 declare let google;
 
 @Component({

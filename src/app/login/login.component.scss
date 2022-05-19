@@ -154,6 +154,15 @@ main {
       margin-bottom: 10px;
     }
   }
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    .cancel_button {
+      background-color: #636363b9;
+      color: white;
+    }
+  }
   button {
     height: 3em;
     outline: none;
@@ -162,5 +171,6 @@ main {
     background-color: color.$main_button_color;
     color: white;
     font-weight: 600;
+    width: 40%;
   }
 }

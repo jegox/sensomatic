@@ -6,6 +6,7 @@ import { MapService } from '../services/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ChartSevice } from '../services/charts.service';
+import Swal from 'sweetalert2';
 declare let google;
 
 @Component({
@@ -100,6 +101,10 @@ export class DashboardComponent implements OnInit {
     this.dialog.open(template)
   }
 
+  closeModal() {
+    this.dialog.closeAll();
+  }
+
   get initForm() {
     return this.fb.group({
       'start': [],
@@ -109,17 +114,29 @@ export class DashboardComponent implements OnInit {
   }
 
   async reportsDownload() {
-    let value = this.formDownload.getRawValue();
+    Swal.fire({
+      title: 'Descargar',
+      text: 'Estas seguro que deseas descargar este reporte?',
+      icon: 'question',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Descargar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (v) => {
+      if (v.isConfirmed) {
+        let value = this.formDownload.getRawValue();
 
-    value.start = new Date(new Date(value.start).setHours(18, 30, 0, 0)).getTime()
-    value.end = new Date(new Date(value.end).setHours(6, 30, 0, 0)).getTime()
-
-    let res = await this.chartS.getReportGeneral(value).toPromise();
-    if (res) {
-      this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      this.formDownload.reset();
-      this.dialog.closeAll();
-    }
+        value.start = new Date(new Date(value.start).setHours(18, 30, 0, 0)).getTime()
+        value.end = new Date(new Date(value.end).setHours(6, 30, 0, 0)).getTime()
+        
+        let res = await this.chartS.getReportGeneral(value).toPromise();
+        if (res) {
+          this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          this.formDownload.reset();
+          this.dialog.closeAll();
+        }
+      }
+    })
   }
 }
 

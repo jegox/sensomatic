@@ -17,13 +17,13 @@
     <div class="filters_variables" [formGroup]="date">
         <mat-form-field>
             <mat-label>Desde</mat-label>
-            <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="from">
+            <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="from" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Hasta</mat-label>
-            <input matInput [matDatepicker]="picker2" (click)="picker2.open()" formControlName="to">
+            <input matInput [matDatepicker]="picker2" (click)="picker2.open()" formControlName="to" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>

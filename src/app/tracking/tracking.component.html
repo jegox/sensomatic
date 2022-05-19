@@ -17,14 +17,14 @@
     <div class="filters_variables" [formGroup]="tracking">
         <mat-form-field>
             <mat-label>Desde</mat-label>
-            <input matInput [matDatepicker]="picker" (click)="picker.open()"
+            <input matInput [matDatepicker]="picker" (click)="picker.open()" readonly
                 formControlName="initial">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Hasta</mat-label>
-            <input matInput [matDatepicker]="picker2" (click)="picker2.open()"
+            <input matInput [matDatepicker]="picker2" (click)="picker2.open()" readonly
                 formControlName="final">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>

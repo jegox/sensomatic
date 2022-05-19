@@ -41,16 +41,22 @@ export class LoginComponent implements OnInit {
   }
 
   resetPassword() {
-    this.dialog.open(this.modal)
+    this.dialog.open(this.modal, {
+      width: '300px'
+    })
   }
 
   async sendMailReset() {
     let mail = this.reset.value;
-    
+
     await this.uService.sendMail({ email: mail }).toPromise();
 
     Swal.fire('Correo Enviado', '', 'success');
     this.dialog.closeAll();
     this.reset.reset();
+  }
+
+  closeModal() {
+    this.dialog.closeAll()
   }
 }
