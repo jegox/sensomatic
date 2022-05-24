@@ -47,13 +47,17 @@ export class LoginComponent implements OnInit {
   }
 
   async sendMailReset() {
-    let mail = this.reset.value;
+    try {
+      let mail = this.reset.value;
 
-    await this.uService.sendMail({ email: mail }).toPromise();
+      await this.uService.sendMail({ email: mail }).toPromise();
 
-    Swal.fire('Correo Enviado', '', 'success');
-    this.dialog.closeAll();
-    this.reset.reset();
+      Swal.fire('Correo Enviado', '', 'success');
+      this.dialog.closeAll();
+      this.reset.reset();
+    } catch (e) {
+      Swal.fire("Error", e.error.message, 'error')
+    }
   }
 
   closeModal() {

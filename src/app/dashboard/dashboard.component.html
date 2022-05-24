@@ -36,7 +36,48 @@
             Descargar reportes
         </button>
     </div>
-    <div class="container_machines" *ngIf="machines">
+    <div class="mat-elevation-z8 container_table">
+        <table mat-table [dataSource]="machines">
+            <ng-container matColumnDef="machineName">
+                <th mat-header-cell *matHeaderCellDef > Nombre de la Maquina </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="lastConection">
+                <th mat-header-cell *matHeaderCellDef> Ultima conexion </th>
+                <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:'short'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <a matTooltip="Mapa">
+                        <mat-icon class="pointer" (click)="goToDetails('tracking', element._id)">
+                            map
+                        </mat-icon>
+                    </a>
+                    <a matTooltip="Detalles">
+                        <mat-icon class="pointer" (click)="goToDetails('details', element._id)">
+                            description
+                        </mat-icon>
+                    </a>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="reports">
+                <th mat-header-cell *matHeaderCellDef> Reportes </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-slide-toggle [checked]="element['report']" (change)="activateReport($event, element?._id)">
+                        {{element['report'] ? 'Desactivar Reportes' : 'Activar Reportes'}}</mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+
+    <!-- <div class="container_machines" *ngIf="machines">
         <table class="list_variables">
             <tr>
                 <th>Nombre de Maquina</th>
@@ -64,20 +105,12 @@
                         {{machine['report'] ? 'Desactivar Reportes' : 'Activar Reportes'}}</mat-slide-toggle>
                 </td>
             </tr>
+            <div>
+                <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+                </mat-paginator>
+            </div>
         </table>
-        <!-- <div *ngFor="let machine of machines" class="machine">
-            <p class="name_id">
-                <span>{{machine?.name}}</span>
-            </p>
-            <p class="last_conexion">
-                <span>Ultima conexion: {{machine?.updatedAt | date: 'short'}}</span>
-            </p>
-            <small class="opts_machine">
-                <a class="pointer" (click)="goToDetails('tracking', machine._id)">Ver Tracking</a>
-                <a class="pointer" (click)="goToDetails('details', machine._id)">Ver detalles</a>
-            </small>
-        </div> -->
-    </div>
+    </div> -->
 </section>
 
 <ng-template #download>
@@ -103,7 +136,8 @@
             <mat-form-field>
                 <mat-label>Maquinas</mat-label>
                 <mat-select multiple formControlName="machineIds">
-                    <mat-option *ngFor="let machine of machines; index as i" [value]="machine._id">{{machine?.name}}</mat-option>
+                    <mat-option *ngFor="let machine of machines; index as i" [value]="machine._id">{{machine?.name}}
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>

@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   machinesFiltered: Array<IMachine>
   date;
   formDownload: FormGroup = this.initForm;
+  displayedColumns: string[] = ['machineName', 'lastConection', 'action', 'reports'];
   constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService, private dialog: MatDialog, private fb: FormBuilder, private chartS: ChartSevice) { }
 
   ngOnInit(): void {

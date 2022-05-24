@@ -29,6 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ForgotPasswordComponent } from './forget-password/forget-password.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,9 +60,11 @@ import { CommonModule } from '@angular/common';
     MatDialogModule,
     MatButtonModule,
     MatTooltipModule,
+    MatPaginatorModule,
     MatSlideToggleModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

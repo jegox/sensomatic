@@ -20,6 +20,7 @@ export class ManageUsersComponent implements OnInit {
     'machines': new FormArray([]),
   })
   machines: any;
+  displayedColumns: string[] = ['name', 'email', 'action'];
   constructor(private uServices: UserService, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
