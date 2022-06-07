@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.initForm;
+    this.checkNavigator()
   }
   //developer@admin.com'
   //12345
@@ -62,5 +63,18 @@ export class LoginComponent implements OnInit {
 
   closeModal() {
     this.dialog.closeAll()
+  }
+
+  checkNavigator() {
+    let browser = window.navigator.userAgent.match(/Edg|Edge/gmi);
+    if (browser) {
+      Swal.fire({
+        title: 'Información',
+        text: "Si estas usando un navegador distinto a Google Chrome o Mozilla, algunas funcionalidades pueden fallar",
+        icon: 'info',
+        confirmButtonText: 'Entendido!',
+        confirmButtonColor: 'red',
+      });
+    }
   }
 }
