@@ -355,15 +355,15 @@ export class DetailsComponent implements OnInit {
     let nightElement = element['nightTurn'].filter(data => data);
     let dayElement = element['dayTurn'].filter(data => data);
 
-    nightElement[0] && nightElement.map(({ variable, value }) => obj[variable] = {
-      nightTurn: value
+    nightElement[0] && nightElement.map(({ variable, value, operatorName }) => obj[variable] = {
+      nightTurn: variable === "Codigo de operador" ? operatorName : value
     });
 
     let variables = dayElement.map(({ variable, value, operatorName }) => {
       return obj[variable] = {
         ...obj[variable],
-        dayTurn: value,
-        variable: variable === "Codigo de operador" ? operatorName : variable,
+        dayTurn: variable === "Codigo de operador" ? operatorName : value,
+        variable,
       };
     })
 
