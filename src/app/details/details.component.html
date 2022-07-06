@@ -7,7 +7,7 @@
                     keyboard_arrow_right
                 </mat-icon>
             </span>
-            <span>{{generalMachine?.name}}</span>
+            <span>{{generalMachine?.name}} - {{operatorName}}</span>
         </div>
         <div>
             <span class="pointer" [routerLink]="'../../tracking/'+machineId">Mapa</span> ,
@@ -187,18 +187,18 @@
     </div>
     <div class="containerChart">
         <div class="firstChart">
-            <canvas id="dayTurn"></canvas>
+            <canvas id="nightTurn"></canvas>
         </div>
         <div class="secondChart">
-            <canvas id="nightTurn"></canvas>
+            <canvas id="dayTurn"></canvas>
         </div>
     </div>
     <div class="newContainerCharts">
         <div class="firstChart">
-            <canvas id="dayTurn1"></canvas>
+            <canvas id="nightTurn1"></canvas>
         </div>
         <div class="secondChart">
-            <canvas id="nightTurn1"></canvas>
+            <canvas id="dayTurn1"></canvas>
         </div>
     </div>
     <main class="information_variables" *ngIf="dayTurn || nightTurn">
@@ -206,8 +206,8 @@
             <tr>
                 <th>Variable</th>
                 <!-- <th>Ultima Conexión</th> -->
-                <th>Turno dia</th>
                 <th>Turno Noche</th>
+                <th>Turno dia</th>
             </tr>
             <tr *ngFor="let variable of tableDays;">
                 <td>
@@ -217,10 +217,10 @@
                     {{variable?.time | date}}
                 </td> -->
                 <td>
-                    {{variable?.dayTurn}}
+                    {{variable?.nightTurn}}
                 </td>
                 <td>
-                    {{variable?.nightTurn}}
+                    {{variable?.dayTurn}}
                 </td>
             </tr>
         </table>

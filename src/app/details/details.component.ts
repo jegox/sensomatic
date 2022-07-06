@@ -61,7 +61,7 @@ export class DetailsComponent implements OnInit {
   myChart: Chart[];
   actualDate;
   schedules = {};
-
+  operatorName: string;
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1200) {
       this.myChart.map(chart => {
@@ -153,7 +153,7 @@ export class DetailsComponent implements OnInit {
         continue;
       }
 
-      let newElement = element[turn].filter(value => value).filter(value => !['Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
+      let newElement = element[turn].filter(value => value).filter(value => !['Codigo de operador', "Numero de riegos por turno ", 'Kilometros recorridos por turno', 'Kilometros recorridos en estado regando por turno', 'Consumo de agua', 'Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
       let pieElement = element[turn].filter(value => value).filter(value => ['Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
 
       newElement.total = newElement.filter(value => value).map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
@@ -359,12 +359,15 @@ export class DetailsComponent implements OnInit {
       nightTurn: value
     });
 
-    let variables = dayElement.map(({ variable, value }) => obj[variable] = {
-      ...obj[variable],
-      dayTurn: value,
-      variable,
-    });
+    let variables = dayElement.map(({ variable, value, operatorName }) => {
+      return obj[variable] = {
+        ...obj[variable],
+        dayTurn: value,
+        variable: variable === "Codigo de operador" ? operatorName : variable,
+      };
+    })
 
+    this.operatorName = dayElement.find(({ operatorName }) => operatorName).operatorName;
     this.tableDays = variables;
   }
 
