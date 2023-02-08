@@ -15,17 +15,22 @@ declare let google;
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  user: Record<string, any>;
   machines: Array<IMachine>;
   machinesFiltered: Array<IMachine>
   date;
   formDownload: FormGroup = this.initForm;
-  displayedColumns: string[] = ['machineName', 'lastConection', 'action', 'reports'];
+  displayedColumns: string[] = ['machineName', 'lastConection', 'action'];
   constructor(private uService: UserService, private route: Router, private rs: ReportService, private M: MapService, private dialog: MatDialog, private fb: FormBuilder, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
     this.uService.getMachines().toPromise().then((machines: IMachine[]) => {
       this.machines = machines['data'];
       this.machinesFiltered = machines['data'];
+      this.user = this.uService.currentUser();
+      if(this.user.role === 'admin'){
+        this.displayedColumns.push('reports')
+      }
       this.initMap();
     });
   }
@@ -45,7 +50,7 @@ export class DashboardComponent implements OnInit {
   }
 
   /**
-   * @param {String} query 
+   * @param {String} query
    * @description Filter the machine list by query param.
    * @author fire
    */
@@ -129,7 +134,7 @@ export class DashboardComponent implements OnInit {
 
         value.start = new Date(new Date(value.start).setHours(18, 30, 0, 0)).getTime()
         value.end = new Date(new Date(value.end).setHours(6, 30, 0, 0)).getTime()
-        
+
         let res = await this.chartS.getReportGeneral(value).toPromise();
         if (res) {
           this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

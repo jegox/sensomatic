@@ -202,26 +202,31 @@
         </div>
     </div>
     <main class="information_variables" *ngIf="dayTurn || nightTurn">
-        <table class="list_variables">
+        <table class="list_variables" style="margin-bottom: 30px;">
             <tr>
                 <th>Variable</th>
-                <!-- <th>Ultima Conexión</th> -->
                 <th>Turno Noche</th>
                 <th>Turno dia</th>
+                <th>Unidad</th>
             </tr>
             <tr *ngFor="let variable of tableDays;">
                 <td>
                     {{variable?.variable}}
                 </td>
-                <!-- <td>
-                    {{variable?.time | date}}
-                </td> -->
                 <td>
-                    {{variable?.nightTurn}}
+                  {{variable?.nightTurn}}
                 </td>
                 <td>
-                    {{variable?.dayTurn}}
+                  {{variable?.dayTurn}}
                 </td>
+                <div *ngIf="unitLitres.includes(variable?.variable); then litresBlock"></div>
+                <ng-template #litresBlock><td>Galones</td></ng-template>
+                <div *ngIf="unitMinutes.includes(variable?.variable); then minBlock"></div>
+                <ng-template #minBlock><td>Minutos</td></ng-template>
+                <div *ngIf="unitNum.includes(variable?.variable); then turnBlock"></div>
+                <ng-template #turnBlock><td>Riegos</td></ng-template>
+                <div *ngIf="unitKm.includes(variable?.variable); then kmBlock"></div>
+                <ng-template #kmBlock><td>Kilómetros</td></ng-template>
             </tr>
         </table>
     </main>

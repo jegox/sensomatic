@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  hostIp: ''
+  hostIp: 'https://sensomatic-tracking.com'
 };

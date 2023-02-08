@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 export class ChartSevice {
     header
     constructor(private http: HttpClient) {
-        console.log(environment)
+        // console.log(environment)
     }
     // private apiUrl: string = 'http://50.19.219.56:3000/api';  //PROD
     private apiUrl: string = `${environment.hostIp}/api/measurements/`; // DEV

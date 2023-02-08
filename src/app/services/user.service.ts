@@ -15,12 +15,20 @@ export class UserService {
         return this.http.post(this.apiUrl + '/auth/login', user)
     }
 
+    currentUser() {
+      return JSON.parse(localStorage.getItem('user'));
+    }
+
     changePassword(newPassword) {
         return this.http.post(this.apiUrl + '/auth/reset-password', newPassword)
     }
 
     getUser(id) {
         return this.http.get(this.apiUrl + '/users/' + id);
+    }
+
+    toggleReport(id) {
+        return this.http.put(this.apiUrl + '/users/' + id + '/enable', {});
     }
 
     getMachines() {

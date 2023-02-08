@@ -54,6 +54,10 @@ export class DetailsComponent implements OnInit {
     'Modo Semi Automatico': '#FF9999',
     'Modo Automatico de Riego': '#FF0000'
   }
+  unitNum = ['Numero de riegos por turno '];
+  unitKm = ['Kilometros recorridos en estado regando por turno', 'Kilometros recorridos por turno'];
+  unitMinutes = ['Regando', 'Tanqueando agua', 'Operativo sin riego', 'Equipo Down', 'Clima', 'Almuerzo', 'Standby con Operator', 'Tanqueando combustible', 'Cambio de turno', 'Sin Operator', 'Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego', ''];
+  unitLitres = ['Consumo de agua'];
   dayTurn: Array<any>;
   nightTurn: Array<any>;
   listDays: Array<any>;
@@ -117,7 +121,7 @@ export class DetailsComponent implements OnInit {
    * @param data Object | Array
    */
   initChart({ data }) {
-    console.log(data)
+    // console.log(data)
     Chart.register(...registerables, ChartDataLabels);
 
     if (Array.isArray(data)) {
@@ -133,7 +137,7 @@ export class DetailsComponent implements OnInit {
    * @param element Object
    */
   getData(element) {
-    console.log(element)
+    // console.log(element)
     let where = ['dayTurn', 'nightTurn'];
     let index = 0;
 
@@ -185,7 +189,7 @@ export class DetailsComponent implements OnInit {
    * @param where String
    */
   displayDonut(data, where: string) {
-    console.log(this.colors[data[0].variable], data[0].variable)
+    // console.log(this.colors[data[0].variable], data[0].variable)
     let config: ChartConfiguration = {
       type: 'doughnut',
       data: {
@@ -419,7 +423,7 @@ export class DetailsComponent implements OnInit {
   }
 
   download(data, type: string) {
-    console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
+    // console.log({ data, type }, `Report.${type.endsWith('pdf') ? 'pdf' : 'xlsx'}`)
     const blob = new Blob([data], { type });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);

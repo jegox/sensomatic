@@ -20,7 +20,7 @@ export class ManageUsersComponent implements OnInit {
     'machines': new FormArray([]),
   })
   machines: any;
-  displayedColumns: string[] = ['name', 'email', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'action', 'report'];
   constructor(private uServices: UserService, private chartS: ChartSevice) { }
 
   ngOnInit(): void {
@@ -93,5 +93,17 @@ export class ManageUsersComponent implements OnInit {
       }
     })
 
+  }
+
+  async enableReport(event: any, _id: string) {
+    try {
+      console.log({_id});
+
+      let res = await this.uServices.toggleReport(_id).toPromise();
+      await this.getUsers();
+      Swal.fire("Usuario actualizado", "", 'success');
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
