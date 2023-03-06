@@ -92,7 +92,8 @@ export class DetailsComponent implements OnInit {
       }).subscribe((value: any) => this.initChart(value))
     })
     this.date.get('date').valueChanges.subscribe(date => this.getData(date));
-    let schedule = { date: new Date(new Date().setHours(0, 0, 0, 0)).getTime() };
+    let schedule = { date: new Date().getTime() };
+    // let schedule = { date: new Date(new Date().setHours(0, 0, 0, 0)).getTime() };
     this.scheduleInformation(schedule);
   }
 
