@@ -138,8 +138,8 @@ export class DetailsComponent implements OnInit {
    * @param element Object
    */
   getData(element) {
-    // console.log(element)
-    let where = ['dayTurn', 'nightTurn'];
+    console.log(element)
+    let where = this.isDay() ? ['dayTurn', 'nightTurn'] : ['nightTurn', 'dayTurn'];
     let index = 0;
 
     if (this.myChart?.length > 0) {
@@ -151,6 +151,7 @@ export class DetailsComponent implements OnInit {
     this.tableDays = [];
 
     for (let turn in element) {
+      console.log({ turn }, element[turn][0])
       if (turn === 'date') continue;
       if (!element[turn][0]) {
         this[turn] = [];
@@ -171,8 +172,7 @@ export class DetailsComponent implements OnInit {
       this.displayDonut(newElement, where[index]);
 
       if (pieElement.length > 0) {
-        let wherePie = ['dayTurn1', 'nightTurn1'];
-
+        let wherePie = this.isDay() ? ['dayTurn1', 'nightTurn1'] : ['nightTurn1', 'dayTurn1'];
         this.displayPie(pieElement, wherePie[index]);
       }
 
@@ -181,7 +181,6 @@ export class DetailsComponent implements OnInit {
 
     this.getTableInformation(element);
     element.date && this.scheduleInformation(element);
-    // this.actualDate = element.date ?? new Date();
     this.setActualDate()
   }
 
@@ -236,7 +235,7 @@ export class DetailsComponent implements OnInit {
                 let index = data.findIndex(item => item.variable === legendItem.text);
 
                 legendItem.text = `${legendItem.text} - *${data[index].value}min*
-                ${Number(100 * data[index].value / data.total).toFixed()}%`;
+                ${data[index].value > 0 ? Number(100 * data[index].value / data.total).toFixed() : 0}%`;
 
                 return true;
               },
@@ -298,7 +297,7 @@ export class DetailsComponent implements OnInit {
               filter: (legendItem, legendData) => {
                 let index = data.findIndex(item => item.variable === legendItem.text);
 
-                legendItem.text = `${legendItem.text} - *${data[index].value}min* ${Number(100 * data[index].value / data.total).toFixed()}%`;
+                legendItem.text = `${legendItem.text} - *${data[index].value}min* ${data[index].value > 0 ? Number(100 * data[index].value / data.total).toFixed(): 0 }%`;
 
                 return true;
               },
@@ -391,7 +390,7 @@ export class DetailsComponent implements OnInit {
       variables = nightElement.map(({ variable, value, operatorName }) => {
         return obj[variable] = {
           ...obj[variable],
-          dayTurn: variable === "Codigo de operador" ? operatorName : value,
+          nightTurn: variable === "Codigo de operador" ? operatorName : value,
           variable,
         };
       })
