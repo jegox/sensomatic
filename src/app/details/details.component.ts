@@ -85,7 +85,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(v => {
       this.machineId = v.id;
-      this.uService.getDetailsMachine(v.id).toPromise().then(v => this.generalMachine = v['data']);
+      this.uService.getDetailMachineInfo(v.id).toPromise().then(v => this.generalMachine = v['data']);
       this.chartS.getMachineData({
         initial: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
         machineId: this.machineId
@@ -181,7 +181,17 @@ export class DetailsComponent implements OnInit {
 
     this.getTableInformation(element);
     element.date && this.scheduleInformation(element);
-    this.actualDate = element.date ?? new Date();
+    // this.actualDate = element.date ?? new Date();
+    this.setActualDate()
+  }
+
+  setActualDate() {
+    if(this.isDay()) {
+      this.actualDate = new Date();
+    } else {
+      const date = new Date()
+      this.actualDate = new Date(date.setDate(date.getDate() + 1));
+    }
   }
 
   /**
@@ -356,24 +366,54 @@ export class DetailsComponent implements OnInit {
 
   getTableInformation(element) {
     let obj = {};
-
     let nightElement = element['nightTurn'].filter(data => data);
     let dayElement = element['dayTurn'].filter(data => data);
 
-    nightElement[0] && nightElement.map(({ variable, value, operatorName }) => obj[variable] = {
-      nightTurn: variable === "Codigo de operador" ? operatorName : value
-    });
+    const isDay = this.isDay()
+    let variables = []
+    if(isDay) {
+      nightElement[0] && nightElement.map(({ variable, value, operatorName }) => obj[variable] = {
+        nightTurn: variable === "Codigo de operador" ? operatorName : value
+      });
 
-    let variables = dayElement.map(({ variable, value, operatorName }) => {
-      return obj[variable] = {
-        ...obj[variable],
-        dayTurn: variable === "Codigo de operador" ? operatorName : value,
-        variable,
-      };
-    })
+      variables = dayElement.map(({ variable, value, operatorName }) => {
+        return obj[variable] = {
+          ...obj[variable],
+          dayTurn: variable === "Codigo de operador" ? operatorName : value,
+          variable,
+        };
+      })
+    }else {
+      dayElement[0] && dayElement.map(({ variable, value, operatorName }) => obj[variable] = {
+        nightTurn: variable === "Codigo de operador" ? operatorName : value
+      });
 
-    this.operatorName = dayElement.find(({ operatorName }) => operatorName).operatorName;
+      variables = nightElement.map(({ variable, value, operatorName }) => {
+        return obj[variable] = {
+          ...obj[variable],
+          dayTurn: variable === "Codigo de operador" ? operatorName : value,
+          variable,
+        };
+      })
+    }
+
+    this.setOperatorName(isDay ? dayElement : nightElement)
     this.tableDays = variables;
+  }
+
+  setOperatorName(element: any[]){
+    this.operatorName = element.find(({ operatorName }) => operatorName).operatorName;
+  }
+
+  isDay(date = new Date()): boolean {
+    const hour = new Date(date).getHours();
+    const minutes = new Date(date).getMinutes();
+
+    if (hour === 18 && minutes > 0) {
+      return false;
+    }
+
+    return hour >= 6 && hour <= 18;
   }
 
   async getPDF(value) {

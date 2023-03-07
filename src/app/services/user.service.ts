@@ -39,6 +39,10 @@ export class UserService {
         return this.http.get(this.apiUrl + '/machines/' + id)
     }
 
+    getDetailMachineInfo(id) {
+        return this.http.get(this.apiUrl + '/machines/info/' + id)
+    }
+
     saveUser(body) {
         return this.http.post(this.apiUrl + '/users', body)
     }
