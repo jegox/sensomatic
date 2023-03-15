@@ -68,12 +68,12 @@ export class DetailsComponent implements OnInit {
   operatorName: string;
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1200) {
-      this.myChart.map(chart => {
+      this.myChart?.map(chart => {
         chart.options.plugins.legend.display = true;
         chart.update()
       })
     } else {
-      this.myChart.map(chart => {
+      this.myChart?.map(chart => {
         chart.options.plugins.legend.display = false;
         chart.update()
       })
@@ -401,7 +401,8 @@ export class DetailsComponent implements OnInit {
   }
 
   setOperatorName(element: any[]){
-    this.operatorName = element.find(({ operatorName }) => operatorName).operatorName;
+    const operator = element.find(({ operatorName }) => operatorName);
+    this.operatorName = operator?.operatorName || 'Operador desconocido'
   }
 
   isDay(date = new Date()): boolean {
