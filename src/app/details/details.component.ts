@@ -87,7 +87,7 @@ export class DetailsComponent implements OnInit {
       this.machineId = v.id;
       this.uService.getDetailMachineInfo(v.id).toPromise().then(v => this.generalMachine = v['data']);
       this.chartS.getMachineData({
-        initial: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+        initial: new Date().toISOString(),
         machineId: this.machineId
       }).subscribe((value: any) => this.initChart(value))
     })
