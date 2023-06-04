@@ -43,7 +43,7 @@ export class ManageUsersComponent implements OnInit {
     this.title = !this.switch ? 'Listado' : (isEdit ? 'Edicion' : 'Creacion');
 
     isEdit && this.createUserForm.patchValue(user)
-    console.log(this.createUserForm)
+    // console.log(this.createUserForm)
   }
 
   pushArray({ source: { value } }) {
@@ -97,7 +97,7 @@ export class ManageUsersComponent implements OnInit {
 
   async enableReport(event: any, _id: string) {
     try {
-      console.log({_id});
+      // console.log({_id});
 
       let res = await this.uServices.toggleReport(_id).toPromise();
       await this.getUsers();

@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener, LOCALE_ID } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -15,9 +15,7 @@ registerLocaleData(localEs, 'es');
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'es' }
-  ]
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
 })
 export class DetailsComponent implements OnInit {
   generalMachine;
@@ -25,11 +23,11 @@ export class DetailsComponent implements OnInit {
   machineId: string;
   date: FormGroup = this.initFormDate;
   colors = {
-    'Regando': '#FF0000',
+    Regando: '#FF0000',
     'Operativo sin riego': '#FF9999',
     'Tanqueando agua': '#0037FF',
-    'Almuerzo': '#FF6E00',
-    'Clima': '#42FF00',
+    Almuerzo: '#FF6E00',
+    Clima: '#42FF00',
     'Tanqueando combustible': '#CDCDCD',
     'Sin Operator': '#FF00FF',
     'Standby con Operator': '#15FFFF',
@@ -37,8 +35,8 @@ export class DetailsComponent implements OnInit {
     'Equipo Down': '#6D2C7C',
     'Modo Manual Pedal': '#CDCDCD',
     'Modo Semi Automatico': '#FF9999',
-    'Modo Automatico de Riego': '#FF0000'
-  }
+    'Modo Automatico de Riego': '#FF0000',
+  };
   colors2 = {
     1: '#FF0000',
     0: '#FF9999',
@@ -52,46 +50,75 @@ export class DetailsComponent implements OnInit {
     9: '#FFE500',
     'Modo Manual Pedal': '#CDCDCD',
     'Modo Semi Automatico': '#FF9999',
-    'Modo Automatico de Riego': '#FF0000'
-  }
+    'Modo Automatico de Riego': '#FF0000',
+  };
   unitNum = ['Numero de riegos por turno '];
-  unitKm = ['Kilometros recorridos en estado regando por turno', 'Kilometros recorridos por turno'];
-  unitMinutes = ['Regando', 'Tanqueando agua', 'Operativo sin riego', 'Equipo Down', 'Clima', 'Almuerzo', 'Standby con Operator', 'Tanqueando combustible', 'Cambio de turno', 'Sin Operator', 'Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego', ''];
+  unitKm = [
+    'Kilometros recorridos en estado regando por turno',
+    'Kilometros recorridos por turno',
+  ];
+  unitMinutes = [
+    'Regando',
+    'Tanqueando agua',
+    'Operativo sin riego',
+    'Equipo Down',
+    'Clima',
+    'Almuerzo',
+    'Standby con Operator',
+    'Tanqueando combustible',
+    'Cambio de turno',
+    'Sin Operator',
+    'Modo Manual Pedal',
+    'Modo Semi Automatico',
+    'Modo Automatico de Riego',
+    '',
+  ];
   unitLitres = ['Consumo de agua'];
   dayTurn: Array<any>;
   nightTurn: Array<any>;
   listDays: Array<any>;
   tableDays: Array<any>;
   myChart: Chart[];
+  selectedDate: number;
   actualDate;
   schedules = {};
   operatorName: string;
   @HostListener('window:resize', ['$event']) resize(e) {
     if (window.innerWidth > 1200) {
-      this.myChart?.map(chart => {
+      this.myChart?.map((chart) => {
         chart.options.plugins.legend.display = true;
-        chart.update()
-      })
+        chart.update();
+      });
     } else {
-      this.myChart?.map(chart => {
+      this.myChart?.map((chart) => {
         chart.options.plugins.legend.display = false;
-        chart.update()
-      })
+        chart.update();
+      });
     }
   }
-  constructor(private route: ActivatedRoute, private uService: UserService, private fb: FormBuilder,
-    private chartS: ChartSevice, private rs: ReportService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private uService: UserService,
+    private fb: FormBuilder,
+    private chartS: ChartSevice,
+    private rs: ReportService
+  ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(v => {
+    this.route.params.subscribe((v) => {
       this.machineId = v.id;
-      this.uService.getDetailMachineInfo(v.id).toPromise().then(v => this.generalMachine = v['data']);
-      this.chartS.getMachineData({
-        initial: new Date().toISOString(),
-        machineId: this.machineId
-      }).subscribe((value: any) => this.initChart(value))
-    })
-    this.date.get('date').valueChanges.subscribe(date => this.getData(date));
+      this.uService
+        .getDetailMachineInfo(v.id)
+        .toPromise()
+        .then((v) => (this.generalMachine = v['data']));
+      this.chartS
+        .getMachineData({
+          initial: new Date().toISOString(),
+          machineId: this.machineId,
+        })
+        .subscribe((value: any) => this.initChart(value));
+    });
+    this.date.get('date').valueChanges.subscribe((date) => this.getData(date));
     let schedule = { date: new Date().getTime() };
     // let schedule = { date: new Date(new Date().setHours(0, 0, 0, 0)).getTime() };
     this.scheduleInformation(schedule);
@@ -99,21 +126,21 @@ export class DetailsComponent implements OnInit {
 
   async scheduleInformation({ date }) {
     try {
-      this.chartS.getDataGrid(this.machineId, date).subscribe(v => {
+      this.chartS.getDataGrid(this.machineId, date).subscribe((v) => {
         this.schedules['day'] = v['data'].dayTurn;
         this.schedules['night'] = v['data'].nightTurn;
-      })
+      });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
   get initFormDate(): FormGroup {
     return this.fb.group({
-      'from': [],
-      'to': [],
-      'date': [null]
-    })
+      from: [],
+      to: [],
+      date: [null],
+    });
   }
 
   /**
@@ -122,7 +149,7 @@ export class DetailsComponent implements OnInit {
    * @param data Object | Array
    */
   initChart({ data }) {
-    // console.log(data)
+    // console.log({data})
     Chart.register(...registerables, ChartDataLabels);
 
     if (Array.isArray(data)) {
@@ -138,20 +165,24 @@ export class DetailsComponent implements OnInit {
    * @param element Object
    */
   getData(element) {
-    console.log(element)
-    let where = this.isDay() ? ['dayTurn', 'nightTurn'] : ['nightTurn', 'dayTurn'];
+    console.log({ element });
+    this.selectedDate = element.date;
+
+    let where = this.isDay()
+      ? ['dayTurn', 'nightTurn']
+      : ['nightTurn', 'dayTurn'];
     let index = 0;
 
     if (this.myChart?.length > 0) {
       this.context && this.context.restore();
-      this.myChart.map(chart => chart.destroy());
+      this.myChart.map((chart) => chart.destroy());
       this.myChart = [];
     }
 
     this.tableDays = [];
 
     for (let turn in element) {
-      console.log({ turn }, element[turn][0])
+      // console.log({ turn }, element[turn][0])
       if (turn === 'date') continue;
       if (!element[turn][0]) {
         this[turn] = [];
@@ -159,11 +190,41 @@ export class DetailsComponent implements OnInit {
         continue;
       }
 
-      let newElement = element[turn].filter(value => value).filter(value => !['Codigo de operador', "Numero de riegos por turno ", 'Kilometros recorridos por turno', 'Kilometros recorridos en estado regando por turno', 'Consumo de agua', 'Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
-      let pieElement = element[turn].filter(value => value).filter(value => ['Modo Manual Pedal', 'Modo Semi Automatico', 'Modo Automatico de Riego'].includes(value?.variable));
+      let newElement = element[turn]
+        .filter((value) => value)
+        .filter(
+          (value) =>
+            ![
+              'Codigo de operador',
+              'Numero de riegos por turno ',
+              'Kilometros recorridos por turno',
+              'Kilometros recorridos en estado regando por turno',
+              'Consumo de agua',
+              'Modo Manual Pedal',
+              'Modo Semi Automatico',
+              'Modo Automatico de Riego',
+            ].includes(value?.variable)
+        );
+      let pieElement = element[turn]
+        .filter((value) => value)
+        .filter((value) =>
+          [
+            'Modo Manual Pedal',
+            'Modo Semi Automatico',
+            'Modo Automatico de Riego',
+          ].includes(value?.variable)
+        );
 
-      newElement.total = newElement.filter(value => value).map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
-      pieElement.total = pieElement.length > 0 && pieElement.filter(value => value).map(({ value }) => value).reduce((accumulator, current) => accumulator + current);
+      newElement.total = newElement
+        .filter((value) => value)
+        .map(({ value }) => value)
+        .reduce((accumulator, current) => accumulator + current);
+      pieElement.total =
+        pieElement.length > 0 &&
+        pieElement
+          .filter((value) => value)
+          .map(({ value }) => value)
+          .reduce((accumulator, current) => accumulator + current);
 
       newElement = newElement.sort((a, b) => b.value - a.value);
 
@@ -172,23 +233,25 @@ export class DetailsComponent implements OnInit {
       this.displayDonut(newElement, where[index]);
 
       if (pieElement.length > 0) {
-        let wherePie = this.isDay() ? ['dayTurn1', 'nightTurn1'] : ['nightTurn1', 'dayTurn1'];
+        let wherePie = this.isDay()
+          ? ['dayTurn1', 'nightTurn1']
+          : ['nightTurn1', 'dayTurn1'];
         this.displayPie(pieElement, wherePie[index]);
       }
 
-      index++
+      index++;
     }
 
     this.getTableInformation(element);
     element.date && this.scheduleInformation(element);
-    this.setActualDate()
+    this.setActualDate();
   }
 
   setActualDate() {
-    if(this.isDay()) {
+    if (this.isDay()) {
       this.actualDate = new Date();
     } else {
-      const date = new Date()
+      const date = new Date();
       this.actualDate = new Date(date.setDate(date.getDate() + 1));
     }
   }
@@ -204,11 +267,13 @@ export class DetailsComponent implements OnInit {
       type: 'doughnut',
       data: {
         labels: data.map(({ variable }) => variable),
-        datasets: [{
-          label: 'Variables',
-          data: data.map(({ value }) => value),
-          backgroundColor: data.map(({ variable }) => this.colors[variable]),
-        }]
+        datasets: [
+          {
+            label: 'Variables',
+            data: data.map(({ value }) => value),
+            backgroundColor: data.map(({ variable }) => this.colors[variable]),
+          },
+        ],
       },
       plugins: [ChartDataLabels],
       options: {
@@ -218,8 +283,12 @@ export class DetailsComponent implements OnInit {
           datalabels: {
             color: '#FFFFFF',
             formatter: (value, ctx) => {
-              return value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
-            }
+              return value > 0
+                ? `${Number(
+                    (100 * data[ctx.dataIndex].value) / data.total
+                  ).toFixed()}%`
+                : '';
+            },
           },
           legend: {
             position: 'right',
@@ -232,10 +301,18 @@ export class DetailsComponent implements OnInit {
               },
               usePointStyle: true,
               filter: (legendItem, legendData) => {
-                let index = data.findIndex(item => item.variable === legendItem.text);
+                let index = data.findIndex(
+                  (item) => item.variable === legendItem.text
+                );
 
-                legendItem.text = `${legendItem.text} - *${data[index].value}min*
-                ${data[index].value > 0 ? Number(100 * data[index].value / data.total).toFixed() : 0}%`;
+                legendItem.text = `${legendItem.text} - *${
+                  data[index].value
+                }min*
+                ${
+                  data[index].value > 0
+                    ? Number((100 * data[index].value) / data.total).toFixed()
+                    : 0
+                }%`;
 
                 return true;
               },
@@ -247,23 +324,23 @@ export class DetailsComponent implements OnInit {
             position: 'top',
             text: where == 'dayTurn' ? 'Turno de dia' : 'Turno de Noche',
             font: {
-              size: 18
-            }
+              size: 18,
+            },
           },
           subtitle: {
             display: true,
             text: where == 'dayTurn' ? '06:00 - 17:59' : '18:00 - 05:59 ',
             font: {
-              size: 12
-            }
-          }
-        }
-      }
-    }
-    let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
+              size: 12,
+            },
+          },
+        },
+      },
+    };
+    let canvas = <HTMLCanvasElement>document.getElementById(`${where}`);
     let ctx = canvas.getContext('2d');
 
-    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)];
+    this.myChart = [...(this.myChart ?? []), new Chart(ctx, config)];
   }
 
   displayPie(data, where: string) {
@@ -271,11 +348,13 @@ export class DetailsComponent implements OnInit {
       type: 'doughnut',
       data: {
         labels: data.map(({ variable }) => variable),
-        datasets: [{
-          label: 'Variables',
-          data: data.map(({ value }) => value),
-          backgroundColor: data.map(({ variable }) => this.colors[variable]),
-        }]
+        datasets: [
+          {
+            label: 'Variables',
+            data: data.map(({ value }) => value),
+            backgroundColor: data.map(({ variable }) => this.colors[variable]),
+          },
+        ],
       },
       plugins: [ChartDataLabels],
       options: {
@@ -285,8 +364,12 @@ export class DetailsComponent implements OnInit {
           datalabels: {
             color: '#FFFFFF',
             formatter: (value, ctx) => {
-              return value > 0 ? `${Number(100 * data[ctx.dataIndex].value / data.total).toFixed()}%` : '';
-            }
+              return value > 0
+                ? `${Number(
+                    (100 * data[ctx.dataIndex].value) / data.total
+                  ).toFixed()}%`
+                : '';
+            },
           },
           legend: {
             position: 'right',
@@ -295,9 +378,17 @@ export class DetailsComponent implements OnInit {
               pointStyle: 'rectRounded',
               usePointStyle: true,
               filter: (legendItem, legendData) => {
-                let index = data.findIndex(item => item.variable === legendItem.text);
+                let index = data.findIndex(
+                  (item) => item.variable === legendItem.text
+                );
 
-                legendItem.text = `${legendItem.text} - *${data[index].value}min* ${data[index].value > 0 ? Number(100 * data[index].value / data.total).toFixed(): 0 }%`;
+                legendItem.text = `${legendItem.text} - *${
+                  data[index].value
+                }min* ${
+                  data[index].value > 0
+                    ? Number((100 * data[index].value) / data.total).toFixed()
+                    : 0
+                }%`;
 
                 return true;
               },
@@ -312,24 +403,24 @@ export class DetailsComponent implements OnInit {
             display: true,
             text: where == 'dayTurn1' ? 'Turno de dia' : 'Turno de Noche',
             font: {
-              size: 20
-            }
+              size: 20,
+            },
           },
           subtitle: {
             display: true,
             text: where == 'dayTurn1' ? '06:00 - 17:59' : '18:00 - 05:59 ',
             font: {
-              size: 15
-            }
+              size: 15,
+            },
           },
-        }
+        },
       },
     };
 
-    let canvas = (<HTMLCanvasElement>document.getElementById(`${where}`));
+    let canvas = <HTMLCanvasElement>document.getElementById(`${where}`);
     let ctx = canvas.getContext('2d');
 
-    this.myChart = [...this.myChart ?? [], new Chart(ctx, config)];
+    this.myChart = [...(this.myChart ?? []), new Chart(ctx, config)];
   }
 
   /**
@@ -341,9 +432,9 @@ export class DetailsComponent implements OnInit {
 
     this.context = canvas.getContext('2d');
 
-    this.context.font = "30px Lucida Console, arial";
+    this.context.font = '30px Lucida Console, arial';
 
-    this.context.fillText("No hay datos", 0, 100);
+    this.context.fillText('No hay datos', 0, 100);
   }
 
   /**
@@ -351,58 +442,81 @@ export class DetailsComponent implements OnInit {
    */
   searchInfoByDate() {
     let obj = {
-      initial: new Date(new Date(this.date.get('from').value).setHours(0, 0, 0, 0)).toISOString(),
-      machineId: this.machineId
-    }
+      initial: new Date(
+        new Date(this.date.get('from').value).setHours(0, 0, 0, 0)
+      ).toISOString(),
+      machineId: this.machineId,
+    };
 
     if (this.date.get('to').value) {
-      Object.assign(obj, { final: new Date(new Date(this.date.get('to').value).setHours(0, 0, 0, 0)).toISOString() });
+      Object.assign(obj, {
+        final: new Date(
+          new Date(this.date.get('to').value).setHours(0, 0, 0, 0)
+        ).toISOString(),
+      });
     }
 
-    this.chartS.getMachineData(obj).toPromise().then((value: any) => this.initChart(value));
-    this.scheduleInformation({ date: new Date(new Date(this.date.get('from').value).setHours(0, 0, 0, 0)).getTime() })
+    this.chartS
+      .getMachineData(obj)
+      .toPromise()
+      .then((value: any) => this.initChart(value));
+    this.scheduleInformation({
+      date: new Date(
+        new Date(this.date.get('from').value).setHours(0, 0, 0, 0)
+      ).getTime(),
+    });
   }
 
   getTableInformation(element) {
     let obj = {};
-    let nightElement = element['nightTurn'].filter(data => data);
-    let dayElement = element['dayTurn'].filter(data => data);
+    let nightElement = element['nightTurn'].filter((data) => data);
+    let dayElement = element['dayTurn'].filter((data) => data);
 
-    const isDay = this.isDay()
-    let variables = []
-    if(isDay) {
-      nightElement[0] && nightElement.map(({ variable, value, operatorName }) => obj[variable] = {
-        nightTurn: variable === "Codigo de operador" ? operatorName : value
-      });
+    const isDay = this.isDay();
+    let variables = [];
+    if (isDay) {
+      nightElement[0] &&
+        nightElement.map(
+          ({ variable, value, operatorName }) =>
+            (obj[variable] = {
+              nightTurn:
+                variable === 'Codigo de operador' ? operatorName : value,
+            })
+        );
 
       variables = dayElement.map(({ variable, value, operatorName }) => {
-        return obj[variable] = {
+        return (obj[variable] = {
           ...obj[variable],
-          dayTurn: variable === "Codigo de operador" ? operatorName : value,
+          dayTurn: variable === 'Codigo de operador' ? operatorName : value,
           variable,
-        };
-      })
-    }else {
-      dayElement[0] && dayElement.map(({ variable, value, operatorName }) => obj[variable] = {
-        nightTurn: variable === "Codigo de operador" ? operatorName : value
+        });
       });
+    } else {
+      dayElement[0] &&
+        dayElement.map(
+          ({ variable, value, operatorName }) =>
+            (obj[variable] = {
+              nightTurn:
+                variable === 'Codigo de operador' ? operatorName : value,
+            })
+        );
 
       variables = nightElement.map(({ variable, value, operatorName }) => {
-        return obj[variable] = {
+        return (obj[variable] = {
           ...obj[variable],
-          nightTurn: variable === "Codigo de operador" ? operatorName : value,
+          nightTurn: variable === 'Codigo de operador' ? operatorName : value,
           variable,
-        };
-      })
+        });
+      });
     }
 
-    this.setOperatorName(isDay ? dayElement : nightElement)
+    this.setOperatorName(isDay ? dayElement : nightElement);
     this.tableDays = variables;
   }
 
-  setOperatorName(element: any[]){
+  setOperatorName(element: any[]) {
     const operator = element.find(({ operatorName }) => operatorName);
-    this.operatorName = operator?.operatorName || 'Operador desconocido'
+    this.operatorName = operator?.operatorName || 'Operador desconocido';
   }
 
   isDay(date = new Date()): boolean {
@@ -418,25 +532,36 @@ export class DetailsComponent implements OnInit {
 
   async getPDF(value) {
     try {
+      // console.log({ selectedDate: this.selectedDate });
+
       Swal.fire({
         title: 'Descargar Reporte',
         text: 'Esta seguro que quiere descargar el reporte PDF?',
         icon: 'question',
         showCancelButton: true,
-        showConfirmButton: true
+        showConfirmButton: true,
       }).then(async (v) => {
         if (v.isDismissed) return;
 
-        let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime();
+        let date =
+          value == 'day'
+            ? new Date(
+                new Date(this.selectedDate || this.actualDate).setHours(18, 30, 0, 0)
+              ).getTime()
+            : new Date(
+                new Date(this.selectedDate || this.actualDate).setHours(6, 30, 0, 0)
+              ).getTime();
 
-        let res = await this.rs.getReportPDF(this.generalMachine._id, date).toPromise();
+        let res = await this.rs
+          .getReportPDF(this.generalMachine._id, date)
+          .toPromise();
 
         if (res) {
           this.download(res, 'application/pdf');
         }
       });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
@@ -447,19 +572,31 @@ export class DetailsComponent implements OnInit {
         text: 'Esta seguro que quiere descargar el reporte Excel?',
         icon: 'question',
         showCancelButton: true,
-        showConfirmButton: true
+        showConfirmButton: true,
       }).then(async (v) => {
         if (v.isDismissed) return;
 
-        let date = value == 'day' ? new Date(new Date(this.actualDate).setHours(18, 30, 0, 0)).getTime() : new Date(new Date(this.actualDate).setHours(6, 30, 0, 0)).getTime()
+        let date =
+          value == 'day'
+            ? new Date(
+                new Date(this.selectedDate || this.actualDate).setHours(18, 30, 0, 0)
+              ).getTime()
+            : new Date(
+                new Date(this.selectedDate || this.actualDate).setHours(6, 30, 0, 0)
+              ).getTime();
 
-        let res = await this.rs.getReportExcel(this.generalMachine._id, date).toPromise();
+        let res = await this.rs
+          .getReportExcel(this.generalMachine._id, date)
+          .toPromise();
         if (res) {
-          this.download(res, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          this.download(
+            res,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          );
         }
       });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
