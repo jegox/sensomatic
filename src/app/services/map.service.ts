@@ -84,13 +84,13 @@ export class MapService implements OnInit {
 
     drawMarkerDashboard(data: Array<any>, map?) {
         data.map((machine, index) => {
-            let name = (<string>machine.name).split(/[ _]/gm)[1];
+            let name = (<string>machine.name);
 
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(machine['geo']?.latitude, machine['geo']?.longitude),
                 map,
                 title: machine.name,
-                label: { color: '#FFFFFF', fontWeight: 'bold', fontSize: '17px', text: name}
+                label: { color: '#FFFFFF', fontWeight: 'bold', fontSize: '14px', text: name}
             });
             let content = `${machine.name} </br>` +
                 `${new DatePipe('es').transform(machine['geo']?.time, 'short')} </br>`
@@ -104,7 +104,7 @@ export class MapService implements OnInit {
                 info.map ? info.close() : info.open({ anchor: marker, map })
             });
 
-            if (index === data.length - 1) { 
+            if (index === data.length - 1) {
                 map.setCenter(new google.maps.LatLng(machine['geo']?.latitude, machine['geo']?.longitude));
                 map.setZoom(10)
             }
